@@ -1,0 +1,41 @@
+# in version docker hast. ba python eshtebah nagiram.
+version: '3.9'
+
+services:
+  web:
+    build: .
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    environment:
+      - "DJANGO_SECRET_KEY=${DOCKER_COMPOSE_DJANGO_SECRET_KEY}"
+      - "DJANGO_DEBUG=${DOCKER_COMPOSE_DJANGO_DEBUG}"
+      - "MY_EMAIL_ADDRESS=${DOCKER_COMPOSE_DJANGO_EMAIL_ADDRESS}"
+      - "MY_APP_PASSWORD=${DOCKER_COMPOSE_DJANGO_EMAIL_APP_PASSWORD}"
+      - "MY_DATABASE_NAME=${DOCKER_COMPOSE_DJANGO_DATABASE_NAME}"
+      - "MY_DATABASE_USERNAME=${DOCKER_COMPOSE_DJANGO_DATABASE_USERNAME}"
+      - "MY_DATABASE_PASSWORD=${DOCKER_COMPOSE_DJANGO_DATABASE_PASSWORD}"
+      - "DJANGO_ZARINPAL_MERCHANT_ID=${DOCKER_COMPOSE_DJANGO_ZARINPAL_MERCHANT_ID}"
+
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD
+      # تنظیمات دیتابیس برای مای اس کیو ال تو داکر رو بلد نبودم گفتم فعلا شروع کنم بعد سر فرصت
+      # درستش میکنم. در حال حاضر برای این که کار کنه، تو فایل ستینگز معمولی مثل همیشه کار
+      # کردم. البته به دیتابیس سیستمم وصل میشه و دیتابیس رو دستی ساختم و مال کانتینر نیست که بعدا
+      # باید تو داکر درستش کنم. رمز مای اس کیو ال و ریست کردن پسورد اینا هم برای اکانت الکیه هست.
+      # هر تغییری که دارم میدم معادلش رو توی فایل ستینگزـدیپلوی هم بدم که وقتی درست شد بعد عوضشون
+      # کنم. البته خود اون رو هم آپلود میکنم رو گیت. چون چیزی نیست که رمز هام رو لو بده و از پکیج
+      # انویرون استفاده کردم و متغیرهای محیطی هم ساختم و اینجا هم ازشون استفاده کردم. فقط فایل
+      # دات ای ان وی رو آپلود نمیکنم که کسی نبینه اونا رو.
+      # تا وقتی داکر رو راه اندازی نکردم فعلا عادی کار میکنم بدون داکر.
+      # قاعدتا خیلی از اطلاعات خود اون فایل به اسم داکرفایل رو هم باید عوض کنم که بیاد مای اس کی ال
+      # رو نصب کنه و پسورد براش بذاره و غیره.
+      # بسم الله
+      # ...
