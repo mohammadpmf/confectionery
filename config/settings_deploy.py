@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 from environs import Env
+from .madval1369_secret import *
 
 # برای تعریف متغیرهای محیطی که برای امنیت کلید و این ها استفاده میشه.
 env = Env()
@@ -49,9 +50,23 @@ INSTALLED_APPS = [
     # third party apps
     'debug_toolbar',
 
+    # allauth
+    'allauth',
+    'allauth.account',
+
+    # allauth extra social accounts
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    # 'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.linkedin_oauth2',
+
+    # local apps
+    'accounts',
+
 ]
 
 MIDDLEWARE = [
+    # debug toolbar
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -60,7 +75,49 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # allauth
+    "allauth.account.middleware.AccountMiddleware",
 ]
+
+# allauth مربوط به اضافه کردن شبکه های اجتماعی
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'APP': {
+            'client_id': GITHUB_CLIENT_ID,
+            'secret': GITHUB_CLIENT_SECRET,
+        },
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    },
+    "openid_connect": {
+        "APPS": [
+            {
+                "provider_id": "linkedin",
+                "name": "LinkedIn",
+                "client_id": LINKED_IN_CLIENT_ID,
+                "secret": LINKED_IN_CLIENT_SECRET,
+                "settings": {
+                    "server_url": "https://www.linkedin.com/oauth",
+                },
+            }
+        ]
+    },
+}
+
+# all auth مرتبط با تنظیمات
+ACCOUNT_SESSION_REMEMBER = True # تیک ریممبر می رو به صورت پیش فرض فعال میذاره و دیگه به کاربر هم نشون نمیده.
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False # موقع ثبت نام ۲ بار از ما رمز رو میخواد که وارد کنیم. به صورت پیش فرض مقدارش ترو هست. اگه فالسش کنیم یه بار میپرسه
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_ATHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 ROOT_URLCONF = 'config.urls'
 
@@ -75,10 +132,24 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# allauth مرتبط با
+SITE_ID = 1
 
 ########################     EMAIL     ########################
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
