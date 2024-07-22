@@ -1,7 +1,9 @@
 asgiref==3.8.1
 Django==5.0.7
+django-debug-toolbar==4.4.6
 environs==11.0.0
 marshmallow==3.21.3
+mysqlclient==2.2.4
 packaging==24.1
 python-dotenv==1.0.1
 sqlparse==0.5.1
