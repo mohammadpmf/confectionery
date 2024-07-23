@@ -22,4 +22,7 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('accounts/', include('allauth.urls')),
     path('', include('confectionery.urls')),
+
+    # Rosetta (i18n)
+    path('rosetta/', include('rosetta.urls')),
 ]
