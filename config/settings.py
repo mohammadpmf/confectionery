@@ -49,16 +49,18 @@ INSTALLED_APPS = [
 
     # third party apps
     'debug_toolbar',
+    'crispy_forms',
+    'crispy_bootstrap5',
 
     # allauth
     'allauth',
     'allauth.account',
-
     # allauth extra social accounts
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-    # 'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.linkedin_oauth2',
+    'allauth.socialaccount.providers.openid_connect',  # برای اکانت هایی مثل لینکد این، که از این سرویس استفاده میکنن باید خود اپین آی دی رو هم اضافه کرد.
 
     'rosetta',
 
@@ -86,6 +88,20 @@ MIDDLEWARE = [
 # allauth مربوط به اضافه کردن شبکه های اجتماعی
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': GOOGLE_CLIENT_ID,
+            'secret': GOOGLE_CLIENT_SECRET,
+        },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    },
     'github': {
         'APP': {
             'client_id': GITHUB_CLIENT_ID,
@@ -98,6 +114,7 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
     },
     "openid_connect": {
+        "OAUTH_PKCE_ENABLED": True,
         "APPS": [
             {
                 "provider_id": "linkedin",
@@ -119,6 +136,8 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_ATHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_LOGOUT_ON_GET = True
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -237,3 +256,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# crispy form config
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+
+LOGIN_REDIRECT_URL = 'homepage'
+LOGOUT_REDIRECT_URL = 'homepage'
