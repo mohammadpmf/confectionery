@@ -23,6 +23,7 @@
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Libraries Stylesheet -->
     <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
@@ -32,6 +33,9 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    {% block extra_css %}{% endblock extra_css %}
+
 </head>
 
 <body>
@@ -40,11 +44,29 @@
         <div class="row gx-0">
             <div class="col-lg-4 text-center bg-secondary py-3">
                 <div class="d-inline-flex align-items-center justify-content-center">
-                    <i class="bi bi-envelope fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Email Us</h6>
-                        <span>info@example.com</span>
+                    {% if user.is_authenticated %}
+                    <div class="text-end mt-3">
+                        <a href="{% url 'account_change_password' %}">
+                            <span class="align-middle">تغییر رمز عبور</span>
+                        </a>
+                        <span class="align-middle">|</span>
+                        <a href="{% url 'account_logout' %}">
+                            <span class="align-middle">خروج</span>
+                        </a>
+                        <span class="align-middle">| {{ user }} خوش آمدی</span>
                     </div>
+                    {% else %}
+                    <div class="text-end mt-2">
+                        <i class="fa fa-sign-in align-middle" style="font-size:36px;"></i>
+                        <a href="{% url 'account_signup' %}">
+                            <span class="align-middle">ثبت نام</span>
+                        </a>
+                        <span class="align-middle">|</span>
+                        <a href="{% url 'account_login' %}">
+                            <span class="align-middle">ورود</span>
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-lg-4 text-center bg-primary border-inner py-3">
@@ -70,33 +92,50 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-        <a href="index.html" class="navbar-brand d-block d-lg-none">
-            <h1 class="m-0 text-uppercase text-white"><i class="fa fa-birthday-cake fs-1 text-primary me-3"></i>CakeZone</h1>
-        </a>
+        <div class="text-end mt-2 navbar-brand d-block d-lg-none">
+            {% if user.is_authenticated %}
+                <a href="{% url 'account_change_password' %}">
+                    <span class="align-middle">تغییر رمز عبور</span>
+                </a>
+                <span class="align-middle">|</span>
+                <a href="{% url 'account_logout' %}">
+                    <span class="align-middle">خروج</span>
+                </a>
+                <span class="align-middle">| {{ user }} خوش آمدی</span>
+            {% else %}
+                <i class="fa fa-sign-in align-middle" style="font-size:28px;"></i>
+                <a href="{% url 'account_signup' %}">
+                    <span class="align-middle">ثبت نام</span>
+                </a>
+                <span class="align-middle">|</span>
+                <a href="{% url 'account_login' %}">
+                    <span class="align-middle">ورود</span>
+                </a>
+            {% endif %}
+        </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto mx-lg-auto py-0">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About Us</a>
-                <a href="menu.html" class="nav-item nav-link">Menu & Pricing</a>
-                <a href="team.html" class="nav-item nav-link">Master Chefs</a>
+                <a href="index.html" class="nav-item nav-link active">{% trans "Home" %}</a>
+                <a href="about.html" class="nav-item nav-link">{% trans "About Us" %}</a>
+                <a href="menu.html" class="nav-item nav-link">{% trans "Menu & Pricing" %}</a>
+                <a href="team.html" class="nav-item nav-link">{% trans "Master Chefs" %}</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{% trans "Pages" %}</a>
                     <div class="dropdown-menu m-0">
-                        <a href="service.html" class="dropdown-item">Our Service</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                        <a href="service.html" class="dropdown-item">{% trans "Our Service" %}</a>
+                        <a href="testimonial.html" class="dropdown-item">{% trans "Testimonial" %}</a>
                     </div>
                 </div>
-                <a href="contact.html" class="nav-item nav-link">Contact Us</a>
+                <a href="contact.html" class="nav-item nav-link">{% trans "Contact Us" %}</a>
             </div>
         </div>
     </nav>
     <!-- Navbar End -->
 
     {% block content %}{% endblock content %}
-
 
     <!-- Footer Start -->
     <div class="container-fluid bg-img text-secondary" style="margin-top: 135px">

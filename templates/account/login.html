@@ -1,0 +1,50 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% load i18n %}
+
+{% load socialaccount %}
+
+{% load crispy_forms_tags %}
+
+{% block page_title %}
+{% trans "Login" %}
+{% endblock page_title %}
+
+{% block extra_css %}
+<link href="{% static 'madval/css/style_login.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block content %}
+<div class='container mt-5' style="direction: rtl">
+    <h1>صفحه ورود</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" class="btn btn-outline-success m-2 rounded-pill px-5" value="وارد شو">
+    </form>
+    <hr>
+    <div class="d-flex justify-content-center">
+        <form action="/accounts/google/login/" class="d-inline mx-2" method="post" id="google_form">
+            {% csrf_token %}
+            <button id="google_button" type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">ورود با گوگل <img src="{% static 'logo/google_logo.png' %}" alt="" style="width: 32px;"></button>
+        </form>
+        <form action="/accounts/github/login/" class="d-inline mx-2" method="post" id="github_form">
+            {% csrf_token %}
+            <button id="github_button" type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">ورود با گیت هاب <img src="{% static 'logo/github_logo.png' %}" alt="" style="width: 32px;"></button>
+        </form>
+        <form action="/accounts/oidc/linkedin/login/" class="d-inline mx-2" method="post" id="linkedin_form">
+            {% csrf_token %}
+            <button id="linkedin_button" type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">ورود با لینکد این <img src="{% static 'logo/linkedin_logo.png' %}" alt="" style="width: 32px;"></button>
+        </form>
+    </div>
+    <div style="display: none;">
+        <a href="{% provider_login_url 'google' %}">Login with Google</a>
+        <br>
+        <a href="{% provider_login_url 'github' %}">Login with git hub</a>
+        <br>
+        <a href="{% provider_login_url 'linkedin' %}">Login with LinkedIn</a>
+    </div>
+</div>
+{% endblock content %}
