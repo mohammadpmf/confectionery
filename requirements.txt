@@ -18,6 +18,7 @@ marshmallow==3.21.3
 mysqlclient==2.2.4
 oauthlib==3.2.2
 packaging==24.1
+pillow==10.4.0
 polib==1.2.0
 pycparser==2.22
 PyJWT==2.8.0
