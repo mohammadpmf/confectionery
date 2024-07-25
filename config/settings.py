@@ -85,6 +85,10 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 # allauth مربوط به اضافه کردن شبکه های اجتماعی
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
@@ -231,6 +235,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 # LANGUAGE_CODE = 'fa'
+
+# وقتی رزتا رو میذاریم همه زبان ها رو میاره. در حالی که ما افغانستانی و عربی و غیره رو نمیخوایم.
+# میتونیم این طوری فقط چیزایی که میخوایم رو بهش بگیم. با این متغیر
+LANGUAGES = (
+    ('en', 'English'),
+    ('fa', 'Persian'),
+)
 
 # TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Tehran'
