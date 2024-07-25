@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext, gettext_lazy as _
 from django.core.validators import MaxValueValidator
 
 class Product(models.Model):
@@ -14,10 +14,12 @@ class Product(models.Model):
     FLOUR_TYPE_CHOICES_WHEAT = 'wheat'
     FLOUR_TYPE_CHOICES_CORN = 'corn'
     FLOUR_TYPE_CHOICES_RICE = 'rice'
+    FLOUR_TYPE_CHOICES_OAT = 'oat'
     FLOUR_TYPE_CHOICES = (
         (FLOUR_TYPE_CHOICES_WHEAT, _('Wheat')),
         (FLOUR_TYPE_CHOICES_CORN, _('Corn')),
         (FLOUR_TYPE_CHOICES_RICE, _('Rice')),
+        (FLOUR_TYPE_CHOICES_OAT, _('Oat')),
     )
     FAT_SUGRE_RATE_CHOICES_HIGH = 'high'
     FAT_SUGRE_RATE_CHOICES_AVERAGE = 'avg'
@@ -47,4 +49,4 @@ class Product(models.Model):
     # extra_films Foreign key
 
     def __str__(self):
-        return f"{self.title} {self.weight}{_('grs')} {_('Price')}: {self.price_toman} {_('Toman')}"
+        return f"{self.title} {self.weight}{gettext('Kgs')} {gettext('Price')}: {self.price_toman} {gettext('Toman')}"

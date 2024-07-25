@@ -1,0 +1,170 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-25 15:16+0330\n"
+"PO-Revision-Date: 2024-07-25 15:18+0330\n"
+"Last-Translator:   <a@b.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
+
+#: .\madval_filters.py:13
+#| msgid "Weight"
+msgid "Weight in Kgs"
+msgstr "وزن به کیلوگرم"
+
+#: .\madval_filters.py:18
+msgid "Less than 1 Kg"
+msgstr "کمتر از یک کیلوگرم"
+
+#: .\madval_filters.py:19
+msgid "1 to 1.5 Kg"
+msgstr "۱ تا ۱.۵ کیلوگرم"
+
+#: .\madval_filters.py:20
+msgid "1.5 to 2 Kg"
+msgstr "۱.۵ تا ۲ کیلوگرم"
+
+#: .\madval_filters.py:21
+msgid "More than 2 Kgs"
+msgstr "بیشتر از ۲ کیلوگرم"
+
+#: .\madval_filters.py:43
+#| msgid "Price Toman"
+msgid "Price in Tomans"
+msgstr "قیمت به تومان"
+
+#: .\madval_filters.py:44
+#| msgid "Price"
+msgid "price"
+msgstr "قیمت"
+
+#: .\madval_filters.py:48
+#| msgid "Wheat"
+msgid "Cheapest"
+msgstr "ارزان ترین ها"
+
+#: .\madval_filters.py:49
+#| msgid "Wheat"
+msgid "Cheap"
+msgstr "ارزان"
+
+#: .\madval_filters.py:50 .\models.py:29
+msgid "Average"
+msgstr "متوسط"
+
+#: .\madval_filters.py:51
+msgid "Expensive"
+msgstr "گران"
+
+#: .\madval_filters.py:52
+msgid "The most expensive"
+msgstr "گران ترین ها"
+
+#: .\models.py:10
+msgid "Cake"
+msgstr "کیک"
+
+#: .\models.py:11
+msgid "Pastry"
+msgstr "شیرینی"
+
+#: .\models.py:12
+msgid "Bread"
+msgstr "نان"
+
+#: .\models.py:19
+msgid "Wheat"
+msgstr "گندم"
+
+#: .\models.py:20
+msgid "Corn"
+msgstr "ذرت"
+
+#: .\models.py:21
+msgid "Rice"
+msgstr "برنج"
+
+#: .\models.py:22
+msgid "Oat"
+msgstr "جو"
+
+#: .\models.py:28
+msgid "High"
+msgstr "زیاد"
+
+#: .\models.py:30
+msgid "Low"
+msgstr "کم"
+
+#: .\models.py:33
+msgid "Title"
+msgstr "عنوان"
+
+#: .\models.py:34
+msgid "Product Type"
+msgstr "نوع محصول"
+
+#: .\models.py:35
+msgid "Flour Type"
+msgstr "نوع آرد"
+
+#: .\models.py:36
+msgid "Sugar Rate"
+msgstr "میزان قند"
+
+#: .\models.py:37
+msgid "Fat Rate"
+msgstr "میزان چربی"
+
+#: .\models.py:38
+msgid "Slug"
+msgstr "اسلاگ"
+
+#: .\models.py:39
+msgid "Weight"
+msgstr "وزن"
+
+#: .\models.py:40
+msgid "Price Toman"
+msgstr "قیمت به تومان"
+
+#: .\models.py:41
+msgid "Preparation Time"
+msgstr "مدت زمان آماده سازی (به روز)"
+
+#: .\models.py:42
+msgid "Ingredients"
+msgstr "اجزای سازنده"
+
+#: .\models.py:43
+msgid "Expiration Days"
+msgstr "ماندگاری (به روز)"
+
+#: .\models.py:44
+msgid "Main Image"
+msgstr "عکس اصلی"
+
+#: .\models.py:45
+msgid "Extra Information"
+msgstr "اطلاعات بیشتر"
+
+#: .\templates\index.html:8
+msgid "Home"
+msgstr "خانه"
+
+#~ msgid "Toman"
+#~ msgstr "تومان"
+
+#~ msgid "Kgs"
+#~ msgstr "کیلوگرمی"
