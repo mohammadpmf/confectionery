@@ -234,7 +234,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-# LANGUAGE_CODE = 'fa'
+LANGUAGE_CODE = 'fa'
 
 # وقتی رزتا رو میذاریم همه زبان ها رو میاره. در حالی که ما افغانستانی و عربی و غیره رو نمیخوایم.
 # میتونیم این طوری فقط چیزایی که میخوایم رو بهش بگیم. با این متغیر

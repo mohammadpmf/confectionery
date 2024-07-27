@@ -1,0 +1,8 @@
+.big-on-hover{
+    transition-duration: 350ms;
+    display: inline-block;
+}
+.big-on-hover:hover{
+    color: aquamarine !important;
+    transform: scale(1.6, 1.4)
+}

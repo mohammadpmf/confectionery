@@ -8,23 +8,20 @@
 {% trans "Home" %}
 {% endblock page_title %}
 
+{% block extra_css %}
+<link href="{% static 'madval/css/my_fonts.css' %}" rel="stylesheet">
+<link href="{% static 'madval/css/my_hovers.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
 {% block content %}
 <!-- Hero Start -->
 <div class="container-fluid bg-primary py-5 mb-5 hero-header">
     <div class="container py-5">
         <div class="row justify-content-start">
             <div class="col-lg-8 text-center text-lg-start">
-                <h1 class="font-secondary text-primary mb-4">Super Crispy</h1>
-                <h1 class="display-1 text-uppercase text-white mb-4">CakeZone</h1>
-                <h1 class="text-uppercase text-white">The Best Cake In London</h1>
-                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
-                    <a href="" class="btn btn-primary border-inner py-3 px-5 me-5">Read More</a>
-                    <button type="button" class="btn-play" data-bs-toggle="modal"
-                        data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
-                        <span></span>
-                    </button>
-                    <h5 class="font-weight-normal text-white m-0 ms-4 d-none d-sm-block">Play Video</h5>
-                </div>
+                <h1 class="font-secondary text-primary mb-4">Motamed</h1>
+                <h1 class="display-1 text-uppercase text-white mb-4">معتمد</h1>
+                <h1 class="text-danger d">بهترین کیک در رشت</h1>
             </div>
         </div>
     </div>
@@ -57,8 +54,8 @@
 <div class="container-fluid pt-5">
     <div class="container">
         <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary">About Us</h2>
-            <h1 class="display-4 text-uppercase">Welcome To CakeZone</h1>
+            <h2 class="text-primary font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "About Us" %}</h2>
+            <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: calibri;"{% endif %}>{% trans "Welcome To Motamed Confectionery" %}</h1>
         </div>
         <div class="row gx-5">
             <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;">
@@ -67,22 +64,22 @@
                 </div>
             </div>
             <div class="col-lg-6 pb-5">
-                <h4 class="mb-4">Tempor erat elitr rebum clita. Diam dolor diam ipsum erat lorem sed stet labore lorem sit clita duo</h4>
-                <p class="mb-5">Tempor erat elitr at rebum at at clita. Diam dolor diam ipsum et tempor sit. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna dolore erat amet magna</p>
+                <h4 dir="rtl" class="mb-4">ویژگی کیک ها و شیرینی های معتمد</h4>
+                <p dir="rtl" style="text-align: justify;" class="mb-5">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
                 <div class="row g-5">
-                    <div class="col-sm-6">
+                    <div dir="rtl" class="col-sm-6">
                         <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px;">
                             <i class="fa fa-heartbeat fa-2x text-white"></i>
                         </div>
-                        <h4 class="text-uppercase">100% Healthy</h4>
-                        <p class="mb-0">Labore justo vero ipsum sit clita erat lorem magna clita nonumy dolor magna dolor vero</p>
+                        <h4 class="text-uppercase">٪۱۰۰ مفید و سالم</h4>
+                        <p class="mb-0">تمامی کیک ها و شیرینی ها و نان های ما از مواد درجه ۱ ساخته می شوند.</p>
                     </div>
-                    <div class="col-sm-6">
+                    <div dir="rtl" class="col-sm-6">
                         <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px;">
                             <i class="fa fa-award fa-2x text-white"></i>
                         </div>
-                        <h4 class="text-uppercase">Award Winning</h4>
-                        <p class="mb-0">Labore justo vero ipsum sit clita erat lorem magna clita nonumy dolor magna dolor vero</p>
+                        <h4 class="text-uppercase">برنده چند جایزه</h4>
+                        <p class="mb-0">شیرینی فروشی معتمد تا کنون در مسابقات زیادی مقام اول را در طعم و کیفیت برنده شده است.</p>
                     </div>
                 </div>
             </div>
@@ -102,8 +99,8 @@
                         <i class="fa fa-star text-white"></i>
                     </div>
                     <div class="ps-4">
-                        <h6 class="text-primary text-uppercase">Our Experience</h6>
-                        <h1 class="display-5 text-white mb-0" data-toggle="counter-up">12345</h1>
+                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">کیک های مراسم ویژه</h6>
+                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">5771</h1>
                     </div>
                 </div>
             </div>
@@ -113,8 +110,19 @@
                         <i class="fa fa-users text-white"></i>
                     </div>
                     <div class="ps-4">
-                        <h6 class="text-primary text-uppercase">Cake Specialist</h6>
-                        <h1 class="display-5 text-white mb-0" data-toggle="counter-up">12345</h1>
+                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">مراسم باجمعیت زیاد</h6>
+                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">13272</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="d-flex">
+                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fa fa-thumbs-up text-white"></i>
+                    </div>
+                    <div class="ps-4">
+                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">مشتریان راضی</h6>
+                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">18745</h1>
                     </div>
                 </div>
             </div>
@@ -124,19 +132,8 @@
                         <i class="fa fa-check text-white"></i>
                     </div>
                     <div class="ps-4">
-                        <h6 class="text-primary text-uppercase">Complete Project</h6>
-                        <h1 class="display-5 text-white mb-0" data-toggle="counter-up">12345</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="d-flex">
-                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                        <i class="fa fa-mug-hot text-white"></i>
-                    </div>
-                    <div class="ps-4">
-                        <h6 class="text-primary text-uppercase">Happy Clients</h6>
-                        <h1 class="display-5 text-white mb-0" data-toggle="counter-up">12345</h1>
+                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">محصولات فروخته شده</h6>
+                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">19037</h1>
                     </div>
                 </div>
             </div>
@@ -150,19 +147,19 @@
 <div class="container-fluid about py-5">
     <div class="container">
         <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary">Menu & Pricing</h2>
-            <h1 class="display-4 text-uppercase">Explore Our Cakes</h1>
+            <h2 class="text-primary font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Menu & Pricing" %}</h2>
+            <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Explore Our Cakes" %}</h1>
         </div>
         <div class="tab-class text-center">
             <ul class="nav nav-pills d-inline-flex justify-content-center bg-dark text-uppercase border-inner p-4 mb-5">
                 <li class="nav-item">
-                    <a class="nav-link text-white active" data-bs-toggle="pill" href="#tab-1">Birthday</a>
+                    <a class="nav-link text-white active" data-bs-toggle="pill" href="#tab-1">{% trans "Cake" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-2">Wedding</a>
+                    <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-2">{% trans "Pastry" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-3">Custom</a>
+                    <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-3">{% trans "Bread" %}</a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -407,28 +404,28 @@
         <div class="row g-5">
             <div class="col-lg-4 col-md-6">
                 <div class="bg-primary border-inner text-center text-white p-5">
-                    <h4 class="text-uppercase mb-3">Birthday Cake</h4>
-                    <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
-                    <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
+                    <h4 class="text-uppercase mb-3"><img src="{% static 'madval/img/cake.png' %}" style="width: 28px; height: 28px; margin-right: 18px;" alt="">{% trans "Cakes" %}</h4>
+                    <p>در این قسمت، می توانید از تمامی کیک های ما دیدن کنید و کیک مورد نظر خود را سفارش دهید.</p>
+                    <a class="text-uppercase text-dark big-on-hover" href="">{% trans "Read More" %}<i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="bg-primary border-inner text-center text-white p-5">
-                    <h4 class="text-uppercase mb-3">Wedding Cake</h4>
-                    <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
-                    <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
+                    <h4 class="text-uppercase mb-3"><img src="{% static 'madval/img/pastry.png' %}" style="width: 28px; height: 28px; margin-right: 18px;" alt="">{% trans "Pastries" %}</h4>
+                    <p>در این قسمت انواع شیرینی های مختلف و جذاب را مشاهده میکنید. حتما از این قسمت دیدن فرمایید.</p>
+                    <a class="text-uppercase text-dark big-on-hover" href="">{% trans "Read More" %}<i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="bg-primary border-inner text-center text-white p-5">
-                    <h4 class="text-uppercase mb-3">Custom Cake</h4>
-                    <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
-                    <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
+                    <h4 class="text-uppercase mb-3"><img src="{% static 'madval/img/bread.png' %}" style="width: 28px; height: 28px; margin-right: 18px;" alt="">{% trans "Breads" %}</h4>
+                    <p>انواع نان های مختلف از جمله نان های رژیمی را می توانید از این قسمت مشاهده کنید.</p>
+                    <a class="text-uppercase text-dark big-on-hover" href="">{% trans "Read More" %}<i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-12 col-md-6 text-center">
-                <h1 class="text-uppercase text-light mb-4">30% Discount For This Summer</h1>
-                <a href="" class="btn btn-primary border-inner py-3 px-5">Order Now</a>
+                <h1 dir='rtl' class="text-uppercase text-light mb-4">{% trans "30% Discount For This Summer" %}</h1>
+                <a href="" class="btn btn-primary border-inner py-3 px-5">{% trans "Order Now" %}</a>
             </div>
         </div>
     </div>
@@ -440,8 +437,8 @@
 <div class="container-fluid py-5">
     <div class="container">
         <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary">Team Members</h2>
-            <h1 class="display-4 text-uppercase">Our Master Chefs</h1>
+            <h2 class="text-primary font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Team Members" %}</h2>
+            <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Our Master Chefs" %}</h1>
         </div>
         <div class="row g-5">
             <div class="col-lg-4 col-md-6">
@@ -505,20 +502,7 @@
 
 
 <!-- Offer Start -->
-<div class="container-fluid bg-offer my-5 py-5">
-    <div class="container py-5">
-        <div class="row gx-5 justify-content-center">
-            <div class="col-lg-7 text-center">
-                <div class="section-title position-relative text-center mx-auto mb-4 pb-3" style="max-width: 600px;">
-                    <h2 class="text-primary font-secondary">Special Kombo Pack</h2>
-                    <h1 class="display-4 text-uppercase text-white">Super Crispy Cakes</h1>
-                </div>
-                <p class="text-white mb-4">Eirmod sed tempor lorem ut dolores sit kasd ipsum. Dolor ea et dolore et at sea ea at dolor justo ipsum duo rebum sea. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo lorem. Elitr ut dolores magna sit. Sea dolore sed et.</p>
-                <a href="" class="btn btn-primary border-inner py-3 px-5 me-3">Shop Now</a>
-                <a href="" class="btn btn-dark border-inner py-3 px-5">Read More</a>
-            </div>
-        </div>
-    </div>
+<div class="container-fluid bg-offer" style="height: 15cm;">
 </div>
 <!-- Offer End -->
 
@@ -527,8 +511,8 @@
 <div class="container-fluid py-5">
     <div class="container">
         <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary">Testimonial</h2>
-            <h1 class="display-4 text-uppercase">Our Clients Say!!!</h1>
+            <h2 class="text-primary font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Testimonial" %}</h2>
+            <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Our Clients Say!" %}</h1>
         </div>
         <div class="owl-carousel testimonial-carousel">
             <div class="testimonial-item bg-dark text-white border-inner p-4">

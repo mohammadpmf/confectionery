@@ -1,0 +1,12 @@
+@font-face {
+    font-family: dastkhat;
+    src: url(../font/danstevis.otf);
+}
+
+.d{
+    font-family: dastkhat !important;
+}
+
+.c{
+    font-family: calibri !important;
+}

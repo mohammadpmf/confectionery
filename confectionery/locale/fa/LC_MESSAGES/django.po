@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-25 15:16+0330\n"
-"PO-Revision-Date: 2024-07-25 15:18+0330\n"
+"POT-Creation-Date: 2024-07-27 14:49+0330\n"
+"PO-Revision-Date: 2024-07-27 14:49+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,6 @@ msgstr ""
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
 #: .\madval_filters.py:13
-#| msgid "Weight"
 msgid "Weight in Kgs"
 msgstr "وزن به کیلوگرم"
 
@@ -40,22 +39,18 @@ msgid "More than 2 Kgs"
 msgstr "بیشتر از ۲ کیلوگرم"
 
 #: .\madval_filters.py:43
-#| msgid "Price Toman"
 msgid "Price in Tomans"
 msgstr "قیمت به تومان"
 
 #: .\madval_filters.py:44
-#| msgid "Price"
 msgid "price"
 msgstr "قیمت"
 
 #: .\madval_filters.py:48
-#| msgid "Wheat"
 msgid "Cheapest"
 msgstr "ارزان ترین ها"
 
 #: .\madval_filters.py:49
-#| msgid "Wheat"
 msgid "Cheap"
 msgstr "ارزان"
 
@@ -71,15 +66,15 @@ msgstr "گران"
 msgid "The most expensive"
 msgstr "گران ترین ها"
 
-#: .\models.py:10
+#: .\models.py:10 .\templates\index.html:156
 msgid "Cake"
 msgstr "کیک"
 
-#: .\models.py:11
+#: .\models.py:11 .\templates\index.html:159
 msgid "Pastry"
 msgstr "شیرینی"
 
-#: .\models.py:12
+#: .\models.py:12 .\templates\index.html:162
 msgid "Bread"
 msgstr "نان"
 
@@ -162,6 +157,64 @@ msgstr "اطلاعات بیشتر"
 #: .\templates\index.html:8
 msgid "Home"
 msgstr "خانه"
+
+#: .\templates\index.html:57
+msgid "About Us"
+msgstr "درباره ما"
+
+#: .\templates\index.html:58
+msgid "Welcome To Motamed Confectionery"
+msgstr "به وبسایت کیک و شیرینی معتمد خوش آمدید"
+
+#: .\templates\index.html:150
+msgid "Menu & Pricing"
+msgstr "منو و قیمت ها"
+
+#: .\templates\index.html:151
+msgid "Explore Our Cakes"
+msgstr "از محصولات بازدید کنید"
+
+#: .\templates\index.html:407
+msgid "Cakes"
+msgstr "کیک ها"
+
+#: .\templates\index.html:409 .\templates\index.html:416
+#: .\templates\index.html:423
+msgid "Read More"
+msgstr "بیشتر بخوانید"
+
+#: .\templates\index.html:414
+msgid "Pastries"
+msgstr "شیرینی ها"
+
+#: .\templates\index.html:421
+msgid "Breads"
+msgstr "نان ها"
+
+#: .\templates\index.html:427
+#, python-format
+msgid "30%% Discount For This Summer"
+msgstr "٪۳۰ تخفیف در تابستان امسال"
+
+#: .\templates\index.html:428
+msgid "Order Now"
+msgstr "همین حالا سفارش دهید"
+
+#: .\templates\index.html:440
+msgid "Team Members"
+msgstr "اعضای گروه"
+
+#: .\templates\index.html:441
+msgid "Our Master Chefs"
+msgstr "سرآشپزهای ما"
+
+#: .\templates\index.html:514
+msgid "Testimonial"
+msgstr "ارزیابی"
+
+#: .\templates\index.html:515
+msgid "Our Clients Say!"
+msgstr "نظر مشتریان"
 
 #~ msgid "Toman"
 #~ msgstr "تومان"
