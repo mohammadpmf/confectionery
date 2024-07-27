@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
     # third party apps
     'debug_toolbar',
@@ -67,6 +68,7 @@ INSTALLED_APPS = [
     # local apps
     'accounts',
     'confectionery',
+    'cart',
 
 ]
 
@@ -161,6 +163,9 @@ TEMPLATES = [
 
                 # `allauth` needs this from django
                 'django.template.context_processors.request',
+
+                # Custom Context Processors
+                'cart.context_processors.cart',
             ],
         },
     },
