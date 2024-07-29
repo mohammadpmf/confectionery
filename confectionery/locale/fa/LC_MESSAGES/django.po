@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-29 20:42+0330\n"
-"PO-Revision-Date: 2024-07-29 20:43+0330\n"
+"POT-Creation-Date: 2024-07-29 21:11+0330\n"
+"PO-Revision-Date: 2024-07-29 21:11+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -154,7 +154,7 @@ msgstr "عکس اصلی"
 msgid "Extra Information"
 msgstr "اطلاعات بیشتر"
 
-#: .\models.py:60 .\models.py:65 .\models.py:77
+#: .\models.py:60 .\models.py:65 .\models.py:83
 msgid "product"
 msgstr "محصول"
 
@@ -162,23 +162,44 @@ msgstr "محصول"
 msgid "image"
 msgstr "عکس"
 
-#: .\models.py:66 .\models.py:78
+#: .\models.py:66 .\models.py:84
 msgid "comment text"
 msgstr "متن کامنت"
 
-#: .\models.py:67 .\models.py:79
+#: .\models.py:67 .\models.py:85
 msgid "author"
 msgstr "نویسنده"
 
-#: .\models.py:68 .\models.py:80
+#: .\models.py:68 .\models.py:86
 msgid "is approved"
 msgstr "تایید شده"
 
-#: .\models.py:81
+#: .\models.py:76
+msgid "fantastic"
+msgstr "شگفت انگیز"
+
+#: .\models.py:77
+msgid "excellent"
+msgstr "عالی"
+
+#: .\models.py:78
+msgid "good"
+msgstr "خوب"
+
+#: .\models.py:79
+#| msgid "Average"
+msgid "average"
+msgstr "معمولی"
+
+#: .\models.py:80
+msgid "bad"
+msgstr "بد"
+
+#: .\models.py:87
 msgid "don't show my name"
 msgstr "نام من را نمایش نده"
 
-#: .\models.py:82
+#: .\models.py:88
 msgid "user's rate"
 msgstr "رای کاربر به این محصول"
 

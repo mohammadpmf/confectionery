@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.views import generic
 from django.db.models import Prefetch
 
-from .models import Product, ProductCustomUserComment
+from .models import Product, ProductCustomUserComment, ProductAnanymousUserComment
+from .forms import ProductCustomUserCommentForm, ProductAnanymousUserCommentForm
 
 
 class HomePage(generic.TemplateView):
@@ -53,15 +54,27 @@ class ProductDetail(generic.DetailView):
     context_object_name = 'product'
 
     def get_queryset(self):
-        query_set = super().get_queryset().prefetch_related('images', 'anonymous_comments',
+        query_set = super().get_queryset().prefetch_related('images', 
+            Prefetch(
+                'anonymous_comments',
+                queryset=ProductAnanymousUserComment.objects.filter(is_approved=True)
+            ),
             Prefetch(
                 'comments',
-                queryset=ProductCustomUserComment.objects.select_related('author')
+                queryset=ProductCustomUserComment.objects.select_related('author').filter(is_approved=True)
             )
-        )
+        ).filter()
         return query_set
         
     def get_context_data(self, **kwargs):
-        # if self.request.user.is_authenticated برای فرم ها گذاشتم. اگه انانیموس بود باید یه فرم ارسال بشه تو صفحه. اگه لاگین بود یه فرم دیگه
         context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            form = ProductCustomUserCommentForm()
+        else:
+            form = ProductAnanymousUserCommentForm()
+        context['form']=form
         return context
+    
+    def post(self, request, *args, **kwargs):
+        print(request) # اینجااااا نمیدونم چرا نمینویسه چیزی.
+        return super().get(request, *args, **kwargs)

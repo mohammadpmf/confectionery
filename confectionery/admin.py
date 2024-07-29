@@ -4,6 +4,16 @@ from . import models
 from .madval_filters import PriceFilter, WeightFilter
 
 
+class ProductAnanymousUserCommentAdminInline(admin.TabularInline):
+    model = models.ProductAnanymousUserComment
+    extra = 1
+
+
+class ProductCustomUserCommentAdminInline(admin.TabularInline):
+    model = models.ProductCustomUserComment
+    extra = 1
+
+
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     model = models.Product
@@ -18,6 +28,7 @@ class ProductAdmin(admin.ModelAdmin):
     # prepopulated_fields = {
     #     'slug': ['title', ] بعدا که اسلاگ فارسی رو اضافه کردم این رو هم بذارم.
     # }
+    inlines = [ProductAnanymousUserCommentAdminInline, ProductCustomUserCommentAdminInline]
 
 
 @admin.register(models.ProductImage)
@@ -30,8 +41,14 @@ class ProductImageAdmin(admin.ModelAdmin):
 @admin.register(models.ProductAnanymousUserComment)
 class ProductAnanymousUserCommentAdmin(admin.ModelAdmin):
     model = models.ProductAnanymousUserComment
+    list_display = ['product', 'text', 'author', 'is_approved']
+    list_display_links = ['product', 'text', 'author']
+    list_editable = ['is_approved']
 
 
 @admin.register(models.ProductCustomUserComment)
 class ProductCustomUserCommentAdmin(admin.ModelAdmin):
     model = models.ProductCustomUserComment
+    list_display = ['product', 'text', 'author', 'is_approved', 'dont_show_my_name', 'stars']
+    list_display_links = ['product', 'text', 'author', 'dont_show_my_name', 'stars']
+    list_editable = ['is_approved']

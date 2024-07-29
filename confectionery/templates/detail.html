@@ -3,6 +3,8 @@
 {% load static %}
 {% load i18n %}
 
+{% load crispy_forms_tags %}
+
 {% load madval_persian_translation %}
 {% load madval_fat_and_sugar_color %}
 
@@ -104,6 +106,10 @@
     {% else %}
         <h4 dir='rtl' class='d mx-4 mt-4'>تا کنون نظری برای این محصول ثبت نشده است. اولین نفر باشید.</h4>
     {% endif %}
-
+    <form dir='rtl' action="" method="psot">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-outline-primary rounded-pill mx-4 my-3 px-4">ارسال نظر</button>
+    </form>
 </div>
 {% endblock content %}

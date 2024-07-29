@@ -72,7 +72,13 @@ class ProductAnanymousUserComment(models.Model):
 
 
 class ProductCustomUserComment(models.Model):
-    STAR_CHOICES = [(i, str(i)) for i in range(1, 6)]
+    STAR_CHOICES = (
+        (5, _('fantastic')),
+        (4, _('excellent')),
+        (3, _('good')),
+        (2, _('average')),
+        (1, _('bad')),
+    )
 
     product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField(verbose_name=_('comment text'), max_length=10000)
