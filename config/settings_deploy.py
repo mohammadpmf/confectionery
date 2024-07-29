@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'accounts',
     'confectionery',
     'cart',
+    'madval_template_filters',
 
 ]
 
