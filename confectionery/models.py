@@ -1,6 +1,8 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy as _
 from django.core.validators import MaxValueValidator
+
 
 class Product(models.Model):
     PRODUCT_TYPE_CHOICES_CAKE = 'cake'
@@ -44,9 +46,16 @@ class Product(models.Model):
     main_image = models.ImageField(verbose_name=_('Main Image'), upload_to='main_images/', blank=True)
     extra_information = models.TextField(verbose_name=_('Extra Information'), max_length=10000, blank=True)
     # likes Foreign key
-    # comments Foreign key
-    # extra_images Foreign key
     # extra_films Foreign key
+    
+    def get_absolute_url(self):
+        return reverse("product_detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f"{self.title} {self.weight}{gettext('Kgs')} {gettext('Price')}: {self.price_toman} {gettext('Toman')}"
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(verbose_name=_('image'), upload_to='product_images/')
+

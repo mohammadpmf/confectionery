@@ -18,3 +18,10 @@ class ProductAdmin(admin.ModelAdmin):
     # prepopulated_fields = {
     #     'slug': ['title', ] بعدا که اسلاگ فارسی رو اضافه کردم این رو هم بذارم.
     # }
+
+
+@admin.register(models.ProductImage)
+class ProductImageAdmin(admin.ModelAdmin):
+    model = models.ProductImage
+    list_display = ['id', 'product', 'image']
+    list_display_links = ['id', 'product', 'image']
