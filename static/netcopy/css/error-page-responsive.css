@@ -1,0 +1,29 @@
+/* Responsive CSS File 
+  ===================
+    Item Name: Erratum - 404 Error pages
+    Author: Ashish Maraviya
+    Version: 1.0
+    Copyright 2020
+===================*/
+@media (max-width: 768px) {
+  .page-section .content-detail {
+    padding: 0 15px; }
+    .page-section .content-detail .global-title {
+      font-size: 120px;
+      font-weight: 700; }
+    .page-section .content-detail .sub-title {
+      font-weight: 500;
+      font-size: 25px; }
+    .page-section .content-detail .detail-text {
+      font-size: 14px; } }
+@media (max-width: 480px) {
+  .page-section .content-detail {
+    padding: 0 15px; }
+    .page-section .content-detail .global-title {
+      font-size: 80px;
+      font-weight: 600; }
+    .page-section .content-detail .sub-title {
+      font-weight: 500;
+      font-size: 22px; } }
+
+/*# sourceMappingURL=error-page-responsive.css.map */

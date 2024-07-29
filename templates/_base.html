@@ -47,6 +47,8 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <link href="{% static 'madval/css/uiverse.css' %}" rel="stylesheet">
     
     <link href="{% static 'madval/css/my_fonts.css' %}" rel="stylesheet">
 
@@ -87,18 +89,18 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
             </div>
             <div class="col-lg-4 text-center bg-primary border-inner py-3">
                 <div class="d-inline-flex align-items-center justify-content-center">
-                    <a href="index.html" class="navbar-brand">
+                    <a href="{% url 'homepage' %}" class="navbar-brand">
                         <h1 class="m-0 text-uppercase text-white"><i class="fa fa-birthday-cake fs-1 text-dark me-3"></i>Motamed</h1>
                     </a>
                 </div>
             </div>
             <div class="col-lg-4 text-center bg-secondary py-3">
                 <div class="d-inline-flex align-items-center justify-content-center">
-                    <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
                     <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Call Us</h6>
-                        <span>+012 345 6789</span>
+                        <h6 style="text-align: right;" class="text-uppercase mb-1">تماس با ما</h6>
+                        <span>+98 935 664 0204</span>
                     </div>
+                    <i class="bi bi-phone-vibrate fs-1 text-primary mx-3"></i>
                 </div>
             </div>
         </div>
@@ -140,13 +142,13 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">محصولات</a>
                     <div class="dropdown-menu m-0">
-                        <a dir='rtl' href="service.html" class="dropdown-item text-right">کیک ها</a>
-                        <a dir='rtl' href="testimonial.html" class="dropdown-item text-right">شیرینی ها</a>
-                        <a dir='rtl' href="testimonial.html" class="dropdown-item text-right">نان ها</a>
+                        <a dir='rtl' href="{% url 'categories' 'cake' %}" class="dropdown-item text-right">کیک ها</a>
+                        <a dir='rtl' href="{% url 'categories' 'pastry' %}" class="dropdown-item text-right">شیرینی ها</a>
+                        <a dir='rtl' href="{% url 'categories' 'bread' %}" class="dropdown-item text-right">نان ها</a>
                     </div>
                 </div>
-                <a href="index.html" class="nav-item nav-link active">{% trans "Home" %}</a>
-                <a href="" class="nav-item nav-link"><i class="fas fa-shopping-cart"></i></a>
+                <a href="{% url 'homepage' %}" class="nav-item nav-link active">خانه</a>
+                <a href="{% url 'cart:cart_detail' %}" class="nav-item nav-link"><i class="fas fa-shopping-cart"></i></a>
             </div>
         </div>
     </nav>
@@ -184,15 +186,16 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                             </div>
                             <h4 class="text-primary text-uppercase mb-4">شبکه های اجتماعی</h4>
                             <div class="d-flex mt-4">
-                                <a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
+                                {% include "uiverse.html" %}
+                                {% comment %} <a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
                                 <a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                                <a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
+                                <a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a> {% endcomment %}
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
                             <h4 class="text-primary text-uppercase mb-4">لینک ها</h4>
                             <div class="d-flex flex-column justify-content-start">
-                                <a class="text-secondary mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>خانه</a>
+                                <a class="text-secondary mb-2" href="{% url 'homepage' %}"><i class="bi bi-arrow-right text-primary me-2"></i>خانه</a>
                                 <a class="text-secondary mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>درباره ما</a>
                                 <a class="text-secondary mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>سرآشپز ها</a>
                                 <a class="text-secondary mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>آخرین اخبار</a>

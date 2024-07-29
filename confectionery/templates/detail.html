@@ -1,0 +1,109 @@
+{% extends "_base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% load madval_persian_translation %}
+{% load madval_fat_and_sugar_color %}
+
+{% block page_title %}
+{% endblock page_title %}
+
+{% block extra_css %}
+<link href="{% static 'madval/css/my_fonts.css' %}" rel="stylesheet">
+<link href="{% static 'madval/css/my_hovers.css' %}" rel="stylesheet">
+
+{% endblock extra_css %}
+{% block content %}
+
+<div class="container card shadow py-5 mt-5">
+    <div class="row gx-5">
+        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;">
+            {% if product.main_image %}
+            <div class="position-relative h-100">
+                <img class="position-absolute w-100 h-100" src="{{ product.main_image.url }}" style="object-fit: cover;">
+            </div>
+            {% else %}
+            <div class="position-relative h-100">
+                <img class="position-absolute w-100 h-100" src="{% static 'madval/img/no_image.png' %}" style="object-fit: cover;">
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-6 pb-5">
+            <h4 dir="rtl" class="mb-4">{{ product.title }}</h4>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4">
+                <span> نوع آرد استفاده شده: </span><span class="text-success"> {{ product.get_flour_type_display }} </span>
+                <span class="me-5"> میزان قند: </span><span style="color: {{ product.sugar_rate|get_color }};"> {{ product.get_sugar_rate_display }} </span>
+                <span class="me-5"> میزان چربی: </span><span style="color: {{ product.fat_rate|get_color }};"> {{ product.get_fat_rate_display }} </span>
+            </p>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4">تحویل در: </span> <span class="text-success">{{ product.preparation_time|pn }} روز </span> </p>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4">ماندگاری: <span class="text-success">{{ product.expiration_days|pn }} روز </span> </p>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4"><span> وزن: </span> <span class="text-success"> {{ product.weight|pn }} کیلوگرم </span>
+            <p dir="rtl" style="text-align: justify;" class="c em1-8"> قیمت: <span class="text-success">{{ product.price_toman|cspn }} تومان </span> </p>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4"> مواد تشکیل دهنده: <span class="text-success">{{ product.ingredients }} </span> </p>
+            <p dir="ltr" class="pt-5">
+                <form style="display: inline;" action="{% url 'cart:cart_add' product.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-warning rounded-pill mx-3">افزودن به سبد خرید</button>
+                </form>
+            </p>            
+        </div>
+        {% if product.images.all %}
+        <h2 dir='rtl' class="mt-5 pt-5 mb-4 d em2" style="color: orange">
+            عکس های بیشتر از این محصول
+        </h2>
+        <div class="owl-carousel testimonial-carousel">
+                {% for item in product.images.all %}
+                    <div class="d-flex align-items-center mb-3">
+                        <img class="img-fluid flex-shrink-0 madval-extra-images" src="{{item.image.url}}">
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if product.extra_information %}
+        <div class="col-lg-12 pb-5 px-5">
+            <p dir="rtl" style="text-align: justify;" class="c em1-4 mb-5"> توضیحات بیشتر: <span class="text-success">{{ product.extra_information }} </span> </p>
+        </div>
+        {% endif %}
+    </div>
+    <h1 dir='rtl' class="d em3 px-5 text-primary">نظر مشتریان</h1>
+    {% if product.comments.all or product.anonymous_comments.all %}
+    <hr class='mb-4'>
+    <div dir='rtl' class="row gx-5">
+        {% if product.comments.all %}
+        <div dir='rtl' class="col-lg-6 pb-5 px-5 c">
+            <h4 dir='rtl' class="d em2 pb-5 px-5 text-primary">
+                نظر کاربران سایت
+            </h4>
+            {% for comment in product.comments.all %}
+                <h5>
+                {{ comment.author }} گفته: 
+                </h5>
+                <p>
+                {{ comment.text }}
+                </p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if product.anonymous_comments.all %}
+        <div dir='rtl' class="col-lg-6 pb-5 px-5 c">
+            <h4 dir='rtl' class="d em2 pb-5 px-5 text-info">
+                نظر کاربران مهمان
+            </h4>
+            {% for comment in product.anonymous_comments.all %}
+                <h5>
+                {{ comment.author }} گفته: 
+                </h5>
+                <p>
+                {{ comment.text }}
+                </p>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+        <h4 dir='rtl' class='d mx-4 mt-4'>تا کنون نظری برای این محصول ثبت نشده است. اولین نفر باشید.</h4>
+    {% endif %}
+
+</div>
+{% endblock content %}

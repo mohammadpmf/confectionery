@@ -1,0 +1,48 @@
+{% extends "_base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% load madval_persian_translation %}
+
+{% block page_title %}
+{% trans "Product List" %}
+{% endblock page_title %}
+
+{% block extra_css %}
+<link href="{% static 'madval/css/my_fonts.css' %}" rel="stylesheet">
+<link href="{% static 'madval/css/my_hovers.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block content %}
+{% for product in products %}
+<div class="container card shadow-lg py-4 mt-5">
+    <div class="row gx-5">
+        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;">
+            {% if product.main_image %}
+            <div class="position-relative h-100">
+                <img class="position-absolute w-100 h-100" src="{{ product.main_image.url }}" style="object-fit: cover;">
+            </div>
+            {% else %}
+            <div class="position-relative h-100">
+                <img class="position-absolute w-100 h-100" src="{% static 'madval/img/no_image.png' %}" style="object-fit: cover;">
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-6 pb-5">
+            <h4 dir="rtl" class="mb-4">{{ product.title }}</h4>
+            <p dir="rtl" style="text-align: justify;" class="d em2"> قیمت: {{ product.price_toman|cspn }} تومان </p>
+            <p dir="rtl" style="text-align: justify;" class="d em1-6"> وزن: {{ product.weight }} کیلوگرم </p>
+            <p dir="rtl" style="text-align: justify;" class="mb-5"> {{ product.extra_information|truncatewords:100 }} </p>
+            <p dir="ltr" class="pt-5">
+                <form style="display: inline;" action="{% url 'cart:cart_add' product.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-warning rounded-pill mx-3">افزودن به سبد خرید</button>
+                </form>
+                <a href="{{ product.get_absolute_url }}" class="btn btn-outline-info rounded-pill px-4">اطلاعات بیشتر</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}

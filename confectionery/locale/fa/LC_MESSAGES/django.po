@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-27 14:49+0330\n"
-"PO-Revision-Date: 2024-07-27 14:49+0330\n"
+"POT-Creation-Date: 2024-07-29 20:42+0330\n"
+"PO-Revision-Date: 2024-07-29 20:43+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "ارزان ترین ها"
 msgid "Cheap"
 msgstr "ارزان"
 
-#: .\madval_filters.py:50 .\models.py:29
+#: .\madval_filters.py:50 .\models.py:32
 msgid "Average"
 msgstr "متوسط"
 
@@ -66,95 +66,127 @@ msgstr "گران"
 msgid "The most expensive"
 msgstr "گران ترین ها"
 
-#: .\models.py:10 .\templates\index.html:156
+#: .\models.py:13 .\templates\index.html:156
 msgid "Cake"
 msgstr "کیک"
 
-#: .\models.py:11 .\templates\index.html:159
+#: .\models.py:14 .\templates\index.html:159
 msgid "Pastry"
 msgstr "شیرینی"
 
-#: .\models.py:12 .\templates\index.html:162
+#: .\models.py:15 .\templates\index.html:162
 msgid "Bread"
 msgstr "نان"
 
-#: .\models.py:19
+#: .\models.py:22
 msgid "Wheat"
 msgstr "گندم"
 
-#: .\models.py:20
+#: .\models.py:23
 msgid "Corn"
 msgstr "ذرت"
 
-#: .\models.py:21
+#: .\models.py:24
 msgid "Rice"
 msgstr "برنج"
 
-#: .\models.py:22
+#: .\models.py:25
 msgid "Oat"
 msgstr "جو"
 
-#: .\models.py:28
+#: .\models.py:31
 msgid "High"
 msgstr "زیاد"
 
-#: .\models.py:30
+#: .\models.py:33
 msgid "Low"
 msgstr "کم"
 
-#: .\models.py:33
+#: .\models.py:36
 msgid "Title"
 msgstr "عنوان"
 
-#: .\models.py:34
+#: .\models.py:37
 msgid "Product Type"
 msgstr "نوع محصول"
 
-#: .\models.py:35
+#: .\models.py:38
 msgid "Flour Type"
 msgstr "نوع آرد"
 
-#: .\models.py:36
+#: .\models.py:39
 msgid "Sugar Rate"
 msgstr "میزان قند"
 
-#: .\models.py:37
+#: .\models.py:40
 msgid "Fat Rate"
 msgstr "میزان چربی"
 
-#: .\models.py:38
+#: .\models.py:41
 msgid "Slug"
 msgstr "اسلاگ"
 
-#: .\models.py:39
+#: .\models.py:42
 msgid "Weight"
 msgstr "وزن"
 
-#: .\models.py:40
+#: .\models.py:43
 msgid "Price Toman"
 msgstr "قیمت به تومان"
 
-#: .\models.py:41
+#: .\models.py:44
 msgid "Preparation Time"
 msgstr "مدت زمان آماده سازی (به روز)"
 
-#: .\models.py:42
+#: .\models.py:45
 msgid "Ingredients"
 msgstr "اجزای سازنده"
 
-#: .\models.py:43
+#: .\models.py:46
 msgid "Expiration Days"
 msgstr "ماندگاری (به روز)"
 
-#: .\models.py:44
+#: .\models.py:47
 msgid "Main Image"
 msgstr "عکس اصلی"
 
-#: .\models.py:45
+#: .\models.py:48
 msgid "Extra Information"
 msgstr "اطلاعات بیشتر"
 
-#: .\templates\index.html:8
+#: .\models.py:60 .\models.py:65 .\models.py:77
+msgid "product"
+msgstr "محصول"
+
+#: .\models.py:61
+msgid "image"
+msgstr "عکس"
+
+#: .\models.py:66 .\models.py:78
+msgid "comment text"
+msgstr "متن کامنت"
+
+#: .\models.py:67 .\models.py:79
+msgid "author"
+msgstr "نویسنده"
+
+#: .\models.py:68 .\models.py:80
+msgid "is approved"
+msgstr "تایید شده"
+
+#: .\models.py:81
+msgid "don't show my name"
+msgstr "نام من را نمایش نده"
+
+#: .\models.py:82
+msgid "user's rate"
+msgstr "رای کاربر به این محصول"
+
+#: .\templates\category.html:9
+msgid "Product List"
+msgstr "لیست محصولات"
+
+#: .\templates\index.html:9
 msgid "Home"
 msgstr "خانه"
 
@@ -174,47 +206,44 @@ msgstr "منو و قیمت ها"
 msgid "Explore Our Cakes"
 msgstr "از محصولات بازدید کنید"
 
-#: .\templates\index.html:407
+#: .\templates\index.html:263
 msgid "Cakes"
 msgstr "کیک ها"
 
-#: .\templates\index.html:409 .\templates\index.html:416
-#: .\templates\index.html:423
+#: .\templates\index.html:265 .\templates\index.html:272
+#: .\templates\index.html:279
 msgid "Read More"
 msgstr "بیشتر بخوانید"
 
-#: .\templates\index.html:414
+#: .\templates\index.html:270
 msgid "Pastries"
 msgstr "شیرینی ها"
 
-#: .\templates\index.html:421
+#: .\templates\index.html:277
 msgid "Breads"
 msgstr "نان ها"
 
-#: .\templates\index.html:427
+#: .\templates\index.html:283
 #, python-format
 msgid "30%% Discount For This Summer"
 msgstr "٪۳۰ تخفیف در تابستان امسال"
 
-#: .\templates\index.html:428
-msgid "Order Now"
-msgstr "همین حالا سفارش دهید"
-
-#: .\templates\index.html:440
+#: .\templates\index.html:296
 msgid "Team Members"
 msgstr "اعضای گروه"
 
-#: .\templates\index.html:441
+#: .\templates\index.html:297
 msgid "Our Master Chefs"
 msgstr "سرآشپزهای ما"
 
-#: .\templates\index.html:514
-msgid "Testimonial"
-msgstr "ارزیابی"
+#~ msgid "Order Now"
+#~ msgstr "همین حالا سفارش دهید"
 
-#: .\templates\index.html:515
-msgid "Our Clients Say!"
-msgstr "نظر مشتریان"
+#~ msgid "Testimonial"
+#~ msgstr "ارزیابی"
+
+#~ msgid "Our Clients Say!"
+#~ msgstr "نظر مشتریان"
 
 #~ msgid "Toman"
 #~ msgstr "تومان"

@@ -65,7 +65,7 @@ class ProductAnanymousUserComment(models.Model):
     product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='anonymous_comments')
     text = models.TextField(verbose_name=_('comment text'), max_length=10000)
     author = models.CharField(verbose_name=_('author'), max_length=255)
-    is_approved = models.BooleanField(default=False)
+    is_approved = models.BooleanField(verbose_name=_('is approved'), default=False)
 
     def __str__(self):
         return f"{self.author}: {self.text}"
@@ -77,9 +77,9 @@ class ProductCustomUserComment(models.Model):
     product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField(verbose_name=_('comment text'), max_length=10000)
     author = models.ForeignKey(verbose_name=_('author'), to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    is_approved = models.BooleanField(default=True)
-    dont_show_my_name = models.BooleanField(default=False)
-    stars = models.IntegerField(choices=STAR_CHOICES, null=True, blank=True)
+    is_approved = models.BooleanField(verbose_name=_('is approved'), default=True)
+    dont_show_my_name = models.BooleanField(verbose_name=_("don't show my name"), default=False)
+    stars = models.IntegerField(verbose_name=_("user's rate"), choices=STAR_CHOICES, null=True, blank=True)
 
     def __str__(self):
         full_name = f"{self.author.first_name} {self.author.last_name}".strip()
