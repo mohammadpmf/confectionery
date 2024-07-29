@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-19 10:23+0330\n"
+"PO-Revision-Date: 2024-07-19 10:24+0330\n"
+"Last-Translator: محمد فلافلی <mohammad.pfallah@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
+
+#: .\cart.py:26
+msgid "Product successfully updated"
+msgstr "محصول با موفقیت ویرایش شد."
+
+#: .\cart.py:29
+msgid "Product successfully added to cart"
+msgstr "محصول با موفقیت به سبد خرید اضافه شد."
+
+#: .\cart.py:45
+msgid "Product successfully removed from cart"
+msgstr "محصول با موفقیت از سبد خرید شما حذف شد."
+
+#: .\templates\cart\cart_detail.html:17 .\templates\cart\cart_sidebar.html:10
+msgid "Cart"
+msgstr "سبد خرید"
+
+#: .\templates\cart\cart_detail.html:55 .\templates\cart\cart_detail.html:72
+#: .\templates\cart\cart_detail.html:106 .\templates\cart\cart_sidebar.html:28
+#: .\templates\cart\cart_sidebar.html:36
+msgid "$"
+msgstr "تومان"
+
+#: .\templates\cart\cart_detail.html:81
+msgid "Cart is Empty! Add some items!"
+msgstr "سبد خرید شما خالیست. تعدادی کالا به سبد خرید اضافه کنید."
+
+#: .\templates\cart\cart_detail.html:82
+msgid "Go shopping"
+msgstr "رفتن به فروشگاه."
+
+#: .\templates\cart\cart_detail.html:90
+#| msgid "Go to Cart"
+msgid "Empty Cart"
+msgstr "خالی کردن سبد خرید"
+
+#: .\templates\cart\cart_sidebar.html:35
+msgid "total"
+msgstr "جمع کل"
+
+#: .\templates\cart\cart_sidebar.html:39
+msgid "Go to Cart"
+msgstr "برو به سبد خرید"
+
+#: .\templates\cart\cart_sidebar.html:40
+msgid "Checkout"
+msgstr "پرداخت"
+
+#: .\views.py:46
+msgid "All products successfully removed from your cart"
+msgstr "تمام محصولات با موفقیت از سبد خرید شما حذف شدند."
+
+#: .\views.py:48
+msgid "Your cart is already empty."
+msgstr "سبد خرید شما از قبل خالیست."
