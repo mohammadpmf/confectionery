@@ -25,3 +25,13 @@ class ProductImageAdmin(admin.ModelAdmin):
     model = models.ProductImage
     list_display = ['id', 'product', 'image']
     list_display_links = ['id', 'product', 'image']
+
+
+@admin.register(models.ProductAnanymousUserComment)
+class ProductAnanymousUserCommentAdmin(admin.ModelAdmin):
+    model = models.ProductAnanymousUserComment
+
+
+@admin.register(models.ProductCustomUserComment)
+class ProductCustomUserCommentAdmin(admin.ModelAdmin):
+    model = models.ProductCustomUserComment

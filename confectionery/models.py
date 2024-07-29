@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy as _
 from django.core.validators import MaxValueValidator
+from django.conf import settings
 
 
 class Product(models.Model):
@@ -59,3 +60,29 @@ class ProductImage(models.Model):
     product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(verbose_name=_('image'), upload_to='product_images/')
 
+
+class ProductAnanymousUserComment(models.Model):
+    product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='anonymous_comments')
+    text = models.TextField(verbose_name=_('comment text'), max_length=10000)
+    author = models.CharField(verbose_name=_('author'), max_length=255)
+    is_approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.author}: {self.text}"
+
+
+class ProductCustomUserComment(models.Model):
+    STAR_CHOICES = [(i, str(i)) for i in range(1, 6)]
+
+    product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='comments')
+    text = models.TextField(verbose_name=_('comment text'), max_length=10000)
+    author = models.ForeignKey(verbose_name=_('author'), to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    is_approved = models.BooleanField(default=True)
+    dont_show_my_name = models.BooleanField(default=False)
+    stars = models.IntegerField(choices=STAR_CHOICES, null=True, blank=True)
+
+    def __str__(self):
+        full_name = f"{self.author.first_name} {self.author.last_name}".strip()
+        if full_name=="":
+            full_name = self.author
+        return f"{full_name}: {self.text}"
