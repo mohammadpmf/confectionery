@@ -23,7 +23,7 @@ def comma_separated_persian_numbers(value, separator=3):
     if len(value)==0:
         raise ValueError("The parameter you sent is empty!")
     for digit in value:
-        if digit not in '0123456789۰۱۲۳۴۵۶۷۸۹':
+        if digit not in '0123456789۰۱۲۳۴۵۶۷۸۹.':
             raise ValueError("The parameter you sent is not a real number!")
     res = ''
     for i, char in enumerate(value[::-1]):

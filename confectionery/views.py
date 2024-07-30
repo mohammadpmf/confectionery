@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Avg, Count
 from django.contrib import messages
 
 from .models import Product, ProductCustomUserComment, ProductAnanymousUserComment
@@ -55,7 +55,8 @@ class ProductDetail(generic.DetailView):
     context_object_name = 'product'
 
     def get_queryset(self):
-        query_set = super().get_queryset().prefetch_related('images', 
+        query_set = super().get_queryset().prefetch_related(
+            'images',
             Prefetch(
                 'anonymous_comments',
                 queryset=ProductAnanymousUserComment.objects.filter(is_approved=True)
@@ -64,7 +65,7 @@ class ProductDetail(generic.DetailView):
                 'comments',
                 queryset=ProductCustomUserComment.objects.select_related('author').filter(is_approved=True)
             )
-        ).filter()
+        ).annotate(average_stars=Avg('comments__stars'), count_stars=Count('comments__stars'))
         return query_set
         
     def get_context_data(self, **kwargs):

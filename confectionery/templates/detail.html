@@ -7,8 +7,10 @@
 
 {% load madval_persian_translation %}
 {% load madval_fat_and_sugar_color %}
+{% load madval_make_for_loop %}
 
 {% block page_title %}
+جزییات محصول {{ product.title }}
 {% endblock page_title %}
 
 {% block extra_css %}
@@ -17,7 +19,7 @@
 
 {% endblock extra_css %}
 {% block content %}
-
+{% with number_of_comments=6 %}
 <div class="container card shadow py-5 mt-5">
     <div class="row gx-5">
         <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;">
@@ -32,7 +34,7 @@
             {% endif %}
         </div>
         <div class="col-lg-6 pb-5">
-            <h4 dir="rtl" class="mb-4">{{ product.title }}</h4>
+            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5">⭐</span> <span class="em1-2 text-primary">{{ product.average_stars|floatformat:1|cspn }} </span><span>از ۵ (از بین {{ product.count_stars|cspn }} رای از کاربران سایت)</span></h4>
             <p dir="rtl" style="text-align: justify;" class="c em1-4">
                 <span> نوع آرد استفاده شده: </span><span class="text-success"> {{ product.get_flour_type_display }} </span>
                 <span class="me-5"> میزان قند: </span><span style="color: {{ product.sugar_rate|get_color }};"> {{ product.get_sugar_rate_display }} </span>
@@ -43,13 +45,28 @@
             <p dir="rtl" style="text-align: justify;" class="c em1-4"><span> وزن: </span> <span class="text-success"> {{ product.weight|pn }} کیلوگرم </span>
             <p dir="rtl" style="text-align: justify;" class="c em1-8"> قیمت: <span class="text-success">{{ product.price_toman|cspn }} تومان </span> </p>
             <p dir="rtl" style="text-align: justify;" class="c em1-4"> مواد تشکیل دهنده: <span class="text-success">{{ product.ingredients }} </span> </p>
-            <p dir="ltr" class="pt-5">
-                <form style="display: inline;" action="{% url 'cart:cart_add' product.id %}" method="post">
+            <p dir="rtl" style="text-align: justify;" class="c em1">مورد علاقه <span class="em1-6 text-primary">{{ product.favorited_users.all.count|cspn }}</span> نفر از کاربران سایت 🧡</p>
+            
+            <p dir="ltr" class="pt-1 d-inline">
+                <form class="d-inline" action="{% url 'cart:cart_add' product.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-warning rounded-pill mx-3">افزودن به سبد خرید</button>
                 </form>
+                {% if user.is_authenticated %}
+                <form class="d-inline" action="" method="post">
+                    {% csrf_token %}
+                    {% if liked %}
+                        <input type="hidden" name="like_situation" value="0">
+                        <button class="btn" type="submit"><img src="{% static 'madval/img/liked.png' %}" alt="🧡" width=32></button>
+                    {% else %}
+                        <input type="hidden" name="like_situation" value="1">
+                        <button class="btn" type="submit"><img src="{% static 'madval/img/unliked.png' %}" alt="🤍" width=32></button>
+                    {% endif %}
+                </form>
+                {% endif %}
             </p>            
         </div>
+        
         {% if product.images.all %}
         <h2 dir='rtl' class="mt-5 pt-5 mb-4 d em2" style="color: orange">
             عکس های بیشتر از این محصول
@@ -73,31 +90,42 @@
     <hr class='mb-4'>
     <div dir='rtl' class="row gx-5">
         {% if product.comments.all %}
-        <div dir='rtl' class="col-lg-6 pb-5 px-5 c">
+        <div dir='rtl' class="col-lg-6 pb-5 c">
             <h4 dir='rtl' class="d em2 pb-5 px-5 text-primary">
                 نظر کاربران سایت
             </h4>
-            {% for comment in product.comments.all %}
-                <h5>
+            <div class="shadow p-4">
+            {% for comment in product.comments.all|get_n_last_objects:number_of_comments %}
+                <h5 style="display: flex; justify-content: space-between;">
                 {% if comment.dont_show_my_name %}
                     شخصی که خواسته اسمش ناشناس بمونه گفته: 
                 {% else %}
                     {{ comment.author }} گفته: 
                 {% endif %}
+                <span style="font-size: 0.8em;">
+                {% for i in comment.stars|times %}
+                🧡
+                {% endfor %}
+                </span>
                 </h5>
                 <p>
                 {{ comment.text }}
                 </p>
                 <hr>
             {% endfor %}
+            {% if product.comments.all.count > number_of_comments %}
+            <a href="commets/">...</a>
+            {% endif %}
+            </div>
         </div>
         {% endif %}
         {% if product.anonymous_comments.all %}
-        <div dir='rtl' class="col-lg-6 pb-5 px-5 c">
+        <div dir='rtl' class="col-lg-6 pb-5 c">
             <h4 dir='rtl' class="d em2 pb-5 px-5 text-info">
                 نظر کاربران مهمان
             </h4>
-            {% for comment in product.anonymous_comments.all %}
+            <div class="shadow p-4">
+            {% for comment in product.anonymous_comments.all|get_n_last_objects:number_of_comments %}
                 <h5>
                 {{ comment.author }} گفته: 
                 </h5>
@@ -105,7 +133,11 @@
                 {{ comment.text }}
                 </p>
                 <hr>
-                {% endfor %}
+            {% endfor %}
+            {% if product.comments.all.count > number_of_comments %}
+            <a href="commets/">...</a>
+            {% endif %}
+            </div>
         </div>
         {% endif %}
     </div>
@@ -118,4 +150,5 @@
         <button type="submit" class="btn btn-outline-primary rounded-pill mx-4 my-3 px-4">ارسال نظر</button>
     </form>
 </div>
+{% endwith %}
 {% endblock content %}

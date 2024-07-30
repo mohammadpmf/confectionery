@@ -46,8 +46,6 @@ class Product(models.Model):
     expiration_days = models.PositiveSmallIntegerField(verbose_name=_('Expiration Days'), default=3, validators=[MaxValueValidator(60)])
     main_image = models.ImageField(verbose_name=_('Main Image'), upload_to='main_images/', blank=True)
     extra_information = models.TextField(verbose_name=_('Extra Information'), max_length=10000, blank=True)
-    # likes Foreign key
-    # extra_films Foreign key
     
     def get_absolute_url(self):
         return reverse("product_detail", kwargs={"pk": self.pk})
@@ -92,3 +90,11 @@ class ProductCustomUserComment(models.Model):
         if full_name=="":
             full_name = self.author
         return f"{full_name}: {self.text}"
+
+
+class Favorite(models.Model):
+    product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='favorited_users')
+    user = models.ForeignKey(verbose_name=_('user'), to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='liked_products')
+    
+    class Meta:
+        unique_together = ('product', 'user')

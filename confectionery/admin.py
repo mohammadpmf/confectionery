@@ -28,7 +28,7 @@ class ProductAdmin(admin.ModelAdmin):
     # prepopulated_fields = {
     #     'slug': ['title', ] بعدا که اسلاگ فارسی رو اضافه کردم این رو هم بذارم.
     # }
-    inlines = [ProductAnanymousUserCommentAdminInline, ProductCustomUserCommentAdminInline]
+    inlines = [ProductCustomUserCommentAdminInline, ProductAnanymousUserCommentAdminInline]
 
 
 @admin.register(models.ProductImage)
@@ -52,3 +52,10 @@ class ProductCustomUserCommentAdmin(admin.ModelAdmin):
     list_display = ['product', 'text', 'author', 'is_approved', 'dont_show_my_name', 'stars']
     list_display_links = ['product', 'text', 'author', 'dont_show_my_name', 'stars']
     list_editable = ['is_approved']
+
+
+@admin.register(models.Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    model = models.Favorite
+    list_display = ['product', 'user']
+    list_display_links = ['product', 'user']
