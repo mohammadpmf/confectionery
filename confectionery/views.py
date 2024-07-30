@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.db.models import Prefetch
+from django.contrib import messages
 
 from .models import Product, ProductCustomUserComment, ProductAnanymousUserComment
 from .forms import ProductCustomUserCommentForm, ProductAnanymousUserCommentForm
@@ -76,5 +77,28 @@ class ProductDetail(generic.DetailView):
         return context
     
     def post(self, request, *args, **kwargs):
-        print(request) # اینجااااا نمیدونم چرا نمینویسه چیزی.
+        user = request.user
+        pk = kwargs.get('pk')
+        if user.is_authenticated:
+            comment_form = ProductCustomUserCommentForm(request.POST)
+        else:
+            comment_form = ProductAnanymousUserCommentForm(request.POST)
+        if comment_form.is_valid():
+            cleaned_data = comment_form.cleaned_data
+        else:
+            messages.error(request, comment_form.errors)
+            return super().get(request, *args, **kwargs)
+        if user.is_authenticated:
+            cleaned_data.update({
+                'product_id': pk,
+                'author': user,
+            })
+            ProductCustomUserComment.objects.create(**cleaned_data)
+            messages.success(request, "پیغام شما با موفقیت ثبت شد.")
+        else:
+            cleaned_data.update({
+                'product_id': pk,
+            })
+            messages.success(request, "پیغام شما با موفقیت ارسال شد. اما چون عضو سایت نیستید، پس از تایید مدیریت نمایش داده خواهد شد.")
+            ProductAnanymousUserComment.objects.create(**cleaned_data)
         return super().get(request, *args, **kwargs)

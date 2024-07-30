@@ -1,0 +1,55 @@
+@keyframes blink {
+    0%{
+        opacity: 1;
+    }    
+    50%{
+        opacity: 0.1;
+    }    
+    100%{
+        opacity: 1;
+    }    
+}
+
+@keyframes move-messages-to-corner {
+    0%{
+        right: 2vw;
+    }    
+    30%{
+        right: 18%;
+    }    
+    92%{
+        right: 5vw;
+    }    
+    100%{
+        right: 50vw;
+    }    
+}
+
+.madval-messages{
+    display: inline-block;
+    position: fixed;
+    bottom: 0;
+    right: 2vw;
+    width: 48vw;
+    left: unset;
+    overflow: auto;
+    direction: rtl;
+    font-family: Calibri;
+    font-size: 1.4em;
+    z-index: 10000 !important;
+    animation: blink 3 1.5s;
+}
+.move-to-corner{
+    display: inline-block;
+    position: fixed;
+    bottom: 0;
+    right: 2vw;
+    width: 48vw;
+    left: unset;
+    overflow: auto;
+    direction: rtl;
+    font-family: Calibri;
+    font-size: 1.4em;
+    z-index: 10000 !important;
+    animation: move-messages-to-corner 2s forwards;
+}

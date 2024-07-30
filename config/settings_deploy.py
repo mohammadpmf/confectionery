@@ -280,3 +280,10 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 
 LOGIN_REDIRECT_URL = 'homepage'
 LOGOUT_REDIRECT_URL = 'homepage'
+
+# برای تغییر دادن اسم خطا از ارور به دنجر که با رنگ بوت استرپ در بیاد و کد کمتری
+# بنویسیم تو اچ تی ام ال و ویومون این کدها رو اضافه کردم
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}

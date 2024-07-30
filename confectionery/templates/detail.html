@@ -79,11 +79,16 @@
             </h4>
             {% for comment in product.comments.all %}
                 <h5>
-                {{ comment.author }} گفته: 
+                {% if comment.dont_show_my_name %}
+                    شخصی که خواسته اسمش ناشناس بمونه گفته: 
+                {% else %}
+                    {{ comment.author }} گفته: 
+                {% endif %}
                 </h5>
                 <p>
                 {{ comment.text }}
                 </p>
+                <hr>
             {% endfor %}
         </div>
         {% endif %}
@@ -99,14 +104,15 @@
                 <p>
                 {{ comment.text }}
                 </p>
-            {% endfor %}
+                <hr>
+                {% endfor %}
         </div>
         {% endif %}
     </div>
     {% else %}
         <h4 dir='rtl' class='d mx-4 mt-4'>تا کنون نظری برای این محصول ثبت نشده است. اولین نفر باشید.</h4>
     {% endif %}
-    <form dir='rtl' action="" method="psot">
+    <form dir='rtl' action="" method="post">
         {% csrf_token %}
         {{ form|crispy }}
         <button type="submit" class="btn btn-outline-primary rounded-pill mx-4 my-3 px-4">ارسال نظر</button>
