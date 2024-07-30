@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import CustomUser
+from .models import CustomUser, PhoneNumber
 
 
 @admin.register(CustomUser)
@@ -11,8 +11,8 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = ['username', 'email', 'phone_number']
-    list_display_links = ['username', 'email', 'phone_number']
+    list_display = ['id', 'username', 'email', 'phone_number']
+    list_display_links = ['id', 'username', 'email', 'phone_number']
     # list_display = UserAdmin.list_display[:4] + ('nat_code', 'gender', 'phone_number') + UserAdmin.list_display[4:]
     # list_display_links = UserAdmin.list_display[:4] + ('nat_code', 'gender', 'phone_number') + UserAdmin.list_display[4:]
     fieldsets = (
@@ -45,3 +45,10 @@ class CustomUserAdmin(UserAdmin):
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     add_fieldsets = fieldsets[0:2]
+
+
+@admin.register(PhoneNumber)
+class PhoneNumberAdmin(admin.ModelAdmin):
+    model = PhoneNumber
+    list_display = ['id', 'user', 'phone_number', 'verified']
+    list_display_links = ['id', 'user', 'phone_number', 'verified']

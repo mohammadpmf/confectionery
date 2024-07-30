@@ -1,0 +1,76 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-30 22:02+0330\n"
+"PO-Revision-Date: 2024-07-30 22:05+0330\n"
+"Last-Translator:   <a@b.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
+
+#: .\admin.py:21
+msgid "Personal info"
+msgstr "اطلاعات شخصی"
+
+#: .\admin.py:34
+msgid "Permissions"
+msgstr "دسترسی ها"
+
+#: .\admin.py:45
+msgid "Important dates"
+msgstr "تاریخ های مهم"
+
+#: .\models.py:12
+msgid "Female"
+msgstr "زن"
+
+#: .\models.py:13
+msgid "Male"
+msgstr "مرد"
+
+#: .\models.py:17
+msgid "National Code"
+msgstr "کد ملی"
+
+#: .\models.py:19 .\models.py:20
+msgid "National code must be exactly 10 digits"
+msgstr "کد ملی باید دقیقا ۱۰ رقم باشد"
+
+#: .\models.py:23
+msgid "Gender"
+msgstr "جنسیت"
+
+#: .\models.py:24
+msgid "email address"
+msgstr "آدرس ایمیل"
+
+#: .\models.py:25 .\models.py:35
+msgid "Phone number"
+msgstr "شماره تلفن"
+
+#: .\models.py:27
+msgid "Phone number should be at least 11 digits"
+msgstr "شماره تلفن باید حداقل ۱۱ رقم باشد"
+
+#: .\models.py:28
+msgid "Phone number should be at most 14 digits"
+msgstr "شماره تلفن باید حداکثر ۱۴ رقم باشد"
+
+#: .\models.py:34
+msgid "User"
+msgstr "کاربر"
+
+#: .\models.py:36 .\models.py:37
+msgid "Phone number must be at exactly 11 digits in Iran to receive sms"
+msgstr ""
+"شماره تلفن در ایران باید دقیقا ۱۱ رقم باشد تا امکان دریافت پیامک داشته باشد"
