@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-30 22:02+0330\n"
-"PO-Revision-Date: 2024-07-30 22:05+0330\n"
+"POT-Creation-Date: 2024-08-01 00:50+0330\n"
+"PO-Revision-Date: 2024-08-01 00:50+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -74,3 +74,34 @@ msgstr "کاربر"
 msgid "Phone number must be at exactly 11 digits in Iran to receive sms"
 msgstr ""
 "شماره تلفن در ایران باید دقیقا ۱۱ رقم باشد تا امکان دریافت پیامک داشته باشد"
+
+#: .\views.py:50
+#, python-format
+msgid ""
+"A verification code sent to %s. Please enter the recieved code to continue."
+msgstr ""
+"یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید."
+
+#: .\views.py:52
+msgid ""
+"A problem occured in sending message. Please try again in a few minutes."
+msgstr ""
+"متاسفانه در ارسال اس ام اس خطایی پیش آمده. لطفا چند دقیقه بعد مجددا تلاش "
+"کنید."
+
+#: .\views.py:55
+#| msgid ""
+#| "A problem occured in sending message. Please try again in a few minutes."
+msgid ""
+"A problem occured in sms message server. Please try again in a few minutes."
+msgstr ""
+"متاسفانه در سرور ارسال اس ام اس خطایی رخ داده است. لطفا چند دقیقه بعد مجددا "
+"تلاش کنید."
+
+#: .\views.py:71
+msgid "Successfull Login."
+msgstr "ورود موفقیت آمیز."
+
+#: .\views.py:84
+msgid "Sorry. OTP is invalid!"
+msgstr "متاسفانه یکبار رمز به درستی وارد نشده است!"

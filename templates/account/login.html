@@ -8,6 +8,8 @@
 
 {% load crispy_forms_tags %}
 
+{% load madval_persian_translation %}
+
 {% block page_title %}
 {% trans "Login" %}
 {% endblock page_title %}
@@ -39,6 +41,14 @@
             <button id="linkedin_button" type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">ورود با لینکد این <img src="{% static 'logo/linkedin_logo.png' %}" alt="" style="width: 32px;"></button>
         </form>
     </div>
+    <div class="d-flex justify-content-center">
+        <form action="{% url 'login_with_phone_number' %}" method="get" name="myFormForPhoneNumber" onsubmit="return validateForm()" class="d-inline mx-2">
+            {% csrf_token %}
+            <label for="phone_number">ورود با شماره موبایل: </label>
+            <input type="phone" class="btn m-2 rounded-pill px-4 border border-success" name="phone_number" pattern="[0][9][0-9]{9}" placeholder="09xxxxxxxxx" minlength="11">
+            <button type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">اس ام اس ارسال کن</button>
+        </form>
+    </div>
     <div style="display: none;">
         <a href="{% provider_login_url 'google' %}">Login with Google</a>
         <br>
@@ -47,4 +57,13 @@
         <a href="{% provider_login_url 'linkedin' %}">Login with LinkedIn</a>
     </div>
 </div>
+<script>
+    function validateForm() {
+      var x = document.forms["myFormForPhoneNumber"]["phone_number"].value;
+      if (x == "" || x == null) {
+        alert("شماره موبایل خالیست!");
+        return false;
+      }
+    }
+</script>
 {% endblock content %}

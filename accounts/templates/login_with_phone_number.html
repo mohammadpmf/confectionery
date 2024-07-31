@@ -1,0 +1,51 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% load i18n %}
+
+{% load socialaccount %}
+
+{% load crispy_forms_tags %}
+
+{% load madval_persian_translation %}
+
+{% block page_title %}
+ورود با شماره موبایل
+{% endblock page_title %}
+
+{% block extra_css %}
+<link href="{% static 'madval/css/style_login.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block content %}
+<div class='container mt-5' style="direction: rtl">
+    {% if username %}
+    <h1 class="d-flex justify-content-center my-5 pt-5 c text-success em3 text-center">
+        سلام {{ username }}. از این که دوباره به سایتمون سر زدی خیلی خوشحالیم
+        <br>
+        لطفا کد ارسالی به شماره {{ phone_number|pn }} را وارد کن
+    </h1>
+    {% else %}
+    <h1 class="d-flex justify-content-center my-5 pt-5 c text-primary em3 text-center">لطفا کد ارسالی به شماره {{ phone_number|pn }} را وارد کنید</h1>
+    {% endif %}
+    <div class="d-flex justify-content-center">
+        <form action="{% url 'login_with_phone_number' %}" method="post" name="myFormForOTP" onsubmit="return validateForm()" class="d-inline mx-2">
+            {% csrf_token %}
+            <input type="hidden" name="phone_number" value="{{ phone_number }}">
+            <input type="hidden" name="username" value="{{ username }}">
+            <input type="text" class="btn m-2 rounded-pill border border-success" name="otp">
+            <button type="submit" class="btn btn-outline-success m-2 rounded-pill px-5">وارد شو</button>
+        </form>
+    </div>
+</div>
+<script>
+    function validateForm() {
+      var x = document.forms["myFormForOTP"]["otp"].value;
+      if (x == "" || x == null) {
+        alert("لطفا کد ارسالی به موبایل خود را وارد کنید!");
+        return false;
+      }
+    }
+</script>
+{% endblock content %}

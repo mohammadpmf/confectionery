@@ -13,6 +13,7 @@ django-crispy-forms==2.3
 django-debug-toolbar==4.4.6
 django-rosetta==0.10.0
 environs==11.0.0
+ghasedakpack==0.1.13
 idna==3.7
 marshmallow==3.21.3
 mysqlclient==2.2.4
