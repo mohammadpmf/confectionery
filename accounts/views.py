@@ -3,6 +3,8 @@ from django.views import generic
 from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.contrib.auth import get_user_model, login
+from django.db import IntegrityError, transaction
+from django.contrib.auth.hashers import make_password
 
 from requests.exceptions import ConnectTimeout
 import ghasedakpack
@@ -10,6 +12,7 @@ import random
 
 from config.madval1369_secret import *
 from .models import PhoneNumber
+from . import forms
 
 
 
@@ -45,7 +48,8 @@ class LoginWithPhoneNumber(generic.TemplateView):
             'phone_number': phone_number,
         }
         try:
-            answer = self.sms.verification({'receptor': phone_number, 'linenumber': self.good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
+            # answer = self.sms.verification({'receptor': phone_number, 'linenumber': self.good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
+            answer = True
             if answer:
                 messages.success(request, _("A verification code sent to %s. Please enter the recieved code to continue." %phone_number))
                 return render(request, 'login_with_phone_number.html', context)
@@ -68,13 +72,20 @@ class LoginWithPhoneNumber(generic.TemplateView):
         # براش نفرستم.
         del LoginWithPhoneNumber.otps[phone_number]
         if correct_otp==sent_otp:
+            try:
+                if username==None:
+                    # new_user = get_user_model().objects.create(username=phone_number, phone_number=phone_number)
+                    new_user = get_user_model().objects.create(username=phone_number, phone_number=phone_number)
+                    PhoneNumber.objects.create(user=new_user, phone_number=phone_number)
+                    login(request, new_user, backend='django.contrib.auth.backends.ModelBackend')
+                    context = {
+                        'phone_number': phone_number
+                    }
+                    return render(request, 'register_with_phone_number.html', context)
+
+            except IntegrityError:
+                messages.error(request, _("Sorry! This phone number already has an account. If it's yours and you can't use it, contact the moderator of the site."))
             messages.success(request, _("Successfull Login."))
-            if username==None:
-                new_user = get_user_model().objects.create(username=phone_number)
-                PhoneNumber.objects.create(user=new_user, phone_number=phone_number)
-                login(request, new_user, backend='django.contrib.auth.backends.ModelBackend')
-                # تا اینجا اوکی شد. ثبت نام هم میشه. فقط حالت های خاص رو باید درست کنم که
-                # وریفاید رو درست بنویسه. اگه وریفای نبود بره ایمیل و پسورد اضافه کنه. اگه بود نذاره و ...
             return redirect('homepage')
             # context = {
             #     'phone_number': phone_number,
@@ -83,3 +94,47 @@ class LoginWithPhoneNumber(generic.TemplateView):
         else:
             messages.error(request, _("Sorry. OTP is invalid!"))
             return redirect('account_login')
+
+
+class RegisterWithPhoneNumber(generic.TemplateView):
+    template_name = 'register_with_phone_number.html'
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        v = request.POST.get('verified')
+        if v=='1': # یعنی تیک این رو زده که نمیخواد اطلاعاتش رو وارد کنه و از دفعه بعد هم نمیخواد ببینه این صفحه ره. پس تایید کرده و وریفاید رو ترو میذارم.
+            username = request.POST.get('username')
+            temp = PhoneNumber.objects.get(phone_number=username)
+            temp.verified=True
+            temp.save()
+            messages.success(request, _("Your choice accepted successfully! That page won't be shown to you next time!"))
+        else: # یعنی رو دکمه تایید نزده. اما شاید بخواد دفعه بعد بزنه. از طرفی شاید هم فرم اول رو پر کرده و میخواد اطلاعات رو وارد کنه. پس بررسی میکنیم.
+            username = request.POST.get('username')
+            email = request.POST.get('email')
+            password = request.POST.get('password')
+            if username and email and password: # یعنی اگه یوزرنیم و ایمیل وارد کرده بود، پس میخواد تغییر بده
+                form = forms.ChangeUserInfoAfterRegisterationForm(request.POST)
+                phone_number = request.user.username
+                if form.is_valid():
+                    with transaction.atomic():
+                        cleaned_data = form.cleaned_data
+                        temp = PhoneNumber.objects.get(phone_number=phone_number)
+                        temp.verified=True
+                        temp.save()
+                        user = get_user_model().objects.get(username=phone_number)
+                        user.username=cleaned_data['username']
+                        user.email = cleaned_data['email']
+                        user.password = make_password(cleaned_data['password']) # خود جنگو ساده رو قبول نمیکنه. با این میشه هشش کرد.
+                        user.phone_number = phone_number
+                        user.save()
+                        messages.success(request, _("Your info updated successfully! That page won't be shown to you next time!"))
+                else:
+                    messages.error(request, form.errors)
+                    context = {
+                        'phone_number': phone_number
+                    }
+                    return render(request, 'register_with_phone_number.html', context)
+            else:
+                messages.error(request, _("Your must enter all required fields!"))
+
+        return redirect('homepage')

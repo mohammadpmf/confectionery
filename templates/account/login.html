@@ -45,7 +45,7 @@
         <form action="{% url 'login_with_phone_number' %}" method="get" name="myFormForPhoneNumber" onsubmit="return validateForm()" class="d-inline mx-2">
             {% csrf_token %}
             <label for="phone_number">ورود با شماره موبایل: </label>
-            <input type="phone" class="btn m-2 rounded-pill px-4 border border-success" name="phone_number" pattern="[0][9][0-9]{9}" placeholder="09xxxxxxxxx" minlength="11">
+            <input type="tel" class="btn m-2 rounded-pill px-4 border border-success" name="phone_number" pattern="[0][9][0-9]{9}" placeholder="09xxxxxxxxx" minlength="11">
             <button type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">اس ام اس ارسال کن</button>
         </form>
     </div>

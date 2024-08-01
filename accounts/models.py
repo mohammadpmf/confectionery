@@ -31,8 +31,8 @@ class CustomUser(AbstractUser):
 
 
 class PhoneNumber(models.Model):
-    user = models.OneToOneField(verbose_name=_('User'), to=CustomUser, on_delete=models.CASCADE)
-    phone_number = models.CharField(verbose_name=_('Phone number'), max_length=11, validators=[
+    user = models.OneToOneField(verbose_name=_('User'), to=CustomUser, on_delete=models.CASCADE, related_name='otp_phone_number') # چون خود کاستومر ها فون نامبر دارن اما اختیاری هست. در واقع اون رو برای اطلاع رسانی میتونن استفاده کنن این فقط برای او تی پی که اگه دوست دارن خودشون میتونن هر دو تا رو یکی بذارن. به صورت پیش فرض خودم موقع ورود با او تی پی این کار رو میکنم. یعنی شماره اختیاری یوزر رو هم میذارم همین که اس ام اس های دیگه هم بره به اونجا. البته فقط موقع ثبت نام. از دفعات بعد دیگه این کار رو نمیکنم. کدهاش رو تو ویوز نوشتم.
+    phone_number = models.CharField(verbose_name=_('Phone number'), max_length=11, unique=True, validators=[
         MinLengthValidator(11, _("Phone number must be at exactly 11 digits in Iran to receive sms")),
         MaxLengthValidator(11, _("Phone number must be at exactly 11 digits in Iran to receive sms"))
         ],)
