@@ -20,7 +20,7 @@
 <div class='container mt-5' style="direction: rtl">
     {% if username %}
     <h1 class="d-flex justify-content-center my-5 pt-5 c text-success em3 text-center">
-        سلام {{ username }}. از این که دوباره به سایتمون سر زدی خیلی خوشحالیم
+        سلام {{ username|pn }}. از این که دوباره به سایتمون سر زدی خیلی خوشحالیم
         <br>
         لطفا کد ارسالی به شماره {{ phone_number|pn }} را وارد کن
     </h1>

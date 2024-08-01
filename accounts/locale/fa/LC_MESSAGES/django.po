@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-01 13:49+0330\n"
-"PO-Revision-Date: 2024-08-01 13:50+0330\n"
+"POT-Creation-Date: 2024-08-01 15:08+0330\n"
+"PO-Revision-Date: 2024-08-01 15:10+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,18 @@ msgstr "دسترسی ها"
 #: .\admin.py:45
 msgid "Important dates"
 msgstr "تاریخ های مهم"
+
+#: .\forms.py:30
+msgid "Password must be at least 8 characters"
+msgstr "رمز عبور باید حداقل ۸ کاراکتر باشد"
+
+#: .\forms.py:32
+msgid "Password must have at least one digit"
+msgstr "رمز عبور باید حداقل یک عدد داشته باشد"
+
+#: .\forms.py:34
+msgid "Password can not be only a number"
+msgstr "رمز عبور نمیتواند فقط عدد باشد"
 
 #: .\models.py:12
 msgid "Female"
@@ -96,7 +108,16 @@ msgstr ""
 "متاسفانه در سرور ارسال اس ام اس خطایی رخ داده است. لطفا چند دقیقه بعد مجددا "
 "تلاش کنید."
 
-#: .\views.py:87
+#: .\views.py:85
+#, python-format
+msgid "Welcome %s"
+msgstr "خوش آمدی %s"
+
+#: .\views.py:88
+msgid "Successfull Login."
+msgstr "ورود موفقیت آمیز."
+
+#: .\views.py:92
 msgid ""
 "Sorry! This phone number already has an account. If it's yours and you can't"
 " use it, contact the moderator of the site."
@@ -104,15 +125,11 @@ msgstr ""
 "متاسفیم! این شماره تلفن هم اکنون استفاده شده است. اگر برای شماست و نمیتوانید"
 " از آن استفاده کنید، با مدیریت سایت تماس بگیرید!"
 
-#: .\views.py:88
-msgid "Successfull Login."
-msgstr "ورود موفقیت آمیز."
-
-#: .\views.py:95
+#: .\views.py:99
 msgid "Sorry. OTP is invalid!"
 msgstr "متاسفانه یکبار رمز به درستی وارد نشده است!"
 
-#: .\views.py:110
+#: .\views.py:115
 msgid ""
 "Your choice accepted successfully! That page won't be shown to you next "
 "time!"
@@ -120,16 +137,15 @@ msgstr ""
 "انتخاب شما با موفقیت ثبت شد. دفعه بعد، پس از ورود آن صفحه به شما نمایش داده "
 "نمی شود."
 
-#: .\views.py:130
-#| msgid ""
-#| "Your choice accepted successfully! That page won't be shown to you next "
-#| "time!"
-msgid ""
-"Your info updated successfully! That page won't be shown to you next time!"
-msgstr ""
-"اطلاعات شما با موفقیت ویرایش شد. دفعه بعد، پس از ورود آن صفحه به شما نمایش "
-"داده نمی شود."
+#: .\views.py:135
+msgid "Your info updated successfully! Please login again!"
+msgstr "اطلاعات شما با موفقیت ویرایش شد. لطفا مجددا وارد شوید."
 
-#: .\views.py:138
-msgid "Your must enter all required fields!"
-msgstr "شما باید تمامی فیلد ها را وارد کنید."
+#: .\views.py:143
+msgid "Ok. You are in a hurry! We will show you this form next time."
+msgstr ""
+"باشه. شاید الان عجله دارید. در ورود بعدی مجددا این فرم به شما نمایش داده "
+"میشود."
+
+#~ msgid "Your must enter all required fields!"
+#~ msgstr "شما باید تمامی فیلد ها را وارد کنید."

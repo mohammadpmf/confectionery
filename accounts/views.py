@@ -62,7 +62,7 @@ class LoginWithPhoneNumber(generic.TemplateView):
     
     def post(self, request, *args, **kwargs):
         phone_number = request.POST.get('phone_number')
-        username = request.POST.get('user_name')
+        username = request.POST.get('username')
         sent_otp = request.POST.get('otp')
         otps = LoginWithPhoneNumber.otps
         correct_otp = otps.get(phone_number) # دقت کنم که قبل از پاک کردن مقدار توش باید ذخیره اش کنم. 
@@ -73,20 +73,24 @@ class LoginWithPhoneNumber(generic.TemplateView):
         del LoginWithPhoneNumber.otps[phone_number]
         if correct_otp==sent_otp:
             try:
-                if username==None:
-                    # new_user = get_user_model().objects.create(username=phone_number, phone_number=phone_number)
+                if username=="None": # تازه اولین باره که وارد میشه. پس براش اکانت میسازیم دقت کنم که اچ تی ام ال وقتی برای ما میفرسته استرینگ هست. به خاطر همین تو کوتیشن گذاشتم. گمجه دیگه اچ تی ام ال
                     new_user = get_user_model().objects.create(username=phone_number, phone_number=phone_number)
                     PhoneNumber.objects.create(user=new_user, phone_number=phone_number)
                     login(request, new_user, backend='django.contrib.auth.backends.ModelBackend')
-                    context = {
-                        'phone_number': phone_number
-                    }
-                    return render(request, 'register_with_phone_number.html', context)
+                else: # قبلا حداقل یه بار وارد شده. پس اکانت داره
+                    user = get_user_model().objects.get(username=username)
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                    temp = PhoneNumber.objects.get(phone_number=phone_number)
+                    if temp.verified:
+                        messages.success(request, _("Welcome %s" %username))
+                        return redirect('homepage')
+                context = {'phone_number': phone_number}
+                messages.success(request, _("Successfull Login."))
+                return render(request, 'register_with_phone_number.html', context)
 
             except IntegrityError:
                 messages.error(request, _("Sorry! This phone number already has an account. If it's yours and you can't use it, contact the moderator of the site."))
-            messages.success(request, _("Successfull Login."))
-            return redirect('homepage')
+                return redirect('account_login')
             # context = {
             #     'phone_number': phone_number,
             # }
@@ -98,6 +102,7 @@ class LoginWithPhoneNumber(generic.TemplateView):
 
 class RegisterWithPhoneNumber(generic.TemplateView):
     template_name = 'register_with_phone_number.html'
+    http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
         print(request.POST)
@@ -112,7 +117,7 @@ class RegisterWithPhoneNumber(generic.TemplateView):
             username = request.POST.get('username')
             email = request.POST.get('email')
             password = request.POST.get('password')
-            if username and email and password: # یعنی اگه یوزرنیم و ایمیل وارد کرده بود، پس میخواد تغییر بده
+            if username and email and password: # یعنی اگه یوزرنیم و ایمیل و پسورد وارد کرده بود، پس میخواد تغییر بده
                 form = forms.ChangeUserInfoAfterRegisterationForm(request.POST)
                 phone_number = request.user.username
                 if form.is_valid():
@@ -127,14 +132,13 @@ class RegisterWithPhoneNumber(generic.TemplateView):
                         user.password = make_password(cleaned_data['password']) # خود جنگو ساده رو قبول نمیکنه. با این میشه هشش کرد.
                         user.phone_number = phone_number
                         user.save()
-                        messages.success(request, _("Your info updated successfully! That page won't be shown to you next time!"))
+                        messages.success(request, _("Your info updated successfully! Please login again!"))
                 else:
                     messages.error(request, form.errors)
                     context = {
                         'phone_number': phone_number
                     }
                     return render(request, 'register_with_phone_number.html', context)
-            else:
-                messages.error(request, _("Your must enter all required fields!"))
-
+            else: # یعنی نمیخواست یوزرنیم و ایمیل و پسورد وارد کنه و بدون زدن اون تیک زده که الان فقط نمیخواد صفحه رو ببینه.
+                messages.error(request, _("Ok. You are in a hurry! We will show you this form next time."))
         return redirect('homepage')

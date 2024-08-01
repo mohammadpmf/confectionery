@@ -48,7 +48,7 @@
     <div class="d-flex justify-content-center">
         <form action="{% url 'register_with_phone_number' %}" method="post" name="verify_form">
             {% csrf_token %}
-            <label for="verified">بدون نام کاربری و ایمیل اطلاعات مرا ذخیره کن. بعدا اطلاعاتم را پر خواهم کرد</label>
+            <label for="verified">دیگر این صفحه را به من نشان نده</label>
             <input type="hidden" name="username" value="{{ user }}">
             <input type="checkbox" name="verified" value="1">
             <button type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">مطمئنم</button>
