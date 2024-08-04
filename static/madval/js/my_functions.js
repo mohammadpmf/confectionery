@@ -18,4 +18,23 @@ function close_messages(){
     messages_div.style.display='none';
 }
 
+function open_comments(){
+    document.getElementById("all_comments").style.display="block";
+}
+function close_comments(){
+    document.getElementById("all_comments").style.display="none";
+}
+function open_anonymous_comments(){
+    document.getElementById("all_anonymous_comments").style.display="block";
+}
+function close_anonymous_comments(){
+    document.getElementById("all_anonymous_comments").style.display="none";
+}
+
+document.body.addEventListener('keydown', function(e) {
+    if (e.key == "Escape") {
+        close_comments()
+        close_anonymous_comments()
+    }
+});
 move_messages();

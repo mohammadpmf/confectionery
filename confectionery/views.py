@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.db.models import Prefetch, Avg, Count
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Product, ProductCustomUserComment, ProductAnanymousUserComment
+from .models import Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
 from .forms import ProductCustomUserCommentForm, ProductAnanymousUserCommentForm
 
 
@@ -74,7 +75,10 @@ class ProductDetail(generic.DetailView):
             form = ProductCustomUserCommentForm()
         else:
             form = ProductAnanymousUserCommentForm()
-        context['form']=form
+        context['form'] = form
+        context['comments'] = ProductCustomUserComment.objects.select_related('author').\
+            filter(is_approved=True).order_by('-datetime_modified')
+        context['anonymous_comments'] = ProductAnanymousUserComment.objects.filter(is_approved=True).order_by('-datetime_created')
         return context
     
     def post(self, request, *args, **kwargs):
@@ -103,3 +107,28 @@ class ProductDetail(generic.DetailView):
             messages.success(request, "پیغام شما با موفقیت ارسال شد. اما چون عضو سایت نیستید، پس از تایید مدیریت نمایش داده خواهد شد.")
             ProductAnanymousUserComment.objects.create(**cleaned_data)
         return super().get(request, *args, **kwargs)
+
+
+class FavoriteList(LoginRequiredMixin, generic.ListView):
+    model = Favorite # روش ۱
+    # model = Product # روش ۲
+    template_name = 'category.html'
+    context_object_name = 'products'
+    paginate_by=10
+
+    # روش ۱
+    def get_queryset(self):
+        user = self.request.user
+        favorites = Favorite.objects.filter(user=user).select_related('product')
+        products = []
+        for product in favorites:
+            products.append(product.product)
+        return products
+
+    # روش ۲
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     products = Product.objects.filter(favorited_users__user=user)
+    #     return products
+
+

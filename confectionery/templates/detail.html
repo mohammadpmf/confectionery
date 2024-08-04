@@ -19,7 +19,7 @@
 
 {% endblock extra_css %}
 {% block content %}
-{% with number_of_comments=6 %}
+{% with number_of_comments=3 %}
 <div class="container card shadow py-5 mt-5">
     <div class="row gx-5">
         <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;">
@@ -34,7 +34,11 @@
             {% endif %}
         </div>
         <div class="col-lg-6 pb-5">
-            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5">⭐</span> <span class="em1-2 text-primary">{{ product.average_stars|floatformat:1|cspn }} </span><span>از ۵ (از بین {{ product.count_stars|cspn }} رای از کاربران سایت)</span></h4>
+            {% if product.count_stars %}
+            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5">⭐</span> <span class="em1-2 text-primary">{{ product.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7"> (امتیاز {{ product.count_stars|cspn }} خریدار)</span></h4>
+            {% else %}
+            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5">⭐</span><span class="em0-7 c">هنوز کسی از کاربران سایت به این محصول نمره ای نداده</span></h4>
+            {% endif %}
             <p dir="rtl" style="text-align: justify;" class="c em1-4">
                 <span> نوع آرد استفاده شده: </span><span class="text-success"> {{ product.get_flour_type_display }} </span>
                 <span class="me-5"> میزان قند: </span><span style="color: {{ product.sugar_rate|get_color }};"> {{ product.get_sugar_rate_display }} </span>
@@ -86,16 +90,16 @@
         {% endif %}
     </div>
     <h1 dir='rtl' class="d em3 px-5 text-primary">نظر مشتریان</h1>
-    {% if product.comments.all or product.anonymous_comments.all %}
+    {% if comments or anonymous_comments %}
     <hr class='mb-4'>
     <div dir='rtl' class="row gx-5">
-        {% if product.comments.all %}
+        {% if comments %}
         <div dir='rtl' class="col-lg-6 pb-5 c">
             <h4 dir='rtl' class="d em2 pb-5 px-5 text-primary">
                 نظر کاربران سایت
             </h4>
-            <div class="shadow p-4">
-            {% for comment in product.comments.all|get_n_last_objects:number_of_comments %}
+            <div class="shadow p-4" style="height: 11cm;">
+            {% for comment in comments|get_n_first_objects:number_of_comments %}
                 <h5 style="display: flex; justify-content: space-between;">
                 {% if comment.dont_show_my_name %}
                     شخصی که خواسته اسمش ناشناس بمونه گفته: 
@@ -109,33 +113,33 @@
                 </span>
                 </h5>
                 <p>
-                {{ comment.text }}
+                {{ comment.text|truncatechars:200 }}
                 </p>
                 <hr>
             {% endfor %}
-            {% if product.comments.all.count > number_of_comments %}
-            <a href="commets/">...</a>
+            {% if comments.count > number_of_comments %}
+            <a class="text-primary" style="cursor: pointer;" onclick="open_comments()">نمایش تمامی نظرات</a>
             {% endif %}
             </div>
         </div>
         {% endif %}
-        {% if product.anonymous_comments.all %}
+        {% if anonymous_comments %}
         <div dir='rtl' class="col-lg-6 pb-5 c">
             <h4 dir='rtl' class="d em2 pb-5 px-5 text-info">
                 نظر کاربران مهمان
             </h4>
-            <div class="shadow p-4">
-            {% for comment in product.anonymous_comments.all|get_n_last_objects:number_of_comments %}
+            <div class="shadow p-4" style="height: 11cm;">
+            {% for comment in anonymous_comments|get_n_first_objects:number_of_comments %}
                 <h5>
                 {{ comment.author }} گفته: 
                 </h5>
                 <p>
-                {{ comment.text }}
+                {{ comment.text|truncatechars:200 }}
                 </p>
                 <hr>
             {% endfor %}
-            {% if product.comments.all.count > number_of_comments %}
-            <a href="commets/">...</a>
+            {% if anonymous_comments.count > number_of_comments %}
+            <a class="text-info" style="cursor: pointer;" onclick="open_anonymous_comments()">نمایش تمامی نظرات</a>
             {% endif %}
             </div>
         </div>
@@ -151,4 +155,59 @@
     </form>
 </div>
 {% endwith %}
+
+<div dir="rtl" id="all_comments" style="width:90vw; height:90vh; background-color: #000000f2; display: none; z-index: 10; position: fixed; top: 8vh; bottom: 2vh; left: 5vw; right: 5vw; color: white; overflow: scroll;">
+    <i class="fa fa-window-close" style="font-size: 3em; position: sticky; top: 1vh; right: 1vw;" aria-hidden="true" onclick="close_comments()"></i>
+    <div class="container-fluid" style="z-index: 11;">
+        <div class="row">
+            <div dir='rtl' class="col-lg-12 p-5 c">
+                <h4 dir='rtl' class="d em2 p-5 text-primary">
+                    نظر کاربران سایت
+                </h4>
+                {% for comment in comments %}
+                    <h4 style="display: flex; justify-content: space-between; color: white;">
+                    {% if comment.dont_show_my_name %}
+                        شخصی که خواسته اسمش ناشناس بمونه گفته: 
+                    {% else %}
+                        {{ comment.author }} گفته: 
+                    {% endif %}
+                    <span style="font-size: 0.8em;">
+                    {% for i in comment.stars|times %}
+                    🧡
+                    {% endfor %}
+                    </span>
+                    </h4>
+                    <p class="c em1-6">
+                    {{ comment.text }}
+                    </p>
+                    <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div dir="rtl" id="all_anonymous_comments" style="width:90vw; height:90vh; background-color: #000000f2; display: none; z-index: 10; position: fixed; top: 8vh; bottom: 2vh; left: 5vw; right: 5vw; color: white; overflow: scroll;">
+    <i class="fa fa-window-close" style="font-size: 3em; position: sticky; top: 1vh; right: 1vw;" aria-hidden="true" onclick="close_anonymous_comments()"></i>
+    <div class="container-fluid" style="z-index: 11;">
+        <div class="row">
+            <div dir='rtl' class="col-lg-12 pb-5 c">
+                <h4 dir='rtl' class="d em2 pb-5 px-5 text-info">
+                    نظر کاربران مهمان
+                </h4>
+                <div class="shadow p-4">
+                {% for comment in anonymous_comments %}
+                    <h4 style="display: flex; justify-content: space-between; color: white;">
+                    {{ comment.author }} گفته: 
+                    </h4>
+                    <p class="c em1-6">
+                        {{ comment.text }}
+                    </p>
+                    <hr>
+                {% endfor %}
+                </div>
+            </div>
+            </div>
+    </div>
+</div>
+
 {% endblock content %}
