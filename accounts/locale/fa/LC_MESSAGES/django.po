@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-01 15:08+0330\n"
-"PO-Revision-Date: 2024-08-01 15:10+0330\n"
+"POT-Creation-Date: 2024-08-04 18:11+0330\n"
+"PO-Revision-Date: 2024-08-04 18:12+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: .\admin.py:21
+#: .\admin.py:44
 msgid "Personal info"
 msgstr "اطلاعات شخصی"
 
-#: .\admin.py:34
+#: .\admin.py:57
 msgid "Permissions"
 msgstr "دسترسی ها"
 
-#: .\admin.py:45
+#: .\admin.py:68
 msgid "Important dates"
 msgstr "تاریخ های مهم"
 
@@ -41,6 +41,22 @@ msgstr "رمز عبور باید حداقل یک عدد داشته باشد"
 #: .\forms.py:34
 msgid "Password can not be only a number"
 msgstr "رمز عبور نمیتواند فقط عدد باشد"
+
+#: .\forms.py:53
+msgid "Profile Picture"
+msgstr "عکس پروفایل"
+
+#: .\forms.py:54
+msgid "Remove Profile Picture"
+msgstr "عکس کاربری را حذف کن"
+
+#: .\forms.py:68 .\forms.py:76
+msgid "Username"
+msgstr "نام کاربری"
+
+#: .\forms.py:77
+msgid "OTP Phone Number"
+msgstr "شماره تلفن (جهت دریافت رمز یکبار مصرف)"
 
 #: .\models.py:12
 msgid "Female"
@@ -78,7 +94,7 @@ msgstr "شماره تلفن باید حداقل ۱۱ رقم باشد"
 msgid "Phone number should be at most 14 digits"
 msgstr "شماره تلفن باید حداکثر ۱۴ رقم باشد"
 
-#: .\models.py:34
+#: .\models.py:34 .\models.py:46
 msgid "User"
 msgstr "کاربر"
 
@@ -87,37 +103,51 @@ msgid "Phone number must be at exactly 11 digits in Iran to receive sms"
 msgstr ""
 "شماره تلفن در ایران باید دقیقا ۱۱ رقم باشد تا امکان دریافت پیامک داشته باشد"
 
-#: .\views.py:54
+#: .\models.py:47
+msgid "Image"
+msgstr "عکس"
+
+#: .\templates\change_user_info.html:8
+msgid "Change Profile Info"
+msgstr "تغییر اطلاعات شخصی"
+
+#: .\templates\change_users_email.html:8
+#: .\templates\change_users_otp_number.html:10
+#: .\templates\change_users_username.html:8
+msgid "Change Username"
+msgstr "تغییر نام کاربری"
+
+#: .\views.py:55
 #, python-format
 msgid ""
 "A verification code sent to %s. Please enter the recieved code to continue."
 msgstr ""
 "یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید."
 
-#: .\views.py:56
+#: .\views.py:57
 msgid ""
 "A problem occured in sending message. Please try again in a few minutes."
 msgstr ""
 "متاسفانه در ارسال اس ام اس خطایی پیش آمده. لطفا چند دقیقه بعد مجددا تلاش "
 "کنید."
 
-#: .\views.py:59
+#: .\views.py:60
 msgid ""
 "A problem occured in sms message server. Please try again in a few minutes."
 msgstr ""
 "متاسفانه در سرور ارسال اس ام اس خطایی رخ داده است. لطفا چند دقیقه بعد مجددا "
 "تلاش کنید."
 
-#: .\views.py:85
+#: .\views.py:86
 #, python-format
 msgid "Welcome %s"
 msgstr "خوش آمدی %s"
 
-#: .\views.py:88
+#: .\views.py:89
 msgid "Successfull Login."
 msgstr "ورود موفقیت آمیز."
 
-#: .\views.py:92
+#: .\views.py:93
 msgid ""
 "Sorry! This phone number already has an account. If it's yours and you can't"
 " use it, contact the moderator of the site."
@@ -125,11 +155,11 @@ msgstr ""
 "متاسفیم! این شماره تلفن هم اکنون استفاده شده است. اگر برای شماست و نمیتوانید"
 " از آن استفاده کنید، با مدیریت سایت تماس بگیرید!"
 
-#: .\views.py:99
+#: .\views.py:100
 msgid "Sorry. OTP is invalid!"
 msgstr "متاسفانه یکبار رمز به درستی وارد نشده است!"
 
-#: .\views.py:115
+#: .\views.py:116
 msgid ""
 "Your choice accepted successfully! That page won't be shown to you next "
 "time!"
@@ -137,15 +167,47 @@ msgstr ""
 "انتخاب شما با موفقیت ثبت شد. دفعه بعد، پس از ورود آن صفحه به شما نمایش داده "
 "نمی شود."
 
-#: .\views.py:135
+#: .\views.py:136
 msgid "Your info updated successfully! Please login again!"
 msgstr "اطلاعات شما با موفقیت ویرایش شد. لطفا مجددا وارد شوید."
 
-#: .\views.py:143
+#: .\views.py:144
 msgid "Ok. You are in a hurry! We will show you this form next time."
 msgstr ""
 "باشه. شاید الان عجله دارید. در ورود بعدی مجددا این فرم به شما نمایش داده "
 "میشود."
+
+#: .\views.py:174
+msgid "Information has been updated successfully!"
+msgstr "اطلاعات با موفقیت به روز رسانی شد."
+
+#: .\views.py:192
+msgid "Username updated successfully!"
+msgstr "نام کاربری با موفقیت به روزرسانی شد."
+
+#: .\views.py:210
+msgid "Email address updated successfully!"
+msgstr "آدرس ایمیل با موفقیت به روزرسانی شد."
+
+#: .\views.py:232
+msgid "Someone already is using this number!"
+msgstr "شخصی هم اکنون این شماره را ثبت کرده است."
+
+#: .\views.py:240
+msgid "OTP Phone number updated successfully!"
+msgstr "شماره همراه جهت دریافت یکباررمز با موفقیت به روزرسانی شد."
+
+#~ msgid "First Name"
+#~ msgstr "نام"
+
+#~ msgid "Last Name"
+#~ msgstr "نام خانوادگی"
+
+#~ msgid "Email Address"
+#~ msgstr "آدرس ایمیل"
+
+#~ msgid "Phone Number"
+#~ msgstr "شماره تلفن"
 
 #~ msgid "Your must enter all required fields!"
 #~ msgstr "شما باید تمامی فیلد ها را وارد کنید."

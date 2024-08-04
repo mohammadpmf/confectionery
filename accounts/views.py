@@ -5,13 +5,14 @@ from django.utils.translation import gettext as _
 from django.contrib.auth import get_user_model, login
 from django.db import IntegrityError, transaction
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from requests.exceptions import ConnectTimeout
 import ghasedakpack
 import random
 
 from config.madval1369_secret import *
-from .models import PhoneNumber
+from .models import PhoneNumber, ProfilePicture
 from . import forms
 
 
@@ -142,3 +143,103 @@ class RegisterWithPhoneNumber(generic.TemplateView):
             else: # یعنی نمیخواست یوزرنیم و ایمیل و پسورد وارد کنه و بدون زدن اون تیک زده که الان فقط نمیخواد صفحه رو ببینه.
                 messages.error(request, _("Ok. You are in a hurry! We will show you this form next time."))
         return redirect('homepage')
+
+
+class ChangeProfile(LoginRequiredMixin, generic.TemplateView):
+    def get(self, request, *args, **kwargs):
+        form = forms.ChangeUserProfileInWebsiteForm(instance=request.user)
+        profile_picture = ProfilePicture.objects.filter(user=request.user).first()
+        context = {"form": form, "profile_picture": profile_picture}
+        return render(request, 'change_user_info.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = forms.ChangeUserProfileInWebsiteForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            new_image = request.FILES.get('profile_picture')
+            remove_profile_picture = request.POST.get('remove_profile_picture')
+            form.save()
+            if remove_profile_picture:
+                prev_image = ProfilePicture.objects.filter(user=user).first()
+                if prev_image:
+                    prev_image.delete()
+            else:
+                if new_image:
+                    prev_image = ProfilePicture.objects.filter(user=user).first()
+                    if prev_image:
+                        prev_image.image=new_image
+                        prev_image.save()
+                    else:
+                        ProfilePicture.objects.create(user=user, image=new_image)
+            messages.success(request, _("Information has been updated successfully!"))
+            return redirect('homepage')
+        else:
+            messages.error(request, form.errors)
+            return self.get(request, *args, **kwargs) # دیدم اینجا کار تکراری دارم میکنم. همون کارهای گت رو انجام میدادم. به جاش اون رو صدا کردم.
+
+
+class ChangeUsername(LoginRequiredMixin, generic.TemplateView):
+    def get(self, request, *args, **kwargs):
+        form = forms.ChangeUsersUsernameInWebsiteForm(instance=request.user)
+        context = {"form": form}
+        return render(request, 'change_users_username.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = forms.ChangeUsersUsernameInWebsiteForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Username updated successfully!"))
+            return redirect('homepage')
+        else:
+            messages.error(request, form.errors)
+            return self.get(request, *args, **kwargs)
+
+
+class ChangeEmailAddress(LoginRequiredMixin, generic.TemplateView):
+    def get(self, request, *args, **kwargs):
+        form = forms.ChangeUsersEmailAddressInWebsiteForm(instance=request.user)
+        context = {"form": form}
+        return render(request, 'change_users_email.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = forms.ChangeUsersEmailAddressInWebsiteForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Email address updated successfully!"))
+            return redirect('homepage')
+        else:
+            messages.error(request, form.errors)
+            return self.get(request, *args, **kwargs)
+
+
+class ChangeOTPNumber(LoginRequiredMixin, generic.TemplateView):
+    def get(self, request, *args, **kwargs):
+        form = forms.ChangeUsersOTPNumberInWebsiteForm(instance=request.user)
+        form.user = request.user
+        otp_phone_number = PhoneNumber.objects.filter(user=request.user).first()
+        context = {"form": form, 'otp_phone_number': otp_phone_number}
+        return render(request, 'change_users_otp_number.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        form = forms.ChangeUsersOTPNumberInWebsiteForm(request.POST, instance=user)
+        if form.is_valid():
+            new_number = form.cleaned_data.get("otp_phone_number")
+            exists = PhoneNumber.objects.filter(phone_number=new_number).first()
+            if exists:
+                messages.error(request, _("Someone already is using this number!"))
+                return self.get(request, *args, **kwargs)
+            number = PhoneNumber.objects.filter(user=user).first()
+            if number:
+                number.phone_number=new_number
+                number.save()
+            else:
+                PhoneNumber.objects.create(user=user, phone_number=new_number, verified=True)
+            messages.success(request, _("OTP Phone number updated successfully!"))
+            return redirect('homepage')
+        else:
+            messages.error(request, form.errors)
+            return self.get(request, *args, **kwargs)
+

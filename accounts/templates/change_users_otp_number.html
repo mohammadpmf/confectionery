@@ -1,0 +1,31 @@
+{% extends "_base.html" %}
+
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% load madval_persian_translation %}
+
+{% block page_title %}
+{% trans "Change Username" %}
+{% endblock page_title %}
+
+{% block content %}
+<div class='container shadow mt-5 p-5' style="direction: rtl">
+<h1 class="mb-5 d">صفحه تغییر شماره ارسال یکباررمز (OTP)</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    {% if otp_phone_number %}
+    <br>
+    <p>
+        شماره فعلی جهت دریافت یکبار رمز: 
+        <span class="text-primary">
+            {{ otp_phone_number.phone_number|pn }}
+        </span>
+    </p>
+{% endif %}
+    <input type="submit" class="btn btn-outline-success m-2 rounded-pill px-4" value="ذخیره">
+</form>
+</div>
+{% endblock content %}

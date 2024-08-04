@@ -1,0 +1,26 @@
+{% extends "_base.html" %}
+
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% block page_title %}
+{% trans "Change Profile Info" %}
+{% endblock page_title %}
+
+{% block content %}
+<div class='container shadow mt-5 p-5' style="direction: rtl">
+<h1 class="mb-5 d">صفحه تغییر اطلاعات شخصی</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    {% if profile_picture %}
+        <br>
+        <p> عکس کنونی پروفایل شما:
+        <img src="{{ profile_picture.image.url }}" width="64" height="64" alt="">
+        </p>
+    {% endif %}
+    <input type="submit" class="btn btn-outline-success m-2 rounded-pill px-4" value="ذخیره">
+</form>
+</div>
+{% endblock content %}

@@ -40,3 +40,8 @@ class PhoneNumber(models.Model):
 
     def __str__(self):
         return f"{self.user}"
+
+
+class ProfilePicture(models.Model):
+    user = models.OneToOneField(verbose_name=_('User'), to=CustomUser, on_delete=models.CASCADE, related_name='profile_picture')
+    image = models.ImageField(verbose_name=_('Image'), upload_to='profile_pictures/', )

@@ -33,3 +33,45 @@ class ChangeUserInfoAfterRegisterationForm(forms.ModelForm):
         if data.isdigit():
             raise ValidationError(_("Password can not be only a number"))
         return data
+
+
+class ChangeUserProfileInWebsiteForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['first_name', 'last_name', 'nat_code', 'gender', 'phone_number']
+    # GENDER_CHOICES =(
+    #     ('', _('')),
+    #     ('f', _('Female')),
+    #     ('m', _('Male')),
+    # )
+
+    # first_name = forms.CharField(label=_('First Name'), max_length=255, required=False)
+    # last_name = forms.CharField(label=_('Last Name'), max_length=255, required=False)
+    # nat_code = forms.CharField(label=_('National Code'), min_length=10, max_length=10, required=False)
+    # gender = forms.ChoiceField(label=_('Gender'), choices=GENDER_CHOICES, required=False)
+    # phone_number = forms.CharField(label=_('Phone Number'), min_length=11, max_length=14, required=False)
+    profile_picture = forms.ImageField(label=_('Profile Picture'), required=False)
+    remove_profile_picture = forms.BooleanField(label=_('Remove Profile Picture'), required=False)
+
+
+class ChangeUsersUsernameInWebsiteForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['username']
+
+
+class ChangeUsersEmailAddressInWebsiteForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'email']
+
+    username = forms.CharField(label=_('Username'), disabled=True, min_length=1, max_length=255)
+
+
+class ChangeUsersOTPNumberInWebsiteForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['username']
+
+    username = forms.CharField(label=_('Username'), disabled=True, min_length=1, max_length=255)
+    otp_phone_number = forms.CharField(label=_('OTP Phone Number'), min_length=11, max_length=11)
