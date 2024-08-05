@@ -2,6 +2,8 @@
 
 {% load i18n %}
 
+{% load madval_persian_translation %}
+
 {% get_current_language as LANGUAGE_CODE %} 
 {% comment %}
 این رو گرفتم که تو سایت بر اساس زبان بعضی کار ها رو انجام بدم.
@@ -179,10 +181,16 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <a dir='rtl' href="{% url 'categories' 'cake' %}" class="dropdown-item text-right">کیک ها</a>
                         <a dir='rtl' href="{% url 'categories' 'pastry' %}" class="dropdown-item text-right">شیرینی ها</a>
                         <a dir='rtl' href="{% url 'categories' 'bread' %}" class="dropdown-item text-right">نان ها</a>
+                        <a dir='rtl' href="{% url 'all_products' %}" class="dropdown-item text-right">تمام محصولات</a>
                     </div>
                 </div>
                 <a href="{% url 'homepage' %}" class="nav-item nav-link active">خانه</a>
-                <a href="{% url 'cart:cart_detail' %}" class="nav-item nav-link"><i class="fas fa-shopping-cart"></i></a>
+                <div class="" style="position: relative;">
+                    <a class="nav-item nav-link" style="position: absolute; top: 0; left: 0; z-index: 1;" href="{% url 'cart:cart_detail' %}"><i class="fas fa-shopping-cart"></i></a>
+                    {% if cart|length %}
+                        <div class="d-flex justify-content-center align-items-center rounded-circle" style="position: absolute; bottom: 24px; left: 28px; border: 1px solid white; color: white; background-color: green; font-size: 1.25em; z-index: 2; width: 24px; height: 24px;">{{ cart|length|pn }}</div>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
@@ -212,7 +220,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                             </div>
                             <div class="d-flex mb-2">
                                 <i class="bi bi-envelope-open text-primary me-2"></i>
-                                <p class="mb-0 px-1">motamed.258@gmail.com</p>
+                                <p class="mb-0 px-1">mohammad.pfallah@gmail.com</p>
                             </div>
                             <div class="d-flex mb-2">
                                 <i class="bi bi-telephone text-primary me-2"></i>
@@ -229,8 +237,8 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
                             <h4 class="text-primary text-uppercase mb-4">لینک ها</h4>
                             <div class="d-flex flex-column justify-content-start">
-                                <a class="text-secondary mb-2" href="{% url 'homepage' %}"><i class="bi bi-arrow-right text-primary me-2"></i>خانه</a>
-                                <a class="text-secondary mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>درباره ما</a>
+                                <a class="text-secondary mb-2" href="{% url 'homepage' %}"><i class="bi bi-arrow-right text-primary me-1"></i>خانه</a>
+                                <a class="text-secondary mb-2" href="#"><i class="bi bi-arrow-right text-primary me-1"></i>درباره ما</a>
                                 <a class="text-secondary mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>سرآشپز ها</a>
                                 <a class="text-secondary mb-2" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>آخرین اخبار</a>
                                 <a class="text-secondary" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>تماس با ما</a>

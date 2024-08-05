@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.db.models import Prefetch, Avg, Count
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.translation import gettext as _
 
 from .models import Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
 from .forms import ProductCustomUserCommentForm, ProductAnanymousUserCommentForm
@@ -42,12 +43,33 @@ class CategoryList(generic.ListView):
 
     def get_queryset(self):
         category = self.kwargs['category']
-        return super().get_queryset().filter(product_type=category)
+        return super().get_queryset().filter(product_type=category).\
+        annotate(average_stars=Avg('comments__stars')).order_by('-average_stars')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category'] = self.kwargs.get('category')
         return context
+    
+    def get(self, request, *args, **kwargs):
+        category = self.kwargs['category']
+        sort_by = self.request.GET.get('sort-by')
+        queryset = Product.objects.filter(product_type=category).annotate(average_stars=Avg('comments__stars'))
+        if sort_by in [None, 'recommendation']:
+            queryset=queryset.order_by('-average_stars')
+        elif sort_by=='newest':
+            queryset=queryset.order_by('-id')
+        elif sort_by=='cheapest':
+            queryset=queryset.order_by('price_toman')
+        elif sort_by=='most_expensive':
+            queryset=queryset.order_by('-price_toman')
+        elif sort_by=='more_durable':
+            queryset=queryset.order_by('-expiration_days')
+        elif sort_by=='fastest':
+            queryset=queryset.order_by('preparation_time')
+        context = {'products': queryset}
+        return render(request, 'category.html', context)
+        return super().get(request, *args, **kwargs)
 
 
 class ProductDetail(generic.DetailView):
@@ -70,6 +92,7 @@ class ProductDetail(generic.DetailView):
         return query_set
         
     def get_context_data(self, **kwargs):
+        product = kwargs.get('object') # یا product = self.get_object()
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             form = ProductCustomUserCommentForm()
@@ -77,13 +100,24 @@ class ProductDetail(generic.DetailView):
             form = ProductAnanymousUserCommentForm()
         context['form'] = form
         context['comments'] = ProductCustomUserComment.objects.select_related('author').\
-            filter(is_approved=True).order_by('-datetime_modified')
-        context['anonymous_comments'] = ProductAnanymousUserComment.objects.filter(is_approved=True).order_by('-datetime_created')
+            filter(is_approved=True, product=product).order_by('-datetime_modified')
+        context['anonymous_comments'] = ProductAnanymousUserComment.objects.filter(is_approved=True, product=product).order_by('-datetime_created')
+        context['liked'] = True if Favorite.objects.filter(product=product, user=self.request.user) else False
         return context
     
     def post(self, request, *args, **kwargs):
         user = request.user
-        pk = kwargs.get('pk')
+        product = self.get_object()
+        like_situation = request.POST.get('like_situation')
+        if like_situation in ['0', '1']: # یعنی طرف رو دکمه لایک زده و کامنت نذاشته
+            if like_situation=='1':
+                Favorite.objects.create(product=product, user=user)
+                messages.success(request, _("%s successfully added to your favorites." %product.title))
+            else:
+                temp = Favorite.objects.filter(product=product, user=user)
+                temp.delete()
+                messages.success(request, _("%s successfully removed from your favorites." %product.title))
+            return redirect('product_detail', product.pk)
         if user.is_authenticated:
             comment_form = ProductCustomUserCommentForm(request.POST)
         else:
@@ -95,14 +129,14 @@ class ProductDetail(generic.DetailView):
             return super().get(request, *args, **kwargs)
         if user.is_authenticated:
             cleaned_data.update({
-                'product_id': pk,
+                'product_id': product.pk,
                 'author': user,
             })
             ProductCustomUserComment.objects.create(**cleaned_data)
             messages.success(request, "پیغام شما با موفقیت ثبت شد.")
         else:
             cleaned_data.update({
-                'product_id': pk,
+                'product_id': product.pk,
             })
             messages.success(request, "پیغام شما با موفقیت ارسال شد. اما چون عضو سایت نیستید، پس از تایید مدیریت نمایش داده خواهد شد.")
             ProductAnanymousUserComment.objects.create(**cleaned_data)
@@ -132,3 +166,9 @@ class FavoriteList(LoginRequiredMixin, generic.ListView):
     #     return products
 
 
+class ProductList(generic.ListView):
+    model = Product
+    template_name = 'category.html'
+    context_object_name = 'products'
+    paginate_by=10
+    queryset = Product.objects.order_by('-id').annotate(average_stars=Avg('comments__stars')).order_by('-average_stars', '-id')

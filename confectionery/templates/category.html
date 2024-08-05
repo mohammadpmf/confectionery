@@ -4,6 +4,7 @@
 {% load i18n %}
 
 {% load madval_persian_translation %}
+{% load madval_get_items_count %}
 
 {% block page_title %}
 {% trans "Product List" %}
@@ -15,19 +16,36 @@
 {% endblock extra_css %}
 
 {% block content %}
-{% for product in products %}
-<div class="container card shadow-lg py-4 mt-5">
-    <div class="row gx-5">
-        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;">
-            {% if product.main_image %}
-            <div class="position-relative h-100">
-                <img class="position-absolute w-100 h-100" src="{{ product.main_image.url }}" style="object-fit: cover;">
+<div class="container card shadow-lg mt-5" style="padding-left: 2em; padding-right:0;">
+    <div dir='rtl' class="container p-5">
+        <p class="d-inline"><img src="{% static 'madval/img/sort.png' %}" alt="">مرتب سازی:</p>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="recommendation"><button class="btn d text-primary" type="submit">پیشنهاد خریداران</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="newest"><button class="btn d text-primary" type="submit">جدیدترین</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="cheapest"><button class="btn d text-primary" type="submit">ارزان ترین</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="most_expensive"><button class="btn d text-primary" type="submit">گران ترین</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="more_durable"><button class="btn d text-primary" type="submit">ماندگاری بیشتر</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="fastest"><button class="btn d text-primary" type="submit">مدت زمان آماده سازی کمتر</button>{% csrf_token %}</form>
+        <hr>
+    </div>
+    {% for product in products %}
+    <hr class="mx-4">
+    <div class="row gx-5 my-5 d-flex justify-content-evenly" id="category-product-{{product.id}}">
+        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px; position: relative;">
+            <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; bottom: 8px; right: 32px; z-index: 2; background-color: white;">
+                <i class="fa fa-shopping-basket em0-8" aria-hidden="true"></i> {{ product|how_many_is_in_cart:cart|pn}}
             </div>
-            {% else %}
-            <div class="position-relative h-100">
-                <img class="position-absolute w-100 h-100" src="{% static 'madval/img/no_image.png' %}" style="object-fit: cover;">
+            {% if product.average_stars %}
+            <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; top: 8px; right: 32px; z-index: 2; background-color: white;">
+                <span>{{ product.average_stars|floatformat|cspn }}</span> <i class="fa fa-star em0-8" style="color: orange;" aria-hidden="true"></i>
             </div>
             {% endif %}
+            <div class="position-relative h-100" style="position: absolute; left:0; top:0; bottom: 0; right: 0; z-index: 1;">
+                {% if product.main_image %}
+                    <img class="position-absolute w-100 h-100" src="{{ product.main_image.url }}" style="object-fit: cover;">
+                {% else %}
+                    <img class="position-absolute w-100 h-100" src="{% static 'madval/img/no_image.png' %}" style="object-fit: cover;">
+                {% endif %}
+            </div>
         </div>
         <div class="col-lg-6 pb-5">
             <h4 dir="rtl" class="mb-4">{{ product.title }}</h4>
@@ -37,12 +55,54 @@
             <p dir="ltr" class="pt-5">
                 <form style="display: inline;" action="{% url 'cart:cart_add' product.id %}" method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="next_page" value="category-product-{{product.id}}">
+                    <label for="quantity"></label>
+                    <input type="number" name="quantity" min="1" max="30" required class="text-center" placeholder="تعداد" value="1">
                     <button type="submit" class="btn btn-outline-warning rounded-pill mx-3">افزودن به سبد خرید</button>
                 </form>
                 <a href="{{ product.get_absolute_url }}" class="btn btn-outline-info rounded-pill px-4">اطلاعات بیشتر</a>
             </p>
         </div>
     </div>
+    {% endfor %}
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav dir="rtl" aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.number|add:'-3' > 1 %}
+                    <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page=1">1</a></li>
+                {% if page_obj.number|add:'-4' != 1 %}
+                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'-4' }}">&hellip;</a></li>
+                {% endif %}
+            {% endif %}
+            {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                    {% if i == 1 %}
+                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-right"><span class="page-link madval-rounded-right">{{ i }} <span class="sr-only"></span></span></li>
+                    {% elif i == page_obj.paginator.num_pages %}
+                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-left"><span class="page-link madval-rounded-left">{{ i }} <span class="sr-only"></span></span></li>
+                    {% else %}
+                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb"><span class="page-link">{{ i }} <span class="sr-only"></span></span></li>
+                    {% endif %}
+                {% elif i > page_obj.number|add:'-4' and i < page_obj.number|add:'4' %}
+                    {% if i == 1 %}
+                        <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page={{ i }}">{{ i }}</a></li>
+                    {% elif i == page_obj.paginator.num_pages %}
+                        <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{ i }}">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item mx-1"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.paginator.num_pages > page_obj.number|add:'3' %}
+                {% if page_obj.number|add:'4' != page_obj.paginator.num_pages %}
+                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'4' }}">&hellip;</a></li>
+                {% endif %}
+                    <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{page_obj.paginator.num_pages}}">{{page_obj.paginator.num_pages}}</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
 </div>
-{% endfor %}
+
 {% endblock content %}

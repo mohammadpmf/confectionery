@@ -14,6 +14,11 @@ class ProductCustomUserCommentAdminInline(admin.TabularInline):
     extra = 1
 
 
+class ProductImageAdminInline(admin.TabularInline):
+    model = models.ProductImage
+    extra = 1
+
+
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     model = models.Product
@@ -28,7 +33,7 @@ class ProductAdmin(admin.ModelAdmin):
     # prepopulated_fields = {
     #     'slug': ['title', ] بعدا که اسلاگ فارسی رو اضافه کردم این رو هم بذارم.
     # }
-    inlines = [ProductCustomUserCommentAdminInline, ProductAnanymousUserCommentAdminInline]
+    inlines = [ProductImageAdminInline, ProductCustomUserCommentAdminInline, ProductAnanymousUserCommentAdminInline]
 
 
 @admin.register(models.ProductImage)

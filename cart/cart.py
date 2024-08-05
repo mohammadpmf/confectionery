@@ -37,6 +37,15 @@ class Cart:
             messages.success(self.request, _('Product successfully updated'))
         else: # یعنی طرف تو صفحه خرید نیست. و از توی صفحه محصول گفته ۳ تا مثلا اضافه کن. پس به مقدار قبلیش اضافه میکنیم. که دفعه اول به اضافه ۰ میشه و دفعات بعدی به اضافه مقدار قبلیش
             self.cart[product_id]['quantity'] += quantity
+            if not isinstance(self.cart[product_id]['quantity'], int): # نتونستم ایجادش کنم. اما گذاشتم باشه
+                messages.error(self.request, _("Number of products should be an integer number!"))
+                return
+            if self.cart[product_id]['quantity'] > 30:
+                messages.error(self.request, _("Number of products can't be more than 30. If you have a big, order, please contact 09356640204."))
+                return
+            if self.cart[product_id]['quantity'] < 1: # نتونستم ایجادش کنم. اما گذاشتم باشه
+                messages.error(self.request, _("Number of products can't be less than 1. If you don't wan't it, you can remove it from your cart."))
+                return
             messages.success(self.request, _('Product successfully added to cart'))
         self.save()
 
@@ -57,9 +66,13 @@ class Cart:
         for product in products:
             cart[str(product.id)]['product_obj'] = product
         for item in cart.values():
-            item['total_price'] = item['product_obj'].price * item['quantity']
+            item['total_price'] = item['product_obj'].price_toman * item['quantity']
+            item['total_weight'] = item['product_obj'].weight * item['quantity']
             yield item
     
+    def __contains__(self, item):
+        return item in self.cart
+
     def __len__(self):
         return len(self.cart)
         return sum(item['quantity'] for item in self.cart.values())
@@ -69,7 +82,7 @@ class Cart:
         self.save()
 
     def get_total_price(self):
-        return sum([item['quantity'] * item['product_obj'].price for item in self.cart.values()])
+        return sum([item['quantity'] * item['product_obj'].price_toman for item in self.cart.values()])
     
     def is_empty(self):
         return not self.cart

@@ -14,14 +14,20 @@
     0%{
         right: 2vw;
     }    
-    30%{
-        right: 18%;
+    8%{
+        right: 10vw;
     }    
-    92%{
+    28%{
         right: 5vw;
+    }
+    29%{
+        right: 50vw;
+    }
+    95%{
+        right: 50vw;
     }    
     100%{
-        right: 50vw;
+        right: 100vw;
     }    
 }
 
@@ -51,5 +57,5 @@
     font-family: Calibri;
     font-size: 1.4em;
     z-index: 10000 !important;
-    animation: move-messages-to-corner 2s forwards;
+    animation: move-messages-to-corner 10s forwards;
 }

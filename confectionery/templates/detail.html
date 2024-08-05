@@ -8,6 +8,7 @@
 {% load madval_persian_translation %}
 {% load madval_fat_and_sugar_color %}
 {% load madval_make_for_loop %}
+{% load madval_get_items_count %}
 
 {% block page_title %}
 جزییات محصول {{ product.title }}
@@ -20,24 +21,25 @@
 {% endblock extra_css %}
 {% block content %}
 {% with number_of_comments=3 %}
-<div class="container card shadow py-5 mt-5">
-    <div class="row gx-5">
-        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;">
-            {% if product.main_image %}
-            <div class="position-relative h-100">
-                <img class="position-absolute w-100 h-100" src="{{ product.main_image.url }}" style="object-fit: cover;">
+<div class="container card shadow py-3 mt-5" id="product-{{product.id}}">
+    <div class="row gx-5 my-5 d-flex justify-content-evenly">
+        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px; position: relative;">
+            <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; bottom: 8px; right: 32px; z-index: 2; background-color: white;">
+                <i class="fa fa-shopping-basket em0-8" aria-hidden="true"></i> {{product|how_many_is_in_cart:cart|pn}}
             </div>
-            {% else %}
-            <div class="position-relative h-100">
-                <img class="position-absolute w-100 h-100" src="{% static 'madval/img/no_image.png' %}" style="object-fit: cover;">
+            <div class="position-relative h-100" style="position: absolute; left:0; top:0; bottom: 0; right: 0; z-index: 1;">
+                {% if product.main_image %}
+                    <img class="position-absolute w-100 h-100" src="{{ product.main_image.url }}" style="object-fit: cover;">
+                {% else %}
+                    <img class="position-absolute w-100 h-100" src="{% static 'madval/img/no_image.png' %}" style="object-fit: cover;">
+                {% endif %}
             </div>
-            {% endif %}
         </div>
         <div class="col-lg-6 pb-5">
             {% if product.count_stars %}
-            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5">⭐</span> <span class="em1-2 text-primary">{{ product.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7"> (امتیاز {{ product.count_stars|cspn }} خریدار)</span></h4>
+            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5"><i class="fa fa-star em1" style="color: orange;" aria-hidden="true"></i> </span> <span class="em1-2 text-primary">{{ product.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7 text-muted"> (امتیاز {{ product.count_stars|cspn }} خریدار)</span></h4>
             {% else %}
-            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5">⭐</span><span class="em0-7 c">هنوز کسی از کاربران سایت به این محصول نمره ای نداده</span></h4>
+            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5"><i class="fa fa-star em1" style="color: orange;" aria-hidden="true"></i> </span><span class="em0-7 c text-muted">هنوز کسی از کاربران سایت به این محصول نمره ای نداده</span></h4>
             {% endif %}
             <p dir="rtl" style="text-align: justify;" class="c em1-4">
                 <span> نوع آرد استفاده شده: </span><span class="text-success"> {{ product.get_flour_type_display }} </span>
@@ -54,6 +56,9 @@
             <p dir="ltr" class="pt-1 d-inline">
                 <form class="d-inline" action="{% url 'cart:cart_add' product.id %}" method="post">
                     {% csrf_token %}
+                    <label for="quantity"></label>
+                    <input type="hidden" name="next_page" value="product-{{product.id}}">
+                    <input type="number" name="quantity" min="1" max="30" required class="text-center" placeholder="تعداد" value="1">
                     <button type="submit" class="btn btn-outline-warning rounded-pill mx-3">افزودن به سبد خرید</button>
                 </form>
                 {% if user.is_authenticated %}
@@ -107,9 +112,9 @@
                     {{ comment.author }} گفته: 
                 {% endif %}
                 <span style="font-size: 0.8em;">
-                {% for i in comment.stars|times %}
-                🧡
-                {% endfor %}
+                    {% for i in comment.stars|times %}
+                        🧡
+                    {% endfor %}
                 </span>
                 </h5>
                 <p>

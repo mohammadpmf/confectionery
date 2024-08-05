@@ -8,117 +8,126 @@
 {% load crispy_forms_tags %}
 {% comment %} {% load comment_tags %} {% endcomment %}
 
-{% block page_tile %}
-Cart Detail
-{% endblock page_tile %}
+{% load madval_persian_translation %}
+
+{% block page_title %}
+{% trans "Cart Detail" %}
+{% endblock page_title %}
 
 {% block content %}
-    
-{% trans "Cart" as header_name %}
-{% comment %} {% include "topheader.html" with header_name=header_name %} {% endcomment %}
-
-        <!-- Main Content Wrapper Start -->
-        <div class="main-content-wrapper">
-            <div class="page-content-inner ptb--80">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 mb-md--50">
-                            <div class="row no-gutters">
-                                <div class="col-12">
-                                    {% if cart %}
-                                    <div class="table-content table-responsive">
-                                        <table class="table text-center">
-                                            <thead>
-                                                <tr>
-                                                    <th>&nbsp;</th>
-                                                    <th>عکس محصول</th>
-                                                    <th>نام محصول</th>
-                                                    <th>قیمت</th>
-                                                    <th>مقدار</th>
-                                                    <th>مجموع</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for item in cart %}
-                                                <tr>
-                                                    <td class="product-remove text-left"><form action="{% url 'cart:cart_remove' item.product_obj.id %}" method="post">{% csrf_token %}<button class="btn small" type="submit"><i class="flaticon flaticon-cross"></i></button></form></td>
-                                                    <td class="product-thumbnail text-left">
-                                                        <img src="{{ item.product_obj.image.url }}" alt="">
-                                                    </td>
-                                                    <td class="product-name">
-                                                        <h3>
-                                                            <a href="{{ item.product_obj.get_absolute_url }}">{{ item.product_obj.title }}</a>
-                                                        </h3>
-                                                    </td>
-                                                    <td class="product-price">
-                                                        <span class="product-price-wrapper">
-                                                            <span class="money">{{ item.product_obj.price|intcomma }} {% trans "$" %}</span>
-                                                        </span>
-                                                    </td>
-                                                    <td class="product-quantity">
-                                                        <form class="d-flex" action="{% url 'cart:cart_add' item.product_obj.id %}" method="post">
-                                                            {% csrf_token %}
-                                                            <div class="quantity">
-                                                                <input type="number" class="quantity-input" name="quantity" id="qty-1" value="{{ item.quantity }}" min="1">
-                                                            </div>
-                                                            {{ item.product_update_quantity_form.inplace }}
-                                                            <button class="small" type="submit" ><i class="fa fa-refresh"></i></button>
-                                                            {% comment %} <input type="submit" value="{% trans 'Update' %}"> {% endcomment %}
-                                                        </form>
-                                                    </td>
-                                                    <td class="product-total-price">
-                                                        <span class="product-price-wrapper">
-                                                            <span class="money">{{ item.total_price|intcomma }} {% trans "$" %}</span>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    {% else %}
-                                    <p>{% trans "Cart is Empty! Add some items!" %}</p>
-                                    <a href="{% url 'homepage' %}">{% trans "Go shopping" %}</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            {% if not cart.is_empty %}
-                                <div class="row no-gutters border-top pt--20 mt--20">
-                                    <div class="col-sm-6 text-sm-right">
-                                        <form action="{% url 'cart:cart_clear' %}" method="post">
+<div dir='rtl' class="container">
+    {% if cart %}
+    <div class="row">
+        <div class="col-lg-12 mb-md--50">
+            <div class="row no-gutters">
+                <div class="col-12">
+                    <div class="table-content table-responsive">
+                        <table class="table text-center">
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>عکس محصول</th>
+                                    <th>نام محصول</th>
+                                    <th>قیمت</th>
+                                    <th>وزن محصول</th>
+                                    <th>تعداد سفارش</th>
+                                    <th>وزن کل</th>
+                                    <th>مجموع</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart %}
+                                <tr>
+                                    <td class="product-remove text-left"><form action="{% url 'cart:cart_remove' item.product_obj.id %}" method="post">{% csrf_token %}<button class="btn small" type="submit"><i class="fa fa-window-close mx-2" aria-hidden="true"></i></button></form></td>
+                                    <td class="product-thumbnail text-left">
+                                        {% if item.product_obj.main_image %}
+                                            <a href="{{ item.product_obj.get_absolute_url }}"><img src="{{ item.product_obj.main_image.url }}" width="48" height="48" alt=""></a>
+                                        {% else %}
+                                            <a href="{{ item.product_obj.get_absolute_url }}"><img src="{% static 'madval/img/no_image.png' %}" width="48" height="48" alt=""></a>
+                                        {% endif %}
+                                    </td>
+                                    <td class="product-name">
+                                        <p class='em1-2 mt-2'>
+                                            <a href="{{ item.product_obj.get_absolute_url }}">{{ item.product_obj.title }}</a>
+                                        </p>
+                                    </td>
+                                    <td class="product-price">
+                                        <span class="product-price-wrapper">
+                                            <span class="money mt-2 d-block">{{ item.product_obj.price_toman|cspn }} تومان</span>
+                                        </span>
+                                    </td>
+                                    <td class="product-weight">
+                                        <span class="product-weight-wrapper">
+                                            <span class="money mt-2 d-block">{{ item.product_obj.weight|cspn }} کیلوگرم</span>
+                                        </span>
+                                    </td>
+                                    <td class="product-quantity">
+                                        <form class="d-flex justify-content-center" action="{% url 'cart:cart_add' item.product_obj.id %}" method="post">
                                             {% csrf_token %}
-                                            <button type="submit" class="cart-form__btn">{% trans "Empty Cart" %}</button>
+                                            <div class="quantity">
+                                                <input type="number" class="quantity-input d-block text-center mt-2" name="quantity" id="qty-1" value="{{ item.quantity }}" min="1" max="30">
+                                            </div>
+                                            {{ item.product_update_quantity_form.inplace }}
+                                            <button class="btn btn-sm mt-1" type="submit" ><i class="fa fa-refresh"></i></button>
+                                            {% comment %} <input type="submit" value="{% trans 'Update' %}"> {% endcomment %}
                                         </form>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="cart-collaterals">
-                                <div class="cart-totals">
-                                    <h5 class="font-size-14 font-bold mb--15">مجموع</h5>
-                                    <div class="cart-calculator">
-                                        <div class="cart-calculator__item order-total">
-                                            <div class="cart-calculator__item--head">
-                                                <span>جمع کل</span>
-                                            </div>
-                                            <div class="cart-calculator__item--value">
-                                                <span class="product-price-wrapper">
-                                                    <span class="money">{{ cart.get_total_price|intcomma }} {% trans "$" %}</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% comment %} <a href="{% url 'order_create' %}" class="btn btn-fullwidth btn-bg-red btn-color-white btn-hover-2"> {% endcomment %}
-                                <a href="{% url 'homepage' %}" class="btn btn-fullwidth btn-bg-red btn-color-white btn-hover-2">
-                                    {% trans "checkout" %}
-                                </a>
+                                    </td>
+                                    <td class="product-weight">
+                                        <span class="product-weight-wrapper mt-2 d-block">
+                                            <span class="money">{{ item.total_weight|cspn }} کیلوگرم</span>
+                                        </span>
+                                    </td>
+                                    <td class="product-total-price">
+                                        <span class="product-price-wrapper">
+                                            <span class="money mt-2 d-block">{{ item.total_price|cspn }} تومان</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% if not cart.is_empty %}
+                <div class="row no-gutters border-top pt--20 mt--20">
+                    <div class="col-sm-6 text-sm-right">
+                        <form action="{% url 'cart:cart_clear' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger rounded-pill m-4 px-3 cart-form__btn">{% trans "Empty Cart" %}</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-10">
+        </div>
+        <div dir='ltr' class="col-lg-2">
+            <div class="cart-collaterals">
+                <div class="cart-totals">
+                    <div class="cart-calculator">
+                        <div class="cart-calculator__item order-total">
+                            <div class="cart-calculator__item--head">
+                                <span class="d-block text-center em1-6 text-underline">جمع کل</span>
+                            </div>
+                            <div class="cart-calculator__item--value d-block text-center em1-4">
+                                <span class="product-price-wrapper">
+                                    <span dir="rtl" class="money">{{ cart.get_total_price|cspn }} تومان</span>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% comment %} <a href="{% url 'order_create' %}" class="d-block text-center em1-6"> {% endcomment %}
+                <a href="{% url 'homepage' %}" class="d-block text-center em1-6 btn btn-outline-success c m-3 p-1" style="border-radius: 1px 32px">پرداخت</a>
             </div>
         </div>
-        <!-- Main Content Wrapper Start -->
+    </div>
+    {% else %}
+    <div class="container p-4">
+        <p class="em2">سبد خرید شما خالیست. تعدادی کالا اضافه کنید.</p>
+        <a class="em2" href="{% url 'homepage' %}">رفتن به فروشگاه</a>
+    </div>
+    {% endif %}
+</div>
 {% endblock content %}
