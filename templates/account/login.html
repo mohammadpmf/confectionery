@@ -27,25 +27,26 @@
         <input type="submit" class="btn btn-outline-success m-2 rounded-pill px-5" value="وارد شو">
     </form>
     <hr>
-    <div class="d-flex justify-content-center">
-        <form action="/accounts/google/login/" class="d-inline mx-2" method="post" id="google_form">
+    <div class="d-flex align-items-center flex-column">
+        <form action="/accounts/google/login/" class="mx-2" method="post" id="google_form">
             {% csrf_token %}
             <button id="google_button" type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">ورود با گوگل <img src="{% static 'logo/google_logo.png' %}" alt="" style="width: 32px;"></button>
         </form>
-        <form action="/accounts/github/login/" class="d-inline mx-2" method="post" id="github_form">
+        <form action="/accounts/github/login/" class="mx-2" method="post" id="github_form">
             {% csrf_token %}
             <button id="github_button" type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">ورود با گیت هاب <img src="{% static 'logo/github_logo.png' %}" alt="" style="width: 32px;"></button>
         </form>
-        <form action="/accounts/oidc/linkedin/login/" class="d-inline mx-2" method="post" id="linkedin_form">
+        <form action="/accounts/oidc/linkedin/login/" class="mx-2" method="post" id="linkedin_form">
             {% csrf_token %}
             <button id="linkedin_button" type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">ورود با لینکد این <img src="{% static 'logo/linkedin_logo.png' %}" alt="" style="width: 32px;"></button>
         </form>
     </div>
+    <hr>
     <div class="d-flex justify-content-center">
-        <form action="{% url 'login_with_phone_number' %}" method="get" name="myFormForPhoneNumber" onsubmit="return validateForm()" class="d-inline mx-2">
+        <form action="{% url 'login_with_phone_number' %}" method="get" name="myFormForPhoneNumber" onsubmit="return validateForm()" class="d-flex align-items-center flex-column m-2">
             {% csrf_token %}
             <label for="phone_number">ورود با شماره موبایل: </label>
-            <input type="tel" class="btn m-2 rounded-pill px-4 border border-success" name="phone_number" pattern="[0][9][0-9]{9}" placeholder="09xxxxxxxxx" minlength="11">
+            <input type="tel" class="btn m-2 mt-3 rounded-pill px-4 border border-success" name="phone_number" pattern="[0][9][0-9]{9}" placeholder="09xxxxxxxxx" minlength="11">
             <button type="submit" class="btn btn-outline-success m-2 rounded-pill px-4">اس ام اس ارسال کن</button>
         </form>
     </div>

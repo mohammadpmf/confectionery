@@ -16,6 +16,9 @@ from .models import PhoneNumber, ProfilePicture
 from . import forms
 
 
+class LogoutConfirm(generic.TemplateView):
+    template_name = 'account/logout.html'
+
 
 class LoginWithPhoneNumber(generic.TemplateView):
     template_name = 'login_with_phone_number.html'
@@ -37,6 +40,9 @@ class LoginWithPhoneNumber(generic.TemplateView):
 
     def get(self, request, *args, **kwargs):
         phone_number = request.GET.get('phone_number')
+        if phone_number.isalpha() or len(phone_number)!=11:
+            messages.error(request, _("Phone number should be exactly 11 digits to get verification code"))
+            return redirect('account_login')
         otp = str(random.randint(100000, 999999))
         messages.warning(request, f"otp is {otp}😊")
         LoginWithPhoneNumber.otps[phone_number]=otp

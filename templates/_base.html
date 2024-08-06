@@ -79,7 +79,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                             <span class="align-middle">تغییر رمز عبور</span>
                         </a>
                         <span class="align-middle">|</span>
-                        <a href="{% url 'account_logout' %}">
+                        <a href="{% url 'logout_confirm' %}">
                             <span class="align-middle">خروج</span>
                         </a>
                         <span class="align-middle">| {{ user }} خوش آمدی</span>
@@ -130,7 +130,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                     <span class="align-middle">تغییر رمز عبور</span>
                 </a>
                 <span class="align-middle">|</span>
-                <a href="{% url 'account_logout' %}">
+                <a href="{% url 'logout_confirm' %}">
                     <span class="align-middle">خروج</span>
                 </a>
                 <span class="align-middle">| {{ user }} خوش آمدی</span>
@@ -169,7 +169,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <a dir='rtl' href="{% url 'account_change_password' %}"><span class="dropdown-item text-right">تغییر رمز عبور</span></a>
                         <a dir='rtl' href="{% url 'change_profile' %}"><span class="dropdown-item text-right">تغییر مشخصات کاربری</span></a>
                         <hr>
-                        <a dir='rtl' href="{% url 'account_logout' %}"><span class="dropdown-item text-right text-danger">خروج</span></a>
+                        <a dir='rtl' href="{% url 'account_logout' %}"><span class="dropdown-item text-right text-danger">خروج مستقیم (بدون نیاز به تایید)</span></a>
                     </div>
                 </div>
                 <a href="{% url 'contact_us' %}" class="nav-item nav-link">تماس با ما</a>

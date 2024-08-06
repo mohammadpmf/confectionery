@@ -74,4 +74,8 @@ class ChangeUsersOTPNumberInWebsiteForm(forms.ModelForm):
         fields = ['username']
 
     username = forms.CharField(label=_('Username'), disabled=True, min_length=1, max_length=255)
-    otp_phone_number = forms.CharField(label=_('OTP Phone Number'), min_length=11, max_length=11)
+    otp_phone_number = forms.CharField(label=_('OTP Phone Number'), min_length=11, max_length=11, error_messages={
+        'required' : _('Enter phone number!'),
+        'min_value' : _("Phone number should be exactly 11 digits to get verification code"),
+        'max_value' : _("Phone number should be exactly 11 digits to get verification code"),
+    })
