@@ -365,16 +365,33 @@
             <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>نظر مشتریان</h1>
         </div>
         <div class="owl-carousel testimonial-carousel">
-            {% for comment in '12345' %}
-            <div class="testimonial-item bg-dark text-white border-inner p-4">
-                <div class="d-flex align-items-center mb-3">
-                    <img class="img-fluid flex-shrink-0" src="{% static 'img/testimonial-1.jpg' %}" style="width: 60px; height: 60px;">
-                    <div class="ps-3">
-                        <h4 class="text-primary text-uppercase mb-1">Client Name</h4>
-                        <span>Profession</span>
+            {% for comment in top_comments %}
+            <div dir="rtl" class="testimonial-item bg-dark text-white border-inner p-4" style="height: 200px">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
+                    <img class="img-fluid flex-shrink-0" style="width: 60px; height: 60px;"
+                    src=
+                    {% if comment.author.profile_picture %}
+                    "{{ comment.author.profile_picture.image.url }}"
+                    {% else %}
+                    "{% static 'madval/img/profile_not_set.png' %}"
+                    {% endif %}
+                    >
+                    <div dir="ltr" class="w-75">
+                        <a href="{{ comment.product.get_absolute_url }}">
+                        {% if comment.product.main_image %}
+                            <img class="d-inline mx-1" src="{{ comment.product.main_image.url }}" style="width: 60px; height: 60px;" alt="">
+                        {% else %}
+                            <span>{{ comment.product.title }}</span>
+                        {% endif %}
+                        </a>
+                    </div>
+                    <div class="ps-3 mx-1">
+                        <h4 class="text-primary text-uppercase mb-1 c">
+                            {% if comment.author.first_name %}{{ comment.author.first_name }}{% else %}{{ comment.author }}{% endif %} گفته:
+                        </h4>
                     </div>
                 </div>
-                <p class="mb-0">Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam
+                <p class="mb-0">{{ comment.text|truncatechars:100 }}
                 </p>
             </div>
             {% endfor %}

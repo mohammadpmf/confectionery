@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-06 13:28+0330\n"
-"PO-Revision-Date: 2024-08-06 13:29+0330\n"
+"POT-Creation-Date: 2024-08-06 18:49+0330\n"
+"PO-Revision-Date: 2024-08-06 17:05+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -174,7 +174,7 @@ msgstr "نویسنده"
 msgid "is approved"
 msgstr "تایید شده"
 
-#: .\models.py:67 .\models.py:88 .\models.py:112
+#: .\models.py:67 .\models.py:88 .\models.py:112 .\models.py:121
 msgid "Date Time Created"
 msgstr "تاریخ و زمان ایجاد"
 
@@ -206,7 +206,7 @@ msgstr "نام من را نمایش نده"
 msgid "user's rate"
 msgstr "رای کاربر به این محصول"
 
-#: .\models.py:89 .\models.py:113
+#: .\models.py:89 .\models.py:113 .\models.py:122
 msgid "Last Time Edited"
 msgstr "آخرین زمان ویرایش"
 
@@ -218,7 +218,7 @@ msgstr "کاربر"
 msgid "Name"
 msgstr "نام"
 
-#: .\models.py:108
+#: .\models.py:108 .\models.py:120
 msgid "Email"
 msgstr "ایمیل"
 
@@ -289,17 +289,25 @@ msgstr "اعضای گروه"
 msgid "Our Master Chefs"
 msgstr "سرآشپزهای ما"
 
-#: .\views.py:115
+#: .\views.py:44
+msgid ""
+"Your email successfully added to our database! You will be noticed from all "
+"news ASAP!"
+msgstr ""
+"آدرس ایمیل شما با موفقیت به پایگاه داده ما اضافه شد. به محض آمدن یک خبر "
+"جدید، از آن مطلع خواهید شد."
+
+#: .\views.py:147
 #, python-format
 msgid "%s successfully added to your favorites."
 msgstr "%s با موفقیت به لیست علاقه مندی های شما اضافه شد."
 
-#: .\views.py:119
+#: .\views.py:151
 #, python-format
 msgid "%s successfully removed from your favorites."
 msgstr "%s با موفقیت از لیست علاقه مندی های شما حذف شد."
 
-#: .\views.py:188
+#: .\views.py:220
 msgid ""
 "Your message has been recieved successfully! If it needs a response, we'll "
 "contact you ASAP!"

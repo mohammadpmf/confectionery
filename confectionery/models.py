@@ -114,3 +114,9 @@ class SuggestionsCritics(models.Model):
 
     def __str__(self):
         return f"{self.name}: {self.subject}"
+
+
+class NewsLetter(models.Model):
+    email = models.EmailField(verbose_name=_('Email'), max_length=255, unique=True)
+    datetime_created = models.DateTimeField(verbose_name=_('Date Time Created'), auto_now_add=True)
+    datetime_modified = models.DateTimeField(verbose_name=_('Last Time Edited'), auto_now=True)

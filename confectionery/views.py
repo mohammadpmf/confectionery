@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
 
 from .models import Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
-from .forms import ProductCustomUserCommentForm, ProductAnanymousUserCommentForm, SuggestionsCriticsForm
+from .forms import NewsLetterForm, ProductCustomUserCommentForm, ProductAnanymousUserCommentForm, SuggestionsCriticsForm
 
 
 class HomePage(generic.TemplateView):
@@ -33,7 +33,39 @@ class HomePage(generic.TemplateView):
         # context['cakes'] = Product.objects.filter(product_type='cake').order_by('id')[:6]
         # context['pastries'] = Product.objects.filter(product_type='pastry').order_by('id')[:6]
         # context['breads'] = Product.objects.filter(product_type='bread').order_by('id')[:6]
+        context['top_comments'] = ProductCustomUserComment.objects.filter(is_approved=True, dont_show_my_name=False).select_related('product', 'author__profile_picture').order_by('-stars', '-datetime_modified', '-id')[:5]
         return context
+    
+    def post(self, request, *args, **kwargs):
+        if 'newsletter_sub' in request.POST:
+            new_subscription=NewsLetterForm(request.POST)
+            if new_subscription.is_valid():
+                new_subscription.save()
+                messages.success(request, _("Your email successfully added to our database! You will be noticed from all news ASAP!"))
+            else:
+                messages.error(request, new_subscription.errors)
+        next_page = request.POST.get("next_page")
+        if not next_page:
+            next_page = 'homepage'
+        return redirect(next_page)
+        # این کامنت های طولانی که پایین نوشتم رو اول گذاشتم چون داخل یه کلاس دیگه نوشته بودم. بعد گفتم
+        # بیاد به صفحه اول خوبه. به خاطر همین آوردمش اینجا. اما چون بحث جالبی بود کدها رو گذاشتم باشه
+        # و به همون صورت آوردمش اینجا. فقط این که اول تو پروداکت دیتیل خاص از یه محصول نوشته بودم
+        # موقعی که بهش ارجاع دادم تو کامنت ها یادم باشه که تو کلاس ProductDetail بوده و اول متد post
+        # از این کلاس
+
+        # در غیر این صورت یا لایک کرده یا نظر داده که کارهای زیر رو انجام دادم. البته برای اینا هم بهتر بود
+        # به نظرم همین شکلی استفاده میکردم. ولی قبلا نوشته بودم. به هر حال تجربه شد دیگه. میتونیم با بررسی
+        # با استفاده از اپراتور این ببینیم که کودوم فرم از سمت اچ تی ام ال ارسال شده. اگه اکشن ها شون
+        # متفاوت باشن که خب تابع های جدا رو بررسی میکنیم. اما اگه اکشن های یکسانی داشته باشن یا 
+        # اکشن نداشته باشن که صفحه ای که لودشون کرده دوباره بررسیشون کنه، این شکلی میشه با ایف بررسی کرد
+        # که کودوم یکی صداش کرده بوده. البته کسی که سوال کرده بود تو استک اورفلو جذاب تر بود و اون میخواست
+        # آنسابسکرایب هم بذاره. در واقع تو یه فرم ۲ تا دکمه سابمیت داشت که برای منم هر وقت لازم شد میتونم
+        # ازش کمک بگیرم. اما برای همین مسئله هم خیلی کمکم کرد. دیگه کدهای قبلی رو که پایین نوشته بودم
+        # عوض نمیکنم. روش من این بود که همیشه یه اینپوت هیدن تعریف میکردم بعد این ور میگرفتم ببینم اگه
+        # اون اینپوت مقدار داره یه سری کارها رو بکنم و اگه نداره کار متفاوت. اما این روش جدید حرفه ای تره
+        # https://stackoverflow.com/questions/866272/how-can-i-build-multiple-submit-buttons-django-form
+        # این هم لینک استک اورفلویی که کمک کرد حل بشه مسئله.
 
 
 class CategoryList(generic.ListView):

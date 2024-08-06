@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import ProductCustomUserComment, ProductAnanymousUserComment, SuggestionsCritics
+from .models import NewsLetter, ProductCustomUserComment, ProductAnanymousUserComment, SuggestionsCritics
 
 
 class ProductCustomUserCommentForm(forms.ModelForm):
@@ -19,3 +19,9 @@ class SuggestionsCriticsForm(forms.ModelForm):
     class Meta:
         model = SuggestionsCritics
         fields = ['name', 'email', 'subject', 'text']
+
+
+class NewsLetterForm(forms.ModelForm):
+    class Meta:
+        model = NewsLetter
+        fields = ['email']

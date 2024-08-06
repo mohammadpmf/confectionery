@@ -71,3 +71,10 @@ class SuggestionsCriticsAdmin(admin.ModelAdmin):
     model = models.SuggestionsCritics
     list_display = ['name', 'email', 'subject', 'datetime_created', 'seen']
     list_display_links = ['name', 'email', 'subject', 'datetime_created', 'seen']
+
+
+@admin.register(models.NewsLetter)
+class NewsLetterAdmin(admin.ModelAdmin):
+    model = models.NewsLetter
+    list_display = ['email']
+    list_display_links = ['email']
