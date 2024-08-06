@@ -127,7 +127,11 @@ class ProductDetail(generic.DetailView):
         product = kwargs.get('object') # یا product = self.get_object()
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            form = ProductCustomUserCommentForm()
+            c = ProductCustomUserComment.objects.filter(product=product, author=self.request.user).first()
+            if c:
+                form = ProductCustomUserCommentForm(instance=c)
+            else:
+                form = ProductCustomUserCommentForm()
         else:
             form = ProductAnanymousUserCommentForm()
         context['form'] = form
@@ -151,7 +155,11 @@ class ProductDetail(generic.DetailView):
                 messages.success(request, _("%s successfully removed from your favorites." %product.title))
             return redirect('product_detail', product.pk)
         if user.is_authenticated:
-            comment_form = ProductCustomUserCommentForm(request.POST)
+            c = ProductCustomUserComment.objects.filter(product=product, author=self.request.user).first()
+            if c:
+                comment_form = ProductCustomUserCommentForm(request.POST, instance=c)
+            else:
+                comment_form = ProductCustomUserCommentForm(request.POST)
         else:
             comment_form = ProductAnanymousUserCommentForm(request.POST)
         if comment_form.is_valid():
@@ -160,17 +168,21 @@ class ProductDetail(generic.DetailView):
             messages.error(request, comment_form.errors)
             return super().get(request, *args, **kwargs)
         if user.is_authenticated:
-            cleaned_data.update({
-                'product_id': product.pk,
-                'author': user,
-            })
-            ProductCustomUserComment.objects.create(**cleaned_data)
-            messages.success(request, "پیغام شما با موفقیت ثبت شد.")
+            if c:
+                comment_form.save()
+                messages.success(request, _("Your comment updated successfully."))
+            else: # این رو کمی بهتر هم میشد نوشت و با همون حالت کامیت= فالس ذخیره کرد و کارهای دیگه. اما انجام ندادم این هم یه روش هست. گفتم زودتر پروژه رو کامل کنم ایشالله پروژه های بعدی بهتر بنویسم. این هم خیلی روش خوبیه.
+                cleaned_data.update({
+                    'product_id': product.pk,
+                    'author': user,
+                })
+                ProductCustomUserComment.objects.create(**cleaned_data)
+                messages.success(request, _("Your comment recieved successfully."))
         else:
             cleaned_data.update({
                 'product_id': product.pk,
             })
-            messages.success(request, "پیغام شما با موفقیت ارسال شد. اما چون عضو سایت نیستید، پس از تایید مدیریت نمایش داده خواهد شد.")
+            messages.success(request, _("Your comment recieved successfully. But as you are not a member of this site, it will be shown after confirmation!"))
             ProductAnanymousUserComment.objects.create(**cleaned_data)
         return super().get(request, *args, **kwargs)
 

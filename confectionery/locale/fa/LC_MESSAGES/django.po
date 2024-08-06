@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-06 18:49+0330\n"
-"PO-Revision-Date: 2024-08-06 17:05+0330\n"
+"POT-Creation-Date: 2024-08-06 21:11+0330\n"
+"PO-Revision-Date: 2024-08-06 21:11+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -297,17 +297,33 @@ msgstr ""
 "آدرس ایمیل شما با موفقیت به پایگاه داده ما اضافه شد. به محض آمدن یک خبر "
 "جدید، از آن مطلع خواهید شد."
 
-#: .\views.py:147
+#: .\views.py:151
 #, python-format
 msgid "%s successfully added to your favorites."
 msgstr "%s با موفقیت به لیست علاقه مندی های شما اضافه شد."
 
-#: .\views.py:151
+#: .\views.py:155
 #, python-format
 msgid "%s successfully removed from your favorites."
 msgstr "%s با موفقیت از لیست علاقه مندی های شما حذف شد."
 
-#: .\views.py:220
+#: .\views.py:173
+msgid "Your comment updated successfully."
+msgstr "نظر شما با موفقیت ویرایس یافت."
+
+#: .\views.py:180
+msgid "Your comment recieved successfully."
+msgstr "نظر شما با موفقیت دریافت شد."
+
+#: .\views.py:185
+msgid ""
+"Your comment recieved successfully. But as you are not a member of this "
+"site, it will be shown after confirmation!"
+msgstr ""
+"نظر شما با موفقیت دریافت شد. اما چون عضو سایت نیستید، پس از تایید نمایش داده"
+" خواهد شد."
+
+#: .\views.py:232
 msgid ""
 "Your message has been recieved successfully! If it needs a response, we'll "
 "contact you ASAP!"
