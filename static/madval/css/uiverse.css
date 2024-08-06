@@ -72,12 +72,25 @@ ul {
   
   .example-2 .icon-content a[data-social="linkedin"] .filled,
   .example-2 .icon-content a[data-social="linkedin"] ~ .tooltip {
-    background-color: #0274b3;
+    background: linear-gradient(
+      45deg,
+      #9dd0eb,
+      #6b9fbb,
+      #3989b4,
+      #0d7ab4,
+      #0072b1 
+    );
   }
   
   .example-2 .icon-content a[data-social="github"] .filled,
   .example-2 .icon-content a[data-social="github"] ~ .tooltip {
-    background-color: #24262a;
+    background: linear-gradient(
+      45deg,
+      #66686b,
+      #545353,
+      #29242a,
+      #17181a
+    );
   }
   .example-2 .icon-content a[data-social="instagram"] .filled,
   .example-2 .icon-content a[data-social="instagram"] ~ .tooltip {
@@ -93,6 +106,12 @@ ul {
   }
   .example-2 .icon-content a[data-social="youtube"] .filled,
   .example-2 .icon-content a[data-social="youtube"] ~ .tooltip {
-    background-color: #ff0000;
+    background: linear-gradient(
+      45deg,
+      #ffcfcf,
+      #dc7070,
+      #ec4646,
+      #af1c1c
+    );
   }
   
