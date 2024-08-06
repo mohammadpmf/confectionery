@@ -1,0 +1,68 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-dark bg-img p-5 mb-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4 text-uppercase text-white d">تماس با ما</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid contact position-relative px-5" style="margin-top: 90px;">
+        <div class="container">
+            <div class="row g-5 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="bg-primary border-inner text-center text-danger p-5 h-100">
+                        <i class="bi bi-geo-alt fs-1 text-white"></i>
+                        <h6 class="text-white em2 my-2">دفتر کار ما</h6>
+                        <span class="em1-4">رشت - گلسار - خیابان ۹۸ - بعد از پمپ بنزین - شیرینی سرای معتمد</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="bg-primary border-inner text-center text-danger p-5 h-100">
+                        <i class="bi bi-envelope-open fs-1 text-white"></i>
+                        <h6 class="text-white em2 my-2">آدرس ایمیل</h6>
+                        <span class="em1-4">mohammad.pfallah@gmail.com</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="bg-primary border-inner text-center text-danger p-5 h-100">
+                        <i class="bi bi-phone-vibrate fs-1 text-white"></i>
+                        <h6 class="text-white em2 my-2">شماره تماس</h6>
+                        <span class="em2">+935 664 0204</span>
+                    </div>
+                </div>
+            </div>
+            <div dir='rtl' class="row justify-content-center">
+                <div class="col-lg-6">
+                    <form>
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <input name="name" type="text" class="form-control bg-light border-0 px-4" placeholder="نام" style="height: 55px;">
+                            </div>
+                            <div class="col-sm-6">
+                                <input name="email" type="email" class="form-control bg-light border-0 px-4" placeholder="آدرس ایمیل" style="height: 55px;">
+                            </div>
+                            <div class="col-sm-12">
+                                <input name="subject" type="text" class="form-control bg-light border-0 px-4" placeholder="موضوع" style="height: 55px;">
+                            </div>
+                            <div class="col-sm-12">
+                                <textarea name="text" class="form-control bg-light border-0 px-4 py-3" rows="4" placeholder="متن پیام"></textarea>
+                            </div>
+                            <div class="col-sm-12 d-flex justify-content-center">
+                                <button class="btn d btn-primary border-inner w-25 py-3" type="submit">ارسال</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+{% endblock content %}

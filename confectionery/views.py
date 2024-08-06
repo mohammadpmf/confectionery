@@ -172,3 +172,11 @@ class ProductList(generic.ListView):
     context_object_name = 'products'
     paginate_by=10
     queryset = Product.objects.order_by('-id').annotate(average_stars=Avg('comments__stars')).order_by('-average_stars', '-id')
+
+
+class AboutUs(generic.TemplateView):
+    template_name = 'about.html'
+
+
+class ContactUs(generic.TemplateView):
+    template_name = 'contact.html'

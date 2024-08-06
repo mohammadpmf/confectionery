@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-29 21:11+0330\n"
-"PO-Revision-Date: 2024-07-29 21:11+0330\n"
+"POT-Creation-Date: 2024-08-06 12:56+0330\n"
+"PO-Revision-Date: 2024-08-06 12:58+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -154,70 +154,74 @@ msgstr "عکس اصلی"
 msgid "Extra Information"
 msgstr "اطلاعات بیشتر"
 
-#: .\models.py:60 .\models.py:65 .\models.py:83
+#: .\models.py:58 .\models.py:63 .\models.py:82 .\models.py:99
 msgid "product"
 msgstr "محصول"
 
-#: .\models.py:61
+#: .\models.py:59
 msgid "image"
 msgstr "عکس"
 
-#: .\models.py:66 .\models.py:84
+#: .\models.py:64 .\models.py:83
 msgid "comment text"
 msgstr "متن کامنت"
 
-#: .\models.py:67 .\models.py:85
+#: .\models.py:65 .\models.py:84
 msgid "author"
 msgstr "نویسنده"
 
-#: .\models.py:68 .\models.py:86
+#: .\models.py:66 .\models.py:85
 msgid "is approved"
 msgstr "تایید شده"
 
-#: .\models.py:76
+#: .\models.py:75
 msgid "fantastic"
 msgstr "شگفت انگیز"
 
-#: .\models.py:77
+#: .\models.py:76
 msgid "excellent"
 msgstr "عالی"
 
-#: .\models.py:78
+#: .\models.py:77
 msgid "good"
 msgstr "خوب"
 
-#: .\models.py:79
-#| msgid "Average"
+#: .\models.py:78
 msgid "average"
 msgstr "معمولی"
 
-#: .\models.py:80
+#: .\models.py:79
 msgid "bad"
 msgstr "بد"
 
-#: .\models.py:87
+#: .\models.py:86
 msgid "don't show my name"
 msgstr "نام من را نمایش نده"
 
-#: .\models.py:88
+#: .\models.py:87
 msgid "user's rate"
 msgstr "رای کاربر به این محصول"
 
-#: .\templates\category.html:9
+#: .\models.py:100
+msgid "user"
+msgstr "کاربر"
+
+#: .\templates\about.html:11 .\templates\about.html:21
+#: .\templates\index.html:57
+msgid "About Us"
+msgstr "درباره ما"
+
+#: .\templates\about.html:22 .\templates\index.html:58
+msgid "Welcome To Motamed Confectionery"
+msgstr "به وبسایت کیک و شیرینی معتمد خوش آمدید"
+
+#: .\templates\category.html:10
 msgid "Product List"
 msgstr "لیست محصولات"
 
 #: .\templates\index.html:9
 msgid "Home"
 msgstr "خانه"
-
-#: .\templates\index.html:57
-msgid "About Us"
-msgstr "درباره ما"
-
-#: .\templates\index.html:58
-msgid "Welcome To Motamed Confectionery"
-msgstr "به وبسایت کیک و شیرینی معتمد خوش آمدید"
 
 #: .\templates\index.html:150
 msgid "Menu & Pricing"
@@ -256,6 +260,16 @@ msgstr "اعضای گروه"
 #: .\templates\index.html:297
 msgid "Our Master Chefs"
 msgstr "سرآشپزهای ما"
+
+#: .\views.py:115
+#, python-format
+msgid "%s successfully added to your favorites."
+msgstr "%s با موفقیت به لیست علاقه مندی های شما اضافه شد."
+
+#: .\views.py:119
+#, python-format
+msgid "%s successfully removed from your favorites."
+msgstr "%s با موفقیت از لیست علاقه مندی های شما حذف شد."
 
 #~ msgid "Order Now"
 #~ msgstr "همین حالا سفارش دهید"

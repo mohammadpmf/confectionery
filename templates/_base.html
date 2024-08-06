@@ -172,8 +172,8 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <a dir='rtl' href="{% url 'account_logout' %}"><span class="dropdown-item text-right text-danger">خروج</span></a>
                     </div>
                 </div>
-                <a href="contact.html" class="nav-item nav-link">تماس با ما</a>
-                <a href="about.html" class="nav-item nav-link">درباره ما</a>
+                <a href="{% url 'contact_us' %}" class="nav-item nav-link">تماس با ما</a>
+                <a href="{% url 'about_us' %}" class="nav-item nav-link">درباره ما</a>
                 <a href="team.html" class="nav-item nav-link">سرآشپز ها</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">محصولات</a>
@@ -249,7 +249,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                             <p>جهت مطلع شدن از آخرین اخبار مربوط به شیرینی سرای متعمد، آدرس ایمیل خود را وارد نمایید.</p>
                             <form action="">
                                 <input dir='ltr' type="text" class="form-control border-white p-3 mb-3" placeholder="test@example.com">
-                                <button class="btn btn-primary">عضویت در خبرنامه</button>
+                                <button class="btn d btn-primary">عضویت در خبرنامه</button>
                             </form>
                         </div>
                     </div>
