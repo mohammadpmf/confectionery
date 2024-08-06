@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-06 12:56+0330\n"
-"PO-Revision-Date: 2024-08-06 12:58+0330\n"
+"POT-Creation-Date: 2024-08-06 13:28+0330\n"
+"PO-Revision-Date: 2024-08-06 13:29+0330\n"
 "Last-Translator:   <a@b.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -174,6 +174,10 @@ msgstr "نویسنده"
 msgid "is approved"
 msgstr "تایید شده"
 
+#: .\models.py:67 .\models.py:88 .\models.py:112
+msgid "Date Time Created"
+msgstr "تاریخ و زمان ایجاد"
+
 #: .\models.py:75
 msgid "fantastic"
 msgstr "شگفت انگیز"
@@ -202,9 +206,33 @@ msgstr "نام من را نمایش نده"
 msgid "user's rate"
 msgstr "رای کاربر به این محصول"
 
+#: .\models.py:89 .\models.py:113
+msgid "Last Time Edited"
+msgstr "آخرین زمان ویرایش"
+
 #: .\models.py:100
 msgid "user"
 msgstr "کاربر"
+
+#: .\models.py:107
+msgid "Name"
+msgstr "نام"
+
+#: .\models.py:108
+msgid "Email"
+msgstr "ایمیل"
+
+#: .\models.py:109
+msgid "Subject"
+msgstr "موضوع"
+
+#: .\models.py:110
+msgid "Text"
+msgstr "متن"
+
+#: .\models.py:111
+msgid "Seen"
+msgstr "دیده شده"
 
 #: .\templates\about.html:11 .\templates\about.html:21
 #: .\templates\index.html:57
@@ -270,6 +298,14 @@ msgstr "%s با موفقیت به لیست علاقه مندی های شما ا�
 #, python-format
 msgid "%s successfully removed from your favorites."
 msgstr "%s با موفقیت از لیست علاقه مندی های شما حذف شد."
+
+#: .\views.py:188
+msgid ""
+"Your message has been recieved successfully! If it needs a response, we'll "
+"contact you ASAP!"
+msgstr ""
+"پیغام شما با موفقیت دریافت شد. در صورت نیاز به پاسخگویی، در اسرع وقت با شما "
+"ارتباط برقرار میکنیم."
 
 #~ msgid "Order Now"
 #~ msgstr "همین حالا سفارش دهید"

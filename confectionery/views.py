@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
 
 from .models import Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
-from .forms import ProductCustomUserCommentForm, ProductAnanymousUserCommentForm
+from .forms import ProductCustomUserCommentForm, ProductAnanymousUserCommentForm, SuggestionsCriticsForm
 
 
 class HomePage(generic.TemplateView):
@@ -180,3 +180,12 @@ class AboutUs(generic.TemplateView):
 
 class ContactUs(generic.TemplateView):
     template_name = 'contact.html'
+
+    def post(self, request, *args, **kwargs):
+        new_suggestion_or_something_else = SuggestionsCriticsForm(request.POST)
+        if new_suggestion_or_something_else.is_valid():
+            new_suggestion_or_something_else.save()
+            messages.success(request, _("Your message has been recieved successfully! If it needs a response, we'll contact you ASAP!"))
+        else:
+            messages.error(request, new_suggestion_or_something_else.errors)
+        return super().get(request, *args, **kwargs)

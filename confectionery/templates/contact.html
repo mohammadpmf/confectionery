@@ -40,14 +40,14 @@
             </div>
             <div dir='rtl' class="row justify-content-center">
                 <div class="col-lg-6">
-                    <form>
+                    <form action="" method="post">
                         {% csrf_token %}
                         <div class="row g-3">
                             <div class="col-sm-6">
-                                <input name="name" type="text" class="form-control bg-light border-0 px-4" placeholder="نام" style="height: 55px;">
+                                <input name="name" type="text" class="form-control bg-light border-0 px-4" placeholder="نام" style="height: 55px;" {% if user.first_name %}value="{{ user.first_name }} {{ user.last_name }}"{% endif %}>
                             </div>
                             <div class="col-sm-6">
-                                <input name="email" type="email" class="form-control bg-light border-0 px-4" placeholder="آدرس ایمیل" style="height: 55px;">
+                                <input name="email" type="email" class="form-control bg-light border-0 px-4" placeholder="آدرس ایمیل" style="height: 55px;" {% if user.email %}value="{{ user.email }}"{% endif %}>
                             </div>
                             <div class="col-sm-12">
                                 <input name="subject" type="text" class="form-control bg-light border-0 px-4" placeholder="موضوع" style="height: 55px;">

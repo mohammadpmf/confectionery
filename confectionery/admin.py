@@ -64,3 +64,10 @@ class FavoriteAdmin(admin.ModelAdmin):
     model = models.Favorite
     list_display = ['product', 'user']
     list_display_links = ['product', 'user']
+
+
+@admin.register(models.SuggestionsCritics)
+class SuggestionsCriticsAdmin(admin.ModelAdmin):
+    model = models.SuggestionsCritics
+    list_display = ['name', 'email', 'subject', 'datetime_created', 'seen']
+    list_display_links = ['name', 'email', 'subject', 'datetime_created', 'seen']

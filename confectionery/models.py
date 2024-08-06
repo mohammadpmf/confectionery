@@ -64,7 +64,7 @@ class ProductAnanymousUserComment(models.Model):
     text = models.TextField(verbose_name=_('comment text'), max_length=10000)
     author = models.CharField(verbose_name=_('author'), max_length=255)
     is_approved = models.BooleanField(verbose_name=_('is approved'), default=False)
-    datetime_created = models.DateTimeField(auto_now_add=True)
+    datetime_created = models.DateTimeField(verbose_name=_('Date Time Created'), auto_now_add=True)
 
     def __str__(self):
         return f"{self.author}: {self.text}"
@@ -85,8 +85,8 @@ class ProductCustomUserComment(models.Model):
     is_approved = models.BooleanField(verbose_name=_('is approved'), default=True)
     dont_show_my_name = models.BooleanField(verbose_name=_("don't show my name"), default=False)
     stars = models.IntegerField(verbose_name=_("user's rate"), choices=STAR_CHOICES, null=True, blank=True)
-    datetime_created = models.DateTimeField(auto_now_add=True)
-    datetime_modified = models.DateTimeField(auto_now=True)
+    datetime_created = models.DateTimeField(verbose_name=_('Date Time Created'), auto_now_add=True)
+    datetime_modified = models.DateTimeField(verbose_name=_('Last Time Edited'), auto_now=True)
 
     def __str__(self):
         full_name = f"{self.author.first_name} {self.author.last_name}".strip()
@@ -101,3 +101,16 @@ class Favorite(models.Model):
     
     class Meta:
         unique_together = ('product', 'user')
+
+
+class SuggestionsCritics(models.Model):
+    name = models.CharField(verbose_name=_('Name'), max_length=255)
+    email = models.EmailField(verbose_name=_('Email'), max_length=255)
+    subject = models.CharField(verbose_name=_('Subject'), max_length=255)
+    text = models.TextField(verbose_name=_('Text'), max_length=10000)
+    seen = models.BooleanField(verbose_name=_('Seen'), default=False)
+    datetime_created = models.DateTimeField(verbose_name=_('Date Time Created'), auto_now_add=True)
+    datetime_modified = models.DateTimeField(verbose_name=_('Last Time Edited'), auto_now=True)
+
+    def __str__(self):
+        return f"{self.name}: {self.subject}"
