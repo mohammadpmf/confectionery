@@ -7,9 +7,10 @@ from django.db import IntegrityError, transaction
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from requests.exceptions import ConnectTimeout
+from requests.exceptions import ConnectTimeout, SSLError
 import ghasedakpack
 import random
+import string
 
 from config.madval1369_secret import *
 from .models import PhoneNumber, ProfilePicture
@@ -21,8 +22,6 @@ class LogoutConfirm(generic.TemplateView):
 
 
 class LoginWithPhoneNumber(generic.TemplateView):
-    template_name = 'login_with_phone_number.html'
-
     otps = dict() # توی تابع اینیت که مینوشتم درست کار نمیکرد. اما اینجا به عنوان کلاس اتربیوت در نظر
     # گرفتم جواب داد. با این حال رو استرینگ کار نمیکرد. اما روی دیکشنری و لیست و مجموعه که به یه
     # جای حافظه اشاره میکنن با سلف دسترسی داشتم و میتونستم تو متد گت مقدار رمز رو ذخیره کنم و تو
@@ -32,24 +31,23 @@ class LoginWithPhoneNumber(generic.TemplateView):
     # باز هم میگم تو اینیت نوشتم جواب نمیداد. یعنی بعد از این که متد گت صدا میشد و تغییرش میدادم،
     # وقتی میرفتم تو متد پست اون مقدار نبود و یه دیکشنری خالی بود دوباره.
 
-    def __init__(self, **kwargs):
-        self.sms = ghasedakpack.Ghasedak(GHASEDAK_API_KEY)
-        self.good_line_number_for_sending_otp = '30005088' # مال خودم رو که میذارم، شانسی از این شماره یا 20008580 میفرسته که شماره ۳۰۰۰ اوکی هست. ولی ۲۰۰۰ داغانه یه بار تقریبا ۲۰ دقیقه طول کشید تا بفرسته که خب دیگه یکبار رمز به درد بخوری نیست.
-
-        super().__init__(**kwargs)
-
     def get(self, request, *args, **kwargs):
         phone_number = request.GET.get('phone_number')
+        if phone_number==None:
+            messages.error(request, _("It seems you have not filled the phone number field! Please fill it"))
+            return redirect('account_login')
         if phone_number.isalpha() or len(phone_number)!=11:
             messages.error(request, _("Phone number should be exactly 11 digits to get verification code"))
             return redirect('account_login')
+        self.sms = ghasedakpack.Ghasedak(GHASEDAK_API_KEY)
+        self.good_line_number_for_sending_otp = '30005088' # مال خودم رو که میذارم، شانسی از این شماره یا 20008580 میفرسته که شماره ۳۰۰۰ اوکی هست. ولی ۲۰۰۰ داغانه یه بار تقریبا ۲۰ دقیقه طول کشید تا بفرسته که خب دیگه یکبار رمز به درد بخوری نیست.
         otp = str(random.randint(100000, 999999))
         messages.warning(request, f"otp is {otp}😊")
-        LoginWithPhoneNumber.otps[phone_number]=otp
-        try:
-            username = PhoneNumber.objects.select_related('user').get(phone_number=phone_number)
-        except PhoneNumber.DoesNotExist:
-            username = None
+        username = PhoneNumber.objects.select_related('user').filter(phone_number=phone_number).first() # اگه باشه که میده. اگه نباشه نان میده
+        LoginWithPhoneNumber.otps[phone_number]={
+            'otp': otp,
+            'username': username,
+        }
         context = {
             'username': username,
             'phone_number': phone_number,
@@ -64,24 +62,50 @@ class LoginWithPhoneNumber(generic.TemplateView):
             return redirect('account_login')
         except ConnectTimeout as error:
             messages.error(request, _("A problem occured in sms message server. Please try again in a few minutes."))
-            messages.error(request, _(error))
+            messages.error(request, error)
+            return redirect('account_login')
+        except SSLError as error:
+            messages.error(request, _("A problem occured which is related to SSL. Please check your VPN status or proxy settings!"))
+            messages.error(request, error)
             return redirect('account_login')
     
     def post(self, request, *args, **kwargs):
         phone_number = request.POST.get('phone_number')
-        username = request.POST.get('username')
         sent_otp = request.POST.get('otp')
         otps = LoginWithPhoneNumber.otps
-        correct_otp = otps.get(phone_number) # دقت کنم که قبل از پاک کردن مقدار توش باید ذخیره اش کنم. 
+        current_user = otps.get(phone_number) # اگه طرف شماره رو انگولک نکرده باشه از تو اچ تی ام ال
+        # یا مدت زمان منقضی نشده باشه، پس تو سرور این یه مقدار داره که یه دیکشنری هست و کلیدهای
+        # otp, username داخلش هست و میتونیم از توش در بیاریم و کار دلخواه رو انجام بدیم
+        # otp که رمز هست برای بررسی درستی استفاده میکنیم. یوزرنیم هم که اگه از قبل باشه بهش
+        if current_user == None: # یعنی یا منقضی شده و یا طرف دستکاری کرده فرم رو با اچ تی ام ال
+            messages.error(request, _("OTP has been expired!"))
+            return redirect('account_login')
+        correct_otp = current_user.get('otp')
+        username = current_user.get('username')
+        # دقت کنم که قبل از پاک کردن مقدار توش باید ذخیره اش کنم. 
         # اگه جای این خط و دستور بعد رو عوض کنم، اطلاعات این هم پاک میشه. چون هر دو به یه جای حافظه
         # اشاره میکنن. البته میشه تو کپی هم نگه داشت. اما چون یکبار مصرف هست و دیگه بهش کاری نداریم،
         # پاکش کردم. میتونم بعدا با ترد درست کنم که مثلا تا ۲ دقیقه نگه داره و اگه طرف دوباره خواست
         # براش نفرستم.
-        del LoginWithPhoneNumber.otps[phone_number]
+        try:
+            del LoginWithPhoneNumber.otps[phone_number]
+        except: # ممکنه اکسپایر شده باشه یا نباشه تو دیکشنری یا به هر دلیلی. به هر حال میگم ارور نده. سعی کن پاکش کنی. شد شد نشد نشد ولش کن😁
+            pass
         if correct_otp==sent_otp:
             try:
-                if username=="None": # تازه اولین باره که وارد میشه. پس براش اکانت میسازیم دقت کنم که اچ تی ام ال وقتی برای ما میفرسته استرینگ هست. به خاطر همین تو کوتیشن گذاشتم. گمجه دیگه اچ تی ام ال
-                    new_user = get_user_model().objects.create(username=phone_number, phone_number=phone_number)
+                # if username=="None": # اول با اچ تی ام ال ارسال کرده بودم که کار درستی نبود. جدای از اون هم نان رو به استرینگ نان تبدیل میکرد گمج
+                if username==None: # پس دفعه اول هست و میخواد اکانت بسازه
+                    # ممکنه یه نفر قبلا یه یوزر ساخته و یه شماره موبایل الکی به عنوان یوزرنیمش گذاشته
+                    # و این طوری کسی که واقعا با اون شماره موبایل بخواد ثبت نام کنه نمیتونه. چون
+                    # همچین یوزرنیمی از قبل وجود داره. پس تو این حالت ته شماره اش یه چیز شانسی
+                    # خودم اضافه میکنم. البته تو حالت طبیعی مشکلی نیست و با همون شماره باید بشه
+                    # یوزرنیم ساخت که من این کار رو کردم. با این حال باز هم تو ترای و اکسپت گذاشتم😊
+                    random_username = phone_number 
+                    not_ok = get_user_model().objects.filter(username=random_username).first()
+                    while not_ok:
+                        random_username = phone_number+str(''.join(random.choices(string.ascii_letters+string.digits,k=random.randint(8, 10))))
+                        not_ok = get_user_model().objects.filter(username=random_username).first()
+                    new_user = get_user_model().objects.create(username=random_username, phone_number=phone_number)
                     PhoneNumber.objects.create(user=new_user, phone_number=phone_number)
                     login(request, new_user, backend='django.contrib.auth.backends.ModelBackend')
                 else: # قبلا حداقل یه بار وارد شده. پس اکانت داره
@@ -94,14 +118,9 @@ class LoginWithPhoneNumber(generic.TemplateView):
                 context = {'phone_number': phone_number}
                 messages.success(request, _("Successfull Login."))
                 return render(request, 'register_with_phone_number.html', context)
-
             except IntegrityError:
                 messages.error(request, _("Sorry! This phone number already has an account. If it's yours and you can't use it, contact the moderator of the site."))
                 return redirect('account_login')
-            # context = {
-            #     'phone_number': phone_number,
-            # }
-            # return render(request, 'index.html', context)
         else:
             messages.error(request, _("Sorry. OTP is invalid!"))
             return redirect('account_login')
@@ -112,11 +131,10 @@ class RegisterWithPhoneNumber(generic.TemplateView):
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         v = request.POST.get('verified')
-        if v=='1': # یعنی تیک این رو زده که نمیخواد اطلاعاتش رو وارد کنه و از دفعه بعد هم نمیخواد ببینه این صفحه ره. پس تایید کرده و وریفاید رو ترو میذارم.
-            username = request.POST.get('username')
-            temp = PhoneNumber.objects.get(phone_number=username)
+        user = request.user
+        if v=='1': # یعنی تیک این رو زده که نمیخواد اطلاعاتش رو وارد کنه و از دفعه بعد هم نمیخواد ببینه این صفحه رو. پس تایید کرده و وریفاید رو ترو میذارم.
+            temp = PhoneNumber.objects.get(user=user)
             temp.verified=True
             temp.save()
             messages.success(request, _("Your choice accepted successfully! That page won't be shown to you next time!"))
@@ -126,28 +144,22 @@ class RegisterWithPhoneNumber(generic.TemplateView):
             password = request.POST.get('password')
             if username and email and password: # یعنی اگه یوزرنیم و ایمیل و پسورد وارد کرده بود، پس میخواد تغییر بده
                 form = forms.ChangeUserInfoAfterRegisterationForm(request.POST)
-                phone_number = request.user.username
                 if form.is_valid():
                     with transaction.atomic():
                         cleaned_data = form.cleaned_data
-                        temp = PhoneNumber.objects.get(phone_number=phone_number)
+                        temp = PhoneNumber.objects.get(user=user)
                         temp.verified=True
                         temp.save()
-                        user = get_user_model().objects.get(username=phone_number)
                         user.username=cleaned_data['username']
                         user.email = cleaned_data['email']
                         user.password = make_password(cleaned_data['password']) # خود جنگو ساده رو قبول نمیکنه. با این میشه هشش کرد.
-                        user.phone_number = phone_number
                         user.save()
                         messages.success(request, _("Your info updated successfully! Please login again!"))
                 else:
                     messages.error(request, form.errors)
-                    context = {
-                        'phone_number': phone_number
-                    }
-                    return render(request, 'register_with_phone_number.html', context)
+                    return render(request, 'register_with_phone_number.html')
             else: # یعنی نمیخواست یوزرنیم و ایمیل و پسورد وارد کنه و بدون زدن اون تیک زده که الان فقط نمیخواد صفحه رو ببینه.
-                messages.error(request, _("Ok. You are in a hurry! We will show you this form next time."))
+                messages.success(request, _("Ok. You are in a hurry! We will show you this form next time."))
         return redirect('homepage')
 
 
