@@ -9,12 +9,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from requests.exceptions import ConnectTimeout, SSLError
 import ghasedakpack
-import random
-import string
+import random, string, time, threading
 
 from config.madval1369_secret import *
 from .models import PhoneNumber, ProfilePicture
 from . import forms
+
+
+sms = ghasedakpack.Ghasedak(GHASEDAK_API_KEY)
+good_line_number_for_sending_otp = '30005088' # مال خودم رو که میذارم، شانسی از این شماره یا 20008580 میفرسته که شماره ۳۰۰۰ اوکی هست. ولی ۲۰۰۰ داغانه یه بار تقریبا ۲۰ دقیقه طول کشید تا بفرسته که خب دیگه یکبار رمز به درد بخوری نیست.
 
 
 class LogoutConfirm(generic.TemplateView):
@@ -39,8 +42,6 @@ class LoginWithPhoneNumber(generic.TemplateView):
         if phone_number.isalpha() or len(phone_number)!=11:
             messages.error(request, _("Phone number should be exactly 11 digits to get verification code"))
             return redirect('account_login')
-        self.sms = ghasedakpack.Ghasedak(GHASEDAK_API_KEY)
-        self.good_line_number_for_sending_otp = '30005088' # مال خودم رو که میذارم، شانسی از این شماره یا 20008580 میفرسته که شماره ۳۰۰۰ اوکی هست. ولی ۲۰۰۰ داغانه یه بار تقریبا ۲۰ دقیقه طول کشید تا بفرسته که خب دیگه یکبار رمز به درد بخوری نیست.
         otp = str(random.randint(100000, 999999))
         messages.warning(request, f"otp is {otp}😊")
         username = PhoneNumber.objects.select_related('user').filter(phone_number=phone_number).first() # اگه باشه که میده. اگه نباشه نان میده
@@ -53,7 +54,7 @@ class LoginWithPhoneNumber(generic.TemplateView):
             'phone_number': phone_number,
         }
         try:
-            # answer = self.sms.verification({'receptor': phone_number, 'linenumber': self.good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
+            # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
             answer = True
             if answer:
                 messages.success(request, _("A verification code sent to %s. Please enter the recieved code to continue." %phone_number))
@@ -68,7 +69,13 @@ class LoginWithPhoneNumber(generic.TemplateView):
             messages.error(request, _("A problem occured which is related to SSL. Please check your VPN status or proxy settings!"))
             messages.error(request, error)
             return redirect('account_login')
-    
+        except ConnectionError as error:
+            messages.error(request, _("A connection error occured. Please check your Internet!"))
+            messages.error(request, error)
+            return redirect('change_otp_number')
+        finally:
+            threading.Thread(target=self.expire_sent_otp, args=(phone_number, )).start()
+
     def post(self, request, *args, **kwargs):
         phone_number = request.POST.get('phone_number')
         sent_otp = request.POST.get('otp')
@@ -126,6 +133,13 @@ class LoginWithPhoneNumber(generic.TemplateView):
         else:
             messages.error(request, _("Sorry. OTP is invalid!"))
             return redirect('account_login')
+
+    def expire_sent_otp(self, phone_number):
+        time.sleep(120)
+        try:
+            del LoginWithPhoneNumber.otps[phone_number]
+        except:
+            pass
 
 
 class RegisterWithPhoneNumber(generic.TemplateView):
@@ -253,8 +267,6 @@ class ChangeOTPNumberConfirm(LoginRequiredMixin, generic.TemplateView):
         if is_registered:
             messages.error(request, _("This phone number is already registered!"))
             return redirect('change_otp_number')
-        self.sms = ghasedakpack.Ghasedak(GHASEDAK_API_KEY)
-        self.good_line_number_for_sending_otp = '30005088' # مال خودم رو که میذارم، شانسی از این شماره یا 20008580 میفرسته که شماره ۳۰۰۰ اوکی هست. ولی ۲۰۰۰ داغانه یه بار تقریبا ۲۰ دقیقه طول کشید تا بفرسته که خب دیگه یکبار رمز به درد بخوری نیست.
         otp = str(random.randint(100000, 999999))
         messages.warning(request, f"otp is {otp}😊")
         ChangeOTPNumberConfirm.otps[request.user]={ # این دفعه چون اکانت داره از قبل، دیگه به شماره اش کاری نداریم و تو دیکشنری کلیدش رو یوزرنیمیش میذاریم
@@ -265,7 +277,9 @@ class ChangeOTPNumberConfirm(LoginRequiredMixin, generic.TemplateView):
             'phone_number': phone_number,
         }
         try:
-            # answer = self.sms.verification({'receptor': phone_number, 'linenumber': self.good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
+            # وقتی اسم برای اکانت میذاشتم ارور میداد و سایت قاصدک آی پی لیمیتد مینوشت. اما با همون شماره کار کرد ولی دیر میومد و تو سایتش هم مینوشت در حال بررسی. شاید واقعا نگاه میکردن که کلمه عزیز برای کی به کار رفته. به هر حال کد من درست بود. اما دردسر زیاد داشت و و از همون اولی استفاده کردم تا اطلاع ثانوی
+            # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE_TO_CHANGE_OTP_NUMBER, 'param1': request.user.get_name(), 'param2': phone_number, 'param3': otp})
+            # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
             answer = True
             if answer:
                 messages.success(request, _("A verification code sent to %s. Please enter the recieved code to continue." %phone_number))
@@ -280,6 +294,12 @@ class ChangeOTPNumberConfirm(LoginRequiredMixin, generic.TemplateView):
             messages.error(request, _("A problem occured which is related to SSL. Please check your VPN status or proxy settings!"))
             messages.error(request, error)
             return redirect('change_otp_number')
+        except ConnectionError as error:
+            messages.error(request, _("A connection error occured. Please check your Internet!"))
+            messages.error(request, error)
+            return redirect('change_otp_number')
+        finally:
+            threading.Thread(target=self.expire_sent_otp, args=(request.user, )).start()
 
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -307,3 +327,11 @@ class ChangeOTPNumberConfirm(LoginRequiredMixin, generic.TemplateView):
         else:
             messages.error(request, _("Sorry. OTP is invalid!"))
             return redirect('change_otp_number')
+
+
+    def expire_sent_otp(self, user):
+        time.sleep(120)
+        try:
+            del ChangeOTPNumberConfirm.otps[user]
+        except:
+            pass

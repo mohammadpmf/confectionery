@@ -82,7 +82,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <a href="{% url 'logout_confirm' %}">
                             <span class="align-middle">خروج</span>
                         </a>
-                        <span class="align-middle">| {{ user }} خوش آمدی</span>
+                        <span class="align-middle">| {{ user.get_name }} خوش آمدی</span>
                         {% if user.profile_picture %}
                         <img style="border-radius: 50%;" src="{{ user.profile_picture.image.url }}" width="32" height="32">
                         {% endif %}
@@ -133,7 +133,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                 <a href="{% url 'logout_confirm' %}">
                     <span class="align-middle">خروج</span>
                 </a>
-                <span class="align-middle">| {{ user }} خوش آمدی</span>
+                <span class="align-middle">| {{ user.get_name }} خوش آمدی</span>
                 {% if user.profile_picture %}
                 <img style="border-radius: 50%;" src="{{ user.profile_picture.image.url }}" width="32" height="32">
                 {% endif %}

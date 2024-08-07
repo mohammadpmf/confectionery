@@ -19,7 +19,7 @@
 {% block content %}
 <div class='container mt-5' style="direction: rtl">
     <h1 class="d-flex justify-content-center my-5 pt-5 c text-success em3 text-center">
-        سلام {{ user|pn }}! از این که عضو خانواده ما شدی ازت ممنونیم. اگه چند دقیقه وقت بذاری و اطلاعات زیر رو کامل کنی خوشحالمون میکنی. اگه دوست نداشتی هم به وقتت احترام میذاریم. موفق باشی.
+        سلام {{ user.get_name|pn }}! از این که عضو خانواده ما شدی ازت ممنونیم. اگه چند دقیقه وقت بذاری و اطلاعات زیر رو کامل کنی خوشحالمون میکنی. اگه دوست نداشتی هم به وقتت احترام میذاریم. موفق باشی.
     </h1>
     <div class="d-flex justify-content-center">
         <form action="{% url 'register_with_phone_number' %}" method="post" class="mx-2" name="register_form">
