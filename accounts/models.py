@@ -29,6 +29,11 @@ class CustomUser(AbstractUser):
         ],
     )
 
+    def __str__(self):
+        if self.first_name:
+            return f"{self.first_name}"
+        return super().__str__()
+
 
 class PhoneNumber(models.Model):
     user = models.OneToOneField(verbose_name=_('User'), to=CustomUser, on_delete=models.CASCADE, related_name='otp_phone_number') # چون خود کاستومر ها فون نامبر دارن اما اختیاری هست. در واقع اون رو برای اطلاع رسانی میتونن استفاده کنن این فقط برای او تی پی که اگه دوست دارن خودشون میتونن هر دو تا رو یکی بذارن. به صورت پیش فرض خودم موقع ورود با او تی پی این کار رو میکنم. یعنی شماره اختیاری یوزر رو هم میذارم همین که اس ام اس های دیگه هم بره به اونجا. البته فقط موقع ثبت نام. از دفعات بعد دیگه این کار رو نمیکنم. کدهاش رو تو ویوز نوشتم.

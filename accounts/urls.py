@@ -11,4 +11,5 @@ urlpatterns = [
     path('accounts/change_username/', views.ChangeUsername.as_view(), name='change_username'),
     path('accounts/change_email/', views.ChangeEmailAddress.as_view(), name='change_email'),
     path('accounts/change_otp_number/', views.ChangeOTPNumber.as_view(), name='change_otp_number'),
+    path('accounts/change_otp_number/confirm/', views.ChangeOTPNumberConfirm.as_view(), name='verify_otp_phone_number_for_change'),
 ]

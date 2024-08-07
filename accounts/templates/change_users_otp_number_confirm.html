@@ -1,0 +1,43 @@
+{% extends "_base.html" %}
+
+{% load static %}
+
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+
+{% load madval_persian_translation %}
+
+{% block page_title %}
+تایید یکبار رمز (OTP)
+{% endblock page_title %}
+
+{% block extra_css %}
+<link href="{% static 'madval/css/style_login.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block content %}
+<div class='container mt-5' style="direction: rtl">
+    <h1 class="d-flex justify-content-center my-5 pt-5 c text-success em3 text-center">
+      {{ user|pn }} عزیز!
+      <br>
+      لطفا جهت تایید اعتبار سنجی، کد ارسالی به شماره {{ phone_number|pn }} را وارد کن
+    </h1>
+    <div class="d-flex justify-content-center">
+        <form action="{% url 'verify_otp_phone_number_for_change' %}" method="post" name="myFormForOTP" onsubmit="return validateForm()" class="d-inline mx-2">
+            {% csrf_token %}
+            <input type="text" class="btn m-2 rounded-pill border border-success" name="otp">
+            <button type="submit" class="btn btn-outline-success m-2 rounded-pill px-5">ثبت</button>
+        </form>
+    </div>
+</div>
+<script>
+    function validateForm() {
+      var x = document.forms["myFormForOTP"]["otp"].value;
+      if (x == "" || x == null) {
+        alert("لطفا کد ارسالی به موبایل خود را وارد کنید!");
+        return false;
+      }
+    }
+</script>
+{% endblock content %}

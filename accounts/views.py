@@ -76,13 +76,15 @@ class LoginWithPhoneNumber(generic.TemplateView):
         current_user = otps.get(phone_number) # اگه طرف شماره رو انگولک نکرده باشه از تو اچ تی ام ال
         # یا مدت زمان منقضی نشده باشه، پس تو سرور این یه مقدار داره که یه دیکشنری هست و کلیدهای
         # otp, username داخلش هست و میتونیم از توش در بیاریم و کار دلخواه رو انجام بدیم
-        # otp که رمز هست برای بررسی درستی استفاده میکنیم. یوزرنیم هم که اگه از قبل باشه بهش
+        # otp که رمز هست برای بررسی درستی استفاده میکنیم. یوزرنیم هم که اسمی هست که براش میسازیم
+        # و تازه هست و مهم نیست. چون همون لحظه بهش میگیم اگه نمیخواد تغییرش بده. اما کدها رو طوری
+        # نوشتم که ترجیحا همون شماره موبایل باشه. اگه اکانتی از قبل بوده تهش یه چیز رندوم اضافه کنه.
         if current_user == None: # یعنی یا منقضی شده و یا طرف دستکاری کرده فرم رو با اچ تی ام ال
             messages.error(request, _("OTP has been expired!"))
             return redirect('account_login')
         correct_otp = current_user.get('otp')
         username = current_user.get('username')
-        # دقت کنم که قبل از پاک کردن مقدار توش باید ذخیره اش کنم. 
+        # دقت کنم که قبل از پاک کردن مقدار توش باید ذخیره اش کنم این مقادیر رو.
         # اگه جای این خط و دستور بعد رو عوض کنم، اطلاعات این هم پاک میشه. چون هر دو به یه جای حافظه
         # اشاره میکنن. البته میشه تو کپی هم نگه داشت. اما چون یکبار مصرف هست و دیگه بهش کاری نداریم،
         # پاکش کردم. میتونم بعدا با ترد درست کنم که مثلا تا ۲ دقیقه نگه داره و اگه طرف دوباره خواست
@@ -235,29 +237,73 @@ class ChangeEmailAddress(LoginRequiredMixin, generic.TemplateView):
 class ChangeOTPNumber(LoginRequiredMixin, generic.TemplateView):
     def get(self, request, *args, **kwargs):
         form = forms.ChangeUsersOTPNumberInWebsiteForm(instance=request.user)
-        form.user = request.user
-        otp_phone_number = PhoneNumber.objects.filter(user=request.user).first()
-        context = {"form": form, 'otp_phone_number': otp_phone_number}
+        context = {"form": form}
         return render(request, 'change_users_otp_number.html', context)
-    
+
+
+class ChangeOTPNumberConfirm(LoginRequiredMixin, generic.TemplateView):
+    otps = dict()
+
+    def get(self, request, *args, **kwargs):
+        phone_number = request.GET.get('otp_phone_number')
+        if phone_number.isalpha() or len(phone_number)!=11:
+            messages.error(request, _("Phone number should be exactly 11 digits to get verification code"))
+            return redirect('change_otp_number')
+        is_registered = PhoneNumber.objects.filter(phone_number=phone_number).first()
+        if is_registered:
+            messages.error(request, _("This phone number is already registered!"))
+            return redirect('change_otp_number')
+        self.sms = ghasedakpack.Ghasedak(GHASEDAK_API_KEY)
+        self.good_line_number_for_sending_otp = '30005088' # مال خودم رو که میذارم، شانسی از این شماره یا 20008580 میفرسته که شماره ۳۰۰۰ اوکی هست. ولی ۲۰۰۰ داغانه یه بار تقریبا ۲۰ دقیقه طول کشید تا بفرسته که خب دیگه یکبار رمز به درد بخوری نیست.
+        otp = str(random.randint(100000, 999999))
+        messages.warning(request, f"otp is {otp}😊")
+        ChangeOTPNumberConfirm.otps[request.user]={ # این دفعه چون اکانت داره از قبل، دیگه به شماره اش کاری نداریم و تو دیکشنری کلیدش رو یوزرنیمیش میذاریم
+            'otp': otp,
+            'phone_number': phone_number
+        }
+        context = {
+            'phone_number': phone_number,
+        }
+        try:
+            # answer = self.sms.verification({'receptor': phone_number, 'linenumber': self.good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
+            answer = True
+            if answer:
+                messages.success(request, _("A verification code sent to %s. Please enter the recieved code to continue." %phone_number))
+                return render(request, 'change_users_otp_number_confirm.html', context)
+            messages.error(request, _("A problem occured in sending message. Please try again in a few minutes."))
+            return redirect('change_otp_number')
+        except ConnectTimeout as error:
+            messages.error(request, _("A problem occured in sms message server. Please try again in a few minutes."))
+            messages.error(request, error)
+            return redirect('change_otp_number')
+        except SSLError as error:
+            messages.error(request, _("A problem occured which is related to SSL. Please check your VPN status or proxy settings!"))
+            messages.error(request, error)
+            return redirect('change_otp_number')
+
     def post(self, request, *args, **kwargs):
         user = request.user
-        form = forms.ChangeUsersOTPNumberInWebsiteForm(request.POST, instance=user)
-        if form.is_valid():
-            new_number = form.cleaned_data.get("otp_phone_number")
-            exists = PhoneNumber.objects.filter(phone_number=new_number).first()
-            if exists:
-                messages.error(request, _("Someone already is using this number!"))
-                return self.get(request, *args, **kwargs)
-            number = PhoneNumber.objects.filter(user=user).first()
-            if number:
-                number.phone_number=new_number
-                number.save()
-            else:
-                PhoneNumber.objects.create(user=user, phone_number=new_number, verified=True)
-            messages.success(request, _("OTP Phone number updated successfully!"))
+        sent_otp = request.POST.get('otp')
+        otps = ChangeOTPNumberConfirm.otps
+        current_user = otps.get(user)
+        if current_user == None: # یعنی یا منقضی شده و یا طرف دستکاری کرده فرم رو با اچ تی ام ال
+            messages.error(request, _("OTP has been expired!"))
+            return redirect('change_otp_number')
+        correct_otp = current_user.get('otp')
+        phone_number = current_user.get('phone_number')
+        try:
+            del ChangeOTPNumberConfirm.otps[user]
+        except: # ممکنه اکسپایر شده باشه یا نباشه تو دیکشنری یا به هر دلیلی. به هر حال میگم ارور نده. سعی کن پاکش کنی. شد شد نشد نشد ولش کن😁
+            pass
+        if correct_otp==sent_otp:
+            with transaction.atomic():
+                temp = PhoneNumber.objects.get(user=user)
+                temp.phone_number=phone_number
+                temp.save()
+                user.phone_number=phone_number
+                user.save()
+                messages.success(request, _("OTP Phone number updated successfully!"))
             return redirect('homepage')
         else:
-            messages.error(request, form.errors)
-            return self.get(request, *args, **kwargs)
-
+            messages.error(request, _("Sorry. OTP is invalid!"))
+            return redirect('change_otp_number')
