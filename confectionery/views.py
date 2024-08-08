@@ -74,6 +74,7 @@ class CategoryList(generic.ListView):
     model = Product
     template_name = 'category.html'
     context_object_name = 'products'
+    paginate_by = 10
 
     def get_queryset(self):
         category = self.kwargs['category']
@@ -213,13 +214,31 @@ class FavoriteList(LoginRequiredMixin, generic.ListView):
     #     products = Product.objects.filter(favorited_users__user=user)
     #     return products
 
+    def get_context_data(self, **kwargs): # برای این اضافه کردم که اگه تو صفحه علاقه مندی هاش بود دیگه سورت کردن رو نشون نده بهش.
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = 'favorites_page'
+        return context
+
 
 class ProductList(generic.ListView):
-    model = Product
-    template_name = 'category.html'
-    context_object_name = 'products'
-    paginate_by=10
-    queryset = Product.objects.order_by('-id').annotate(average_stars=Avg('comments__stars')).order_by('-average_stars', '-id')
+    def get(self, request, *args, **kwargs):
+        sort_by = self.request.GET.get('sort-by')
+        queryset = Product.objects.annotate(average_stars=Avg('comments__stars'))
+        if sort_by in [None, 'recommendation']:
+            queryset=queryset.order_by('-average_stars')
+        elif sort_by=='newest':
+            queryset=queryset.order_by('-id')
+        elif sort_by=='cheapest':
+            queryset=queryset.order_by('price_toman')
+        elif sort_by=='most_expensive':
+            queryset=queryset.order_by('-price_toman')
+        elif sort_by=='more_durable':
+            queryset=queryset.order_by('-expiration_days')
+        elif sort_by=='fastest':
+            queryset=queryset.order_by('preparation_time')
+        context = {'products': queryset}
+        return render(request, 'category.html', context)
+
 
 
 class AboutUs(generic.TemplateView):

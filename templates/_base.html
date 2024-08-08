@@ -154,16 +154,16 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto mx-lg-auto py-0">
                 
-                <div class="nav-item dropdown">
-                    {% if user.profile_picture %}
-                    <a href="#" class="nav-link dropdown" data-bs-toggle="dropdown"><img style="border-radius: 50%;" src="{{ user.profile_picture.image.url }}" width="32" height="32"></a>
-                    {% else %}
-                    <a href="#" class="nav-link dropdown" data-bs-toggle="dropdown"><i class="fas fa-user"></i></a>
-                    {% endif %}
+                <div class="nav-item dropdown {% block active_profile %}{% endblock active_profile %}">
+                    <a href="#" class="nav-link dropdown" data-bs-toggle="dropdown">
+                        {% if user.profile_picture %}
+                            <img style="border-radius: 50%;" src="{{ user.profile_picture.image.url }}" width="32" height="32">
+                        {% else %}
+                            <i class="fas fa-user"></i>
+                        {% endif %}
+                    </a>
                     <div class="dropdown-menu m-0">
                         <a dir='rtl' href="{% url 'account_login' %}"><span class="dropdown-item text-right">ورود<i class="fa fa-sign-in align-middle me-2" style="font-size:36px;"></i></span></a>
-                        <hr>
-                        <a dir='rtl' href="{% url 'my_favorites' %}"><span class="dropdown-item text-right">🧡 لیست علاقه مندی ها</span></a>
                         <hr>
                         <a dir='rtl' href="{% url 'change_username' %}"><span class="dropdown-item text-right">تغییر نام کاربری</span></a>
                         <a dir='rtl' href="{% url 'change_email' %}"><span class="dropdown-item text-right">تغییر آدرس ایمیل</span></a>
@@ -174,21 +174,23 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <a dir='rtl' href="{% url 'madval_logout' %}"><span class="dropdown-item text-right text-danger"><i class="fa fa-sign-out align-middle mx-1" style="font-size:36px;"></i> خروج مستقیم (بدون نیاز به تایید)</span></a>
                     </div>
                 </div>
-                <a href="{% url 'contact_us' %}" class="nav-item nav-link">تماس با ما</a>
-                <a href="{% url 'about_us' %}" class="nav-item nav-link">درباره ما</a>
-                <a href="team.html" class="nav-item nav-link">سرآشپز ها</a>
+                <a href="{% url 'contact_us' %}" class="nav-item nav-link {% block active_contact_us %}{% endblock active_contact_us %}">تماس با ما</a>
+                <a href="{% url 'about_us' %}" class="nav-item nav-link {% block active_about_us %}{% endblock active_about_us %}">درباره ما</a>
+                <a href="team.html" class="nav-item nav-link {% block active_chefs %}{% endblock active_chefs %}">سرآشپز ها</a>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">محصولات</a>
+                    <a href="#" class="nav-link dropdown-toggle {% block active_products %}{% endblock active_products %}" data-bs-toggle="dropdown">محصولات</a>
                     <div class="dropdown-menu m-0">
                         <a dir='rtl' href="{% url 'categories' 'cake' %}" class="dropdown-item text-right">کیک ها</a>
                         <a dir='rtl' href="{% url 'categories' 'pastry' %}" class="dropdown-item text-right">شیرینی ها</a>
                         <a dir='rtl' href="{% url 'categories' 'bread' %}" class="dropdown-item text-right">نان ها</a>
                         <a dir='rtl' href="{% url 'all_products' %}" class="dropdown-item text-right">تمام محصولات</a>
+                        <hr>
+                        <a dir='rtl' href="{% url 'my_favorites' %}"><span class="dropdown-item text-right">🧡 لیست علاقه مندی های من</span></a>
                     </div>
                 </div>
-                <a href="{% url 'homepage' %}" class="nav-item nav-link active">خانه</a>
+                <a href="{% url 'homepage' %}" class="nav-item nav-link {% block active_home %}{% endblock active_home %}">خانه</a>
                 <div class="" style="position: relative;">
-                    <a class="nav-item nav-link" style="position: absolute; top: 0; left: 0; z-index: 1;" href="{% url 'cart:cart_detail' %}"><i class="fas fa-shopping-cart"></i></a>
+                    <a class="nav-item nav-link {% block active_cart %}{% endblock active_cart %}" style="position: absolute; top: 0; left: 0; z-index: 1;" href="{% url 'cart:cart_detail' %}"><i class="fas fa-shopping-cart"></i></a>
                     {% if cart|length %}
                         <div class="d-flex justify-content-center align-items-center rounded-circle" style="position: absolute; bottom: 24px; left: 28px; border: 1px solid white; color: white; background-color: green; font-size: 1.25em; z-index: 2; width: 24px; height: 24px;">{{ cart|length|pn }}</div>
                     {% endif %}
