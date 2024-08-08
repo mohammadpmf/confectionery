@@ -8,15 +8,13 @@ from django.utils.translation import gettext as _
 from .models import Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
 from .forms import NewsLetterForm, ProductCustomUserCommentForm, ProductAnanymousUserCommentForm, SuggestionsCriticsForm
 
-from cart.cart import Cart
-from cart.madval_functions import load_cart_from_db_to_session
+
 
 
 class HomePage(generic.TemplateView):
     template_name = 'index.html'
     
     def get_context_data(self, **kwargs):
-        user = self.request.user
         context = super().get_context_data(**kwargs)
         context['cakes']=[]
         context['pastries']=[]
@@ -38,9 +36,6 @@ class HomePage(generic.TemplateView):
         # context['pastries'] = Product.objects.filter(product_type='pastry').order_by('id')[:6]
         # context['breads'] = Product.objects.filter(product_type='bread').order_by('id')[:6]
         context['top_comments'] = ProductCustomUserComment.objects.filter(is_approved=True, dont_show_my_name=False).select_related('product', 'author__profile_picture').order_by('-stars', '-datetime_modified', '-id')[:5]
-        if user.is_authenticated:
-            cart = Cart(self.request)
-            load_cart_from_db_to_session(user, cart)
         return context
     
     def post(self, request, *args, **kwargs):

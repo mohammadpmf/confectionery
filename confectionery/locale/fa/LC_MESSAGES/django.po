@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-06 21:11+0330\n"
-"PO-Revision-Date: 2024-08-06 21:11+0330\n"
-"Last-Translator:   <a@b.com>\n"
+"POT-Creation-Date: 2024-08-08 19:03+0330\n"
+"PO-Revision-Date: 2024-08-08 19:05+0330\n"
+"Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -289,7 +289,16 @@ msgstr "اعضای گروه"
 msgid "Our Master Chefs"
 msgstr "سرآشپزهای ما"
 
-#: .\views.py:44
+#: .\views.py:46
+msgid ""
+"The number of items can not be more than 30. So the cart items which had "
+"more than 30 items changed to 30."
+msgstr ""
+"تعداد سفارش یک محصول نمی تواند بیشتر از ۳۰ عدد باشد. بنابراین تعداد محصولاتی"
+" که مجموع سفارش قبلی شما و سفارش فعلی شما بیشتر از ۳۰ عدد شده بود، به ۳۰ عدد"
+" تغییر یافتند."
+
+#: .\views.py:54
 msgid ""
 "Your email successfully added to our database! You will be noticed from all "
 "news ASAP!"
@@ -297,25 +306,25 @@ msgstr ""
 "آدرس ایمیل شما با موفقیت به پایگاه داده ما اضافه شد. به محض آمدن یک خبر "
 "جدید، از آن مطلع خواهید شد."
 
-#: .\views.py:151
+#: .\views.py:163
 #, python-format
 msgid "%s successfully added to your favorites."
 msgstr "%s با موفقیت به لیست علاقه مندی های شما اضافه شد."
 
-#: .\views.py:155
+#: .\views.py:167
 #, python-format
 msgid "%s successfully removed from your favorites."
 msgstr "%s با موفقیت از لیست علاقه مندی های شما حذف شد."
 
-#: .\views.py:173
+#: .\views.py:185
 msgid "Your comment updated successfully."
 msgstr "نظر شما با موفقیت ویرایس یافت."
 
-#: .\views.py:180
+#: .\views.py:192
 msgid "Your comment recieved successfully."
 msgstr "نظر شما با موفقیت دریافت شد."
 
-#: .\views.py:185
+#: .\views.py:197
 msgid ""
 "Your comment recieved successfully. But as you are not a member of this "
 "site, it will be shown after confirmation!"
@@ -323,7 +332,7 @@ msgstr ""
 "نظر شما با موفقیت دریافت شد. اما چون عضو سایت نیستید، پس از تایید نمایش داده"
 " خواهد شد."
 
-#: .\views.py:232
+#: .\views.py:244
 msgid ""
 "Your message has been recieved successfully! If it needs a response, we'll "
 "contact you ASAP!"

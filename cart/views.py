@@ -5,7 +5,7 @@ from django.contrib import messages
 
 from .cart import Cart
 from .forms import AddToCartProductForm
-from .madval_functions import *
+from .madval_functions import clear_user_cart_in_db, remove_cart_item_from_db, save_cart_in_db
 
 from confectionery.models import Product
 
@@ -59,7 +59,7 @@ def remove_from_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
     if user.is_authenticated: # اگه یوزر داخل نبود که مهم نیست و کاری نمیکنیم. ولی اگه بود تو دیتابیس هم ذخیره میکنیم اطلاعات فعلی کارت رو
-        save_cart_in_db(user, cart.cart)
+        remove_cart_item_from_db(user, product_id)
     return redirect('cart:cart_detail')
 
 

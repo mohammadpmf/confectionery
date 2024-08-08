@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-05 23:52+0330\n"
-"PO-Revision-Date: 2024-08-05 14:15+0330\n"
-"Last-Translator:   <a@b.com>\n"
+"POT-Creation-Date: 2024-08-08 19:02+0330\n"
+"PO-Revision-Date: 2024-08-08 19:02+0330\n"
+"Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: .\cart.py:37
+#: .\cart.py:38
 msgid "Product successfully updated"
 msgstr "محصول با موفقیت ویرایش شد."
 
-#: .\cart.py:41
+#: .\cart.py:43
 msgid "Number of products should be an integer number!"
 msgstr "تعداد محصولات باید یک عدد صحیح باشد."
 
-#: .\cart.py:44 .\forms.py:41
+#: .\cart.py:46 .\forms.py:41
 msgid ""
 "Number of products can't be more than 30. If you have a big, order, please "
 "contact 09356640204."
@@ -34,7 +34,7 @@ msgstr ""
 "تعداد محصولات سفارشی نمیتواند بیش از ۳۰ عدد باشد. در صورتی که سفارش بزرگی "
 "دارید، لطفا با شماره ۰۹۳۵۶۶۴۰۲۰۴ تماس بگیرید."
 
-#: .\cart.py:47
+#: .\cart.py:49
 msgid ""
 "Number of products can't be less than 1. If you don't wan't it, you can "
 "remove it from your cart."
@@ -42,11 +42,11 @@ msgstr ""
 "تعداد محصولات سفارشی نمیتواند کمتر از ۱ باشد. در صورتی که محصول را "
 "نمیخواهید، میتوانید آن را از سبد خرید خود حذف کنید."
 
-#: .\cart.py:49
+#: .\cart.py:53
 msgid "Product successfully added to cart"
 msgstr "محصول با موفقیت به سبد خرید اضافه شد."
 
-#: .\cart.py:59
+#: .\cart.py:63
 msgid "Product successfully removed from cart"
 msgstr "محصول با موفقیت از سبد خرید شما حذف شد."
 
@@ -62,6 +62,22 @@ msgstr ""
 "تعداد محصولات نمیتواند منفی یا ۰ باشد. در صورتی که محصول را نمی خواهید، می "
 "توانید آن را از سبد خرید خود حذف کنید."
 
+#: .\models.py:9 .\models.py:10
+msgid "User"
+msgstr "کاربر"
+
+#: .\models.py:14 .\templates\cart\cart_sidebar.html:10
+msgid "Cart"
+msgstr "سبد خرید"
+
+#: .\models.py:15
+msgid "Product"
+msgstr "محصول"
+
+#: .\models.py:16
+msgid "Quantity"
+msgstr "تعداد"
+
 #: .\templates\cart\cart_detail.html:16
 msgid "Cart Detail"
 msgstr "سبد خرید"
@@ -69,10 +85,6 @@ msgstr "سبد خرید"
 #: .\templates\cart\cart_detail.html:100
 msgid "Empty Cart"
 msgstr "خالی کردن سبد خرید"
-
-#: .\templates\cart\cart_sidebar.html:10
-msgid "Cart"
-msgstr "سبد خرید"
 
 #: .\templates\cart\cart_sidebar.html:28 .\templates\cart\cart_sidebar.html:36
 msgid "$"
@@ -90,11 +102,11 @@ msgstr "برو به سبد خرید"
 msgid "Checkout"
 msgstr "پرداخت"
 
-#: .\views.py:64
+#: .\views.py:74
 msgid "All products successfully removed from your cart"
 msgstr "تمام محصولات با موفقیت از سبد خرید شما حذف شدند."
 
-#: .\views.py:66
+#: .\views.py:76
 msgid "Your cart is already empty."
 msgstr "سبد خرید شما از قبل خالیست."
 
