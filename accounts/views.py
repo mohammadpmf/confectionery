@@ -14,10 +14,20 @@ import random, string, time, threading
 from config.madval1369_secret import *
 from .models import PhoneNumber, ProfilePicture
 from . import forms
+from cart.madval_functions import save_cart_in_db
 
 
 sms = ghasedakpack.Ghasedak(GHASEDAK_API_KEY)
 good_line_number_for_sending_otp = '30005088' # مال خودم رو که میذارم، شانسی از این شماره یا 20008580 میفرسته که شماره ۳۰۰۰ اوکی هست. ولی ۲۰۰۰ داغانه یه بار تقریبا ۲۰ دقیقه طول کشید تا بفرسته که خب دیگه یکبار رمز به درد بخوری نیست.
+
+
+class MadvalLogout(generic.TemplateView):
+    def get(self, request, *args, **kwargs):
+        cart = self.request.session.get('cart')
+        user = self.request.user
+        if user.is_authenticated: # حتی اینجا هم لازمه که باشه. چون شاید طرف لاگین نیست و کرم داره الکی رو دکمه لاگ اوت بزنه. پس برای این که مشکل پیش نیاد اینجا هم شرط رو بررسی میکنیم.
+            save_cart_in_db(user, cart)
+        return redirect('account_logout')
 
 
 class LogoutConfirm(generic.TemplateView):

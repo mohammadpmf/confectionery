@@ -82,7 +82,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <a href="{% url 'logout_confirm' %}">
                             <span class="align-middle">خروج</span>
                         </a>
-                        <span class="align-middle">| {{ user.get_name }} خوش آمدی</span>
+                        <span class="align-middle">| خوش آمدی {{ user.get_name }}</span>
                         {% if user.profile_picture %}
                         <img style="border-radius: 50%;" src="{{ user.profile_picture.image.url }}" width="32" height="32">
                         {% endif %}
@@ -161,6 +161,8 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                     <a href="#" class="nav-link dropdown" data-bs-toggle="dropdown"><i class="fas fa-user"></i></a>
                     {% endif %}
                     <div class="dropdown-menu m-0">
+                        <a dir='rtl' href="{% url 'account_login' %}"><span class="dropdown-item text-right">ورود<i class="fa fa-sign-in align-middle me-2" style="font-size:36px;"></i></span></a>
+                        <hr>
                         <a dir='rtl' href="{% url 'my_favorites' %}"><span class="dropdown-item text-right">🧡 لیست علاقه مندی ها</span></a>
                         <hr>
                         <a dir='rtl' href="{% url 'change_username' %}"><span class="dropdown-item text-right">تغییر نام کاربری</span></a>
@@ -169,7 +171,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <a dir='rtl' href="{% url 'account_change_password' %}"><span class="dropdown-item text-right">تغییر رمز عبور</span></a>
                         <a dir='rtl' href="{% url 'change_profile' %}"><span class="dropdown-item text-right">تغییر مشخصات کاربری</span></a>
                         <hr>
-                        <a dir='rtl' href="{% url 'account_logout' %}"><span class="dropdown-item text-right text-danger">خروج مستقیم (بدون نیاز به تایید)</span></a>
+                        <a dir='rtl' href="{% url 'madval_logout' %}"><span class="dropdown-item text-right text-danger"><i class="fa fa-sign-out align-middle mx-1" style="font-size:36px;"></i> خروج مستقیم (بدون نیاز به تایید)</span></a>
                     </div>
                 </div>
                 <a href="{% url 'contact_us' %}" class="nav-item nav-link">تماس با ما</a>

@@ -3,9 +3,11 @@ from django.views.decorators.http import require_POST
 from django.utils.translation import gettext as _
 from django.contrib import messages
 
-from confectionery.models import Product
 from .cart import Cart
 from .forms import AddToCartProductForm
+from .madval_functions import *
+
+from confectionery.models import Product
 
 
 def cart_detail_view(request):
@@ -24,6 +26,7 @@ def cart_detail_view(request):
 @require_POST # این دکوریتور باعث میشه که فقط با متد پست بشه این تابع رو صدا کرد
 def add_to_cart_view(request, product_id):
     cart = Cart(request)
+    user = request.user
     product = get_object_or_404(Product, id=product_id)
     form = AddToCartProductForm(request.POST)
     next_page:str = request.POST.get('next_page')
@@ -40,9 +43,10 @@ def add_to_cart_view(request, product_id):
         next_page = reverse('my_favorites') + "#" + next_page
     if form.is_valid():
         cleaned_data = form.cleaned_data
-        print(cleaned_data)
         quantity = cleaned_data.get('quantity')
         cart.add(product, quantity, replace_current_quantity=cleaned_data['inplace'])
+        if user.is_authenticated: # اگه یوزر داخل نبود که مهم نیست و کاری نمیکنیم. ولی اگه بود تو دیتابیس هم ذخیره میکنیم اطلاعات فعلی کارت رو
+            save_cart_in_db(user, cart.cart)
     else:
         messages.error(request, form.errors)
     return redirect(next_page)
@@ -51,16 +55,22 @@ def add_to_cart_view(request, product_id):
 @require_POST
 def remove_from_cart(request, product_id):
     cart = Cart(request)
+    user = request.user
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
+    if user.is_authenticated: # اگه یوزر داخل نبود که مهم نیست و کاری نمیکنیم. ولی اگه بود تو دیتابیس هم ذخیره میکنیم اطلاعات فعلی کارت رو
+        save_cart_in_db(user, cart.cart)
     return redirect('cart:cart_detail')
 
 
 @require_POST
 def clear_cart(request):
     cart = Cart(request)
+    user = request.user
     if len(cart):
         cart.clear()
+        if user.is_authenticated:
+            clear_user_cart_in_db(user)
         messages.success(request, _('All products successfully removed from your cart'))
     else:
         messages.warning(request, _('Your cart is already empty.'))

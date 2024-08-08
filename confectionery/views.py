@@ -8,11 +8,15 @@ from django.utils.translation import gettext as _
 from .models import Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
 from .forms import NewsLetterForm, ProductCustomUserCommentForm, ProductAnanymousUserCommentForm, SuggestionsCriticsForm
 
+from cart.cart import Cart
+from cart.madval_functions import load_cart_from_db_to_session
+
 
 class HomePage(generic.TemplateView):
     template_name = 'index.html'
     
     def get_context_data(self, **kwargs):
+        user = self.request.user
         context = super().get_context_data(**kwargs)
         context['cakes']=[]
         context['pastries']=[]
@@ -34,6 +38,9 @@ class HomePage(generic.TemplateView):
         # context['pastries'] = Product.objects.filter(product_type='pastry').order_by('id')[:6]
         # context['breads'] = Product.objects.filter(product_type='bread').order_by('id')[:6]
         context['top_comments'] = ProductCustomUserComment.objects.filter(is_approved=True, dont_show_my_name=False).select_related('product', 'author__profile_picture').order_by('-stars', '-datetime_modified', '-id')[:5]
+        if user.is_authenticated:
+            cart = Cart(self.request)
+            load_cart_from_db_to_session(user, cart)
         return context
     
     def post(self, request, *args, **kwargs):
@@ -125,9 +132,10 @@ class ProductDetail(generic.DetailView):
         
     def get_context_data(self, **kwargs):
         product = kwargs.get('object') # یا product = self.get_object()
+        user = self.request.user
         context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            c = ProductCustomUserComment.objects.filter(product=product, author=self.request.user).first()
+        if user.is_authenticated:
+            c = ProductCustomUserComment.objects.filter(product=product, author=user).first()
             if c:
                 form = ProductCustomUserCommentForm(instance=c)
             else:
@@ -138,7 +146,8 @@ class ProductDetail(generic.DetailView):
         context['comments'] = ProductCustomUserComment.objects.select_related('author').\
             filter(is_approved=True, product=product).order_by('-datetime_modified')
         context['anonymous_comments'] = ProductAnanymousUserComment.objects.filter(is_approved=True, product=product).order_by('-datetime_created')
-        context['liked'] = True if Favorite.objects.filter(product=product, user=self.request.user) else False
+        if user.is_authenticated:
+            context['liked'] = True if Favorite.objects.filter(product=product, user=self.request.user) else False
         return context
     
     def post(self, request, *args, **kwargs):

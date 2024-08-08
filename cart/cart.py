@@ -28,25 +28,29 @@ class Cart:
         #     },
         # }
 
-    def add(self, product: Product, quantity=1, replace_current_quantity=False):
+    def add(self, product: Product, quantity=1, replace_current_quantity=False, give_message=True):
         product_id=str(product.id)
         if product_id not in self.cart: # اگه تو سبد خرید نبود که همین الان اضافه شده. پس اضافه اش میکنیم با مقدار اولیه صفر
             self.cart[product_id]={'quantity': 0}
         if replace_current_quantity: # اگر گفته شده بود که مقدار رو جایگزین کن، یعنی طرف تو صفحه سبد خرید نهایی هست و قبلا این آیتم رو اضافه کرده بود و الان مثلا گفته ۸ تا بشه. پس مقدار جدید باید جایگزین بشه.
             self.cart[product_id]['quantity'] = quantity
-            messages.success(self.request, _('Product successfully updated'))
+            if give_message:
+                messages.success(self.request, _('Product successfully updated'))
         else: # یعنی طرف تو صفحه خرید نیست. و از توی صفحه محصول گفته ۳ تا مثلا اضافه کن. پس به مقدار قبلیش اضافه میکنیم. که دفعه اول به اضافه ۰ میشه و دفعات بعدی به اضافه مقدار قبلیش
-            self.cart[product_id]['quantity'] += quantity
-            if not isinstance(self.cart[product_id]['quantity'], int): # نتونستم ایجادش کنم. اما گذاشتم باشه
+            temp = self.cart[product_id]['quantity'] # گذاشتم که در ادامه هر بار این عبارت طولانی رو ننویسم و مهمتر از اون اگه مقدار اشتباه بود بتونم برگردونم به حالت قبل. در واقع اگه اوکی بود اون مقدار طولانی رو که داخل کارت هست تغییر میدم. اما اگه خراب کاری شد تغییر نمیدم.
+            temp += quantity
+            if not isinstance(temp, int): # نتونستم ایجادش کنم. اما گذاشتم باشه
                 messages.error(self.request, _("Number of products should be an integer number!"))
                 return
-            if self.cart[product_id]['quantity'] > 30:
+            if temp > 30:
                 messages.error(self.request, _("Number of products can't be more than 30. If you have a big, order, please contact 09356640204."))
                 return
-            if self.cart[product_id]['quantity'] < 1: # نتونستم ایجادش کنم. اما گذاشتم باشه
+            if temp < 1: # نتونستم ایجادش کنم. اما گذاشتم باشه
                 messages.error(self.request, _("Number of products can't be less than 1. If you don't wan't it, you can remove it from your cart."))
                 return
-            messages.success(self.request, _('Product successfully added to cart'))
+            self.cart[product_id]['quantity'] = temp # اگه به اینجا رسید یعنی اوکی بوده. پس مقدارش رو تو خود کارت هم ذخیره میکنیم. اگه نرسید که اوکی نبوده. پس نباید ذخیره اش کنیم.
+            if give_message:
+                messages.success(self.request, _('Product successfully added to cart'))
         self.save()
 
     def save(self):
