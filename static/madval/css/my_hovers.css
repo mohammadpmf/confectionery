@@ -137,3 +137,20 @@
 .madval-rounded-left{
     border-radius: 20px 0 0 20px;
 }
+
+.madval-std-dev1 .madval-std-dev2 {
+    visibility: hidden;
+    width: 45vw;
+    background-color: rgba(119, 162, 241, 1);
+    /* transform: translateX(15vw) translateY(5vh); */ /*تو حالت گوشی مشکل داشت*/
+    color: brown;
+    text-align: justify;
+    border-radius: 16px;
+    padding: 16px 32px;
+    position: absolute;
+    z-index: 1;
+}
+    
+.madval-std-dev1:hover .madval-std-dev2 {
+    visibility: visible;
+}

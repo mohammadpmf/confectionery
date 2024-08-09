@@ -37,7 +37,7 @@
         </div>
         <div class="col-lg-6 pb-5">
             {% if product.count_stars %}
-            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5"><i class="fa fa-star em1" style="color: orange;" aria-hidden="true"></i> </span> <span class="em1-2 text-primary">{{ product.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7 text-muted"> (امتیاز {{ product.count_stars|cspn }} خریدار)</span></h4>
+            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5"><i class="fa fa-star em1" style="color: orange;" aria-hidden="true"></i> </span> <span class="em1-2 text-primary">{{ product.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7 text-muted"> (امتیاز {{ product.count_stars|cspn }} خریدار)</span><span class="em0-7 text-muted me-3 madval-std-dev1">(پراکندگی نظرات: {{ product.std_dev|floatformat:2|pn }})<span class="c madval-std-dev2">پراکندگی نظرات، نشان دهنده تفاوت نظر افراد مختلف است. به این معنی که هرچقدر این مقدار به صفر نزدیکتر باشد، یعنی افراد بیشتری هم عقیده هستند. هر چقدر این مقدار دور تر از صفر باشد، یعنی نظرات بیش از هم دور هستند و خیلی قابل اطمینان نیستند.</span></span></h4>
             {% else %}
             <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5"><i class="fa fa-star em1" style="color: orange;" aria-hidden="true"></i> </span><span class="em0-7 c text-muted">هنوز کسی از کاربران سایت به این محصول نمره ای نداده</span></h4>
             {% endif %}

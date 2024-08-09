@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
-from django.db.models import Prefetch, Avg, Count, Case, When, FloatField
+from django.db.models import Prefetch, Avg, Count, Case, When, FloatField, StdDev, Variance
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
@@ -136,6 +136,12 @@ class ProductDetail(generic.DetailView):
                 )
             ),
             count_stars=Count(
+            Case(
+                When(comments__is_approved=True, then='comments__stars'),
+                    output_field=FloatField()
+                )
+            ),
+            std_dev=StdDev(
             Case(
                 When(comments__is_approved=True, then='comments__stars'),
                     output_field=FloatField()
