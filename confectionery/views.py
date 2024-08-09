@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
-from django.db.models import Prefetch, Avg, Count
+from django.db.models import Prefetch, Avg, Count, Case, When, FloatField
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
@@ -76,11 +76,6 @@ class CategoryList(generic.ListView):
     context_object_name = 'products'
     paginate_by = 10
 
-    def get_queryset(self):
-        category = self.kwargs['category']
-        return super().get_queryset().filter(product_type=category).\
-        annotate(average_stars=Avg('comments__stars')).order_by('-average_stars')
-    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category'] = self.kwargs.get('category')
@@ -89,7 +84,14 @@ class CategoryList(generic.ListView):
     def get(self, request, *args, **kwargs):
         category = self.kwargs['category']
         sort_by = self.request.GET.get('sort-by')
-        queryset = Product.objects.filter(product_type=category).annotate(average_stars=Avg('comments__stars'))
+        queryset = Product.objects.filter(product_type=category).annotate(
+            average_stars=Avg(
+            Case(
+                When(comments__is_approved=True, then='comments__stars'),
+                    output_field=FloatField()
+                )
+            )
+        )
         if sort_by in [None, 'recommendation']:
             queryset=queryset.order_by('-average_stars')
         elif sort_by=='newest':
@@ -123,7 +125,23 @@ class ProductDetail(generic.DetailView):
                 'comments',
                 queryset=ProductCustomUserComment.objects.select_related('author').filter(is_approved=True)
             )
-        ).annotate(average_stars=Avg('comments__stars'), count_stars=Count('comments__stars'))
+        # ).annotate(average_stars=Avg('comments__stars'), count_stars=Count('comments__stars'))
+        # این میانگین همه کامنت های کاستوم یوزرها رو میداد. حالا اگه بخوایم فقط میانگین کامنت های
+        # تایید شده کاستوم یوزر ها رو بده، این کار رو میکنیم. (از کوپایلت مایکروسافت پرسیدم.)
+        ).annotate(
+            average_stars=Avg(
+            Case(
+                When(comments__is_approved=True, then='comments__stars'),
+                    output_field=FloatField()
+                )
+            ),
+            count_stars=Count(
+            Case(
+                When(comments__is_approved=True, then='comments__stars'),
+                    output_field=FloatField()
+                )
+            )
+        )
         return query_set
         
     def get_context_data(self, **kwargs):
@@ -223,7 +241,14 @@ class FavoriteList(LoginRequiredMixin, generic.ListView):
 class ProductList(generic.ListView):
     def get(self, request, *args, **kwargs):
         sort_by = self.request.GET.get('sort-by')
-        queryset = Product.objects.annotate(average_stars=Avg('comments__stars'))
+        queryset = Product.objects.annotate(
+            average_stars=Avg(
+            Case(
+                When(comments__is_approved=True, then='comments__stars'),
+                    output_field=FloatField()
+                )
+            )
+        )
         if sort_by in [None, 'recommendation']:
             queryset=queryset.order_by('-average_stars')
         elif sort_by=='newest':
