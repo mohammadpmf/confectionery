@@ -4,11 +4,12 @@ from django.db.models import Prefetch, Avg, Count, Case, When, FloatField, StdDe
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
+from django.core.paginator import Paginator
 
 from .models import Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
 from .forms import NewsLetterForm, ProductCustomUserCommentForm, ProductAnanymousUserCommentForm, SuggestionsCriticsForm
 
-
+PRODUCTS_PER_PAGE = 6
 
 
 class HomePage(generic.TemplateView):
@@ -71,16 +72,6 @@ class HomePage(generic.TemplateView):
 
 
 class CategoryList(generic.ListView):
-    model = Product
-    template_name = 'category.html'
-    context_object_name = 'products'
-    paginate_by = 10
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['category'] = self.kwargs.get('category')
-        return context
-    
     def get(self, request, *args, **kwargs):
         category = self.kwargs['category']
         sort_by = self.request.GET.get('sort-by')
@@ -93,23 +84,31 @@ class CategoryList(generic.ListView):
             )
         )
         if sort_by in [None, 'recommendation']:
-            queryset=queryset.order_by('-average_stars')
+            sort_by='recommendation' # اگه انتخاب نکرده بود خودم میذارم بر اساس پیشنهاد خریداران.
+            queryset=queryset.order_by('-average_stars', '-id')
+            # همیشه بر اساس آی دی هم مرتب میکنم که تو پیجینیشن محصول تکراری نشون نده.
+            # در واقع بر اساس یه فیلد یونیک باید این کار رو میکردم که پیشنهاد خود کوپایلت
+            # هم آی دی بود و به خوبی جواب میده. چون یکتاست.
         elif sort_by=='newest':
             queryset=queryset.order_by('-id')
         elif sort_by=='cheapest':
-            queryset=queryset.order_by('price_toman')
+            queryset=queryset.order_by('price_toman', '-id')
         elif sort_by=='most_expensive':
-            queryset=queryset.order_by('-price_toman')
+            queryset=queryset.order_by('-price_toman', '-id')
         elif sort_by=='more_durable':
-            queryset=queryset.order_by('-expiration_days')
+            queryset=queryset.order_by('-expiration_days', '-id')
         elif sort_by=='fastest':
-            queryset=queryset.order_by('preparation_time')
+            queryset=queryset.order_by('preparation_time', '-id')
+        paginator = Paginator(queryset, PRODUCTS_PER_PAGE)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
         context = {
-            'products': queryset,
+            # دیگه لازم نیست خود پروداکتز رو بفرستم. یعنی میفرستادم تو هر صفحه دوباره همه
+            # رو کامل نشون میداد. از کوپایلت پرسیدم گفت که باید روی پیج آبج حلقه بزنم.
             'active_page': sort_by,
+            'page_obj': page_obj,
             }
         return render(request, 'category.html', context)
-        return super().get(request, *args, **kwargs)
 
 
 class ProductDetail(generic.DetailView):
@@ -224,7 +223,7 @@ class FavoriteList(LoginRequiredMixin, generic.ListView):
     # model = Product # روش ۲
     template_name = 'category.html'
     context_object_name = 'products'
-    paginate_by=10
+    paginate_by=PRODUCTS_PER_PAGE
 
     # روش ۱
     def get_queryset(self):
@@ -259,18 +258,25 @@ class ProductList(generic.ListView):
             )
         )
         if sort_by in [None, 'recommendation']:
-            queryset=queryset.order_by('-average_stars')
+            sort_by='recommendation' # اگه انتخاب نکرده بود خودم میذارم بر اساس پیشنهاد خریداران.
+            queryset=queryset.order_by('-average_stars', '-id')
         elif sort_by=='newest':
             queryset=queryset.order_by('-id')
         elif sort_by=='cheapest':
-            queryset=queryset.order_by('price_toman')
+            queryset=queryset.order_by('price_toman', '-id')
         elif sort_by=='most_expensive':
-            queryset=queryset.order_by('-price_toman')
+            queryset=queryset.order_by('-price_toman', '-id')
         elif sort_by=='more_durable':
-            queryset=queryset.order_by('-expiration_days')
+            queryset=queryset.order_by('-expiration_days', '-id')
         elif sort_by=='fastest':
-            queryset=queryset.order_by('preparation_time')
-        context = {'products': queryset}
+            queryset=queryset.order_by('preparation_time', '-id')
+        paginator = Paginator(queryset, PRODUCTS_PER_PAGE)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context = {
+            'active_page': sort_by,
+            'page_obj': page_obj,
+            }
         return render(request, 'category.html', context)
 
 

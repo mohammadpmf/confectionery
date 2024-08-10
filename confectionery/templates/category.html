@@ -20,18 +20,17 @@
     {% if page_name != 'favorites_page' %}
     <div dir='rtl' class="container p-5">
         <p class="d-inline"><img src="{% static 'madval/img/sort.png' %}" alt="">مرتب سازی:</p>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="recommendation"><button class="btn d {% if active_page == 'recommendation' or active_page == None %}text-primary{% endif %}" type="submit">پیشنهاد خریداران</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="newest"><button class="btn d y {% if active_page == 'newest' %}text-primary{% endif %}" type="submit">جدیدترین</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="cheapest"><button class="btn d y {% if active_page == 'cheapest' %}text-primary{% endif %}" type="submit">ارزان ترین</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="most_expensive"><button class="btn d y {% if active_page == 'most_expensive' %}text-primary{% endif %}" type="submit">گران ترین</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="more_durable"><button class="btn d y {% if active_page == 'more_durable' %}text-primary{% endif %}" type="submit">ماندگاری بیشتر</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="fastest"><button class="btn d y {% if active_page == 'fastest' %}text-primary{% endif %}" type="submit">مدت زمان آماده سازی کمتر</button>{% csrf_token %}</form>
+        <a href="?sort-by=recommendation" class="btn d {% if active_page == 'recommendation' or active_page == None %}text-primary{% endif %}">پیشنهاد خریداران</a>
+        <a href="?sort-by=newest" class="btn d {% if active_page == 'newest' %}text-primary{% endif %}">جدیدترین</a>
+        <a href="?sort-by=cheapest" class="btn d {% if active_page == 'cheapest' %}text-primary{% endif %}">ارزان ترین</a>
+        <a href="?sort-by=most_expensive" class="btn d {% if active_page == 'most_expensive' %}text-primary{% endif %}">گران ترین</a>
+        <a href="?sort-by=more_durable" class="btn d {% if active_page == 'more_durable' %}text-primary{% endif %}">ماندگاری بیشتر</a>
+        <a href="?sort-by=fastest" class="btn d {% if active_page == 'fastest' %}text-primary{% endif %}">مدت زمان آماده سازی کمتر</a>
         <hr>
     </div>
     {% endif %}
-    {% for product in products %}
-    <br class="mx-4">
-    <div class="row gx-5 my-5 d-flex justify-content-evenly" id="category-product-{{product.id}}">
+    {% for product in page_obj %}
+    <div class="row gx-5 my-2 mb-4 d-flex justify-content-evenly" id="category-product-{{product.id}}">
         <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px; position: relative;">
             <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; bottom: 8px; right: 32px; z-index: 2; background-color: white;">
                 <i class="fa fa-shopping-basket em0-8" aria-hidden="true"></i> {{ product|how_many_is_in_cart:cart|pn}}
@@ -66,41 +65,44 @@
             </p>
         </div>
     </div>
+    {% if not forloop.last or page_obj.has_other_pages %}
+        <hr class="mx-5">
+    {% endif %}
     {% endfor %}
 
     {% if page_obj.paginator.num_pages > 1 %}
     <nav dir="rtl" aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             {% if page_obj.number|add:'-3' > 1 %}
-                    <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page=1">1</a></li>
+                    <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page=1&sort-by={{ active_page }}">1</a></li>
                 {% if page_obj.number|add:'-4' != 1 %}
-                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'-4' }}">&hellip;</a></li>
+                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'-4' }}&sort-by={{ active_page }}">&hellip;</a></li>
                 {% endif %}
             {% endif %}
             {% for i in page_obj.paginator.page_range %}
                 {% if page_obj.number == i %}
                     {% if i == 1 %}
-                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-right"><span class="page-link madval-rounded-right">{{ i }} <span class="sr-only"></span></span></li>
+                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-right"><span class="page-link bg-success text-white madval-rounded-right">{{ i }} <span class="sr-only"></span></span></li>
                     {% elif i == page_obj.paginator.num_pages %}
-                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-left"><span class="page-link madval-rounded-left">{{ i }} <span class="sr-only"></span></span></li>
+                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-left"><span class="page-link bg-success text-white madval-rounded-left">{{ i }} <span class="sr-only"></span></span></li>
                     {% else %}
-                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb"><span class="page-link">{{ i }} <span class="sr-only"></span></span></li>
+                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb"><span class="page-link bg-success text-white">{{ i }} <span class="sr-only"></span></span></li>
                     {% endif %}
                 {% elif i > page_obj.number|add:'-4' and i < page_obj.number|add:'4' %}
                     {% if i == 1 %}
-                        <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page={{ i }}">{{ i }}</a></li>
+                        <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page={{ i }}&sort-by={{ active_page }}">{{ i }}</a></li>
                     {% elif i == page_obj.paginator.num_pages %}
-                        <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{ i }}">{{ i }}</a></li>
+                        <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{ i }}&sort-by={{ active_page }}">{{ i }}</a></li>
                     {% else %}
-                        <li class="page-item mx-1"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        <li class="page-item mx-1"><a class="page-link" href="?page={{ i }}&sort-by={{ active_page }}">{{ i }}</a></li>
                     {% endif %}
                 {% endif %}
             {% endfor %}
             {% if page_obj.paginator.num_pages > page_obj.number|add:'3' %}
                 {% if page_obj.number|add:'4' != page_obj.paginator.num_pages %}
-                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'4' }}">&hellip;</a></li>
+                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'4' }}&sort-by={{ active_page }}">&hellip;</a></li>
                 {% endif %}
-                    <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{page_obj.paginator.num_pages}}">{{page_obj.paginator.num_pages}}</a></li>
+                    <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{page_obj.paginator.num_pages}}&sort-by={{ active_page }}">{{page_obj.paginator.num_pages}}</a></li>
             {% endif %}
         </ul>
     </nav>
