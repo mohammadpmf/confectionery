@@ -22,26 +22,32 @@
             <div class="col-lg-8 text-center text-lg-start">
                 <h1 class="font-secondary text-primary my-5">Motamed</h1>
                 <h1 class="text-danger my-5 d">بهترین کیک در رشت</h1>
+                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-2">
+                    <button type="button" class="btn-play" data-bs-toggle="modal"
+                        data-src="{% static 'madval/movie/teaser.mp4' %}" data-bs-target="#videoModal">
+                        <span></span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Hero End -->
 
-
 <!-- Video Modal Start -->
 <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content rounded-0">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="stopVideo()"></button>
             </div>
             <div class="modal-body">
                 <!-- 16:9 aspect ratio -->
                 <div class="ratio ratio-16x9">
-                    <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
-                        allow="autoplay"></iframe>
+                    <video id="myVideoPlayer" width="320" height="240" controls>
+                        <source src="{% static 'madval/movie/teaser.mp4' %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -398,6 +404,16 @@
         </div>
     </div>
 </div>
+<script>
+    var video = document.getElementById("myVideoPlayer");
+    document.addEventListener('DOMContentLoaded', function () {
+        var videoModal = document.getElementById('videoModal');
+        videoModal.addEventListener('hidden.bs.modal', function () {
+            video.pause();
+        });
+    });
+</script>
+
 <!-- Testimonial End -->
 {% endblock content %}
 
