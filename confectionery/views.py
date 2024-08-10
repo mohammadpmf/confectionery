@@ -104,7 +104,10 @@ class CategoryList(generic.ListView):
             queryset=queryset.order_by('-expiration_days')
         elif sort_by=='fastest':
             queryset=queryset.order_by('preparation_time')
-        context = {'products': queryset}
+        context = {
+            'products': queryset,
+            'active_page': sort_by,
+            }
         return render(request, 'category.html', context)
         return super().get(request, *args, **kwargs)
 

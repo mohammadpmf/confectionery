@@ -20,12 +20,12 @@
     {% if page_name != 'favorites_page' %}
     <div dir='rtl' class="container p-5">
         <p class="d-inline"><img src="{% static 'madval/img/sort.png' %}" alt="">مرتب سازی:</p>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="recommendation"><button class="btn d text-primary" type="submit">پیشنهاد خریداران</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="newest"><button class="btn d text-primary" type="submit">جدیدترین</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="cheapest"><button class="btn d text-primary" type="submit">ارزان ترین</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="most_expensive"><button class="btn d text-primary" type="submit">گران ترین</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="more_durable"><button class="btn d text-primary" type="submit">ماندگاری بیشتر</button>{% csrf_token %}</form>
-        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="fastest"><button class="btn d text-primary" type="submit">مدت زمان آماده سازی کمتر</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="recommendation"><button class="btn d {% if active_page == 'recommendation' or active_page == None %}text-primary{% endif %}" type="submit">پیشنهاد خریداران</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="newest"><button class="btn d y {% if active_page == 'newest' %}text-primary{% endif %}" type="submit">جدیدترین</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="cheapest"><button class="btn d y {% if active_page == 'cheapest' %}text-primary{% endif %}" type="submit">ارزان ترین</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="most_expensive"><button class="btn d y {% if active_page == 'most_expensive' %}text-primary{% endif %}" type="submit">گران ترین</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="more_durable"><button class="btn d y {% if active_page == 'more_durable' %}text-primary{% endif %}" type="submit">ماندگاری بیشتر</button>{% csrf_token %}</form>
+        <form action="" method="get" class="d-inline"><input type="hidden" name="sort-by" value="fastest"><button class="btn d y {% if active_page == 'fastest' %}text-primary{% endif %}" type="submit">مدت زمان آماده سازی کمتر</button>{% csrf_token %}</form>
         <hr>
     </div>
     {% endif %}
