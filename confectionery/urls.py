@@ -9,5 +9,7 @@ urlpatterns = [
     path('my_favorites/', views.FavoriteList.as_view(), name='my_favorites'),
     path('all_products/', views.ProductList.as_view(), name='all_products'),
     path('about_us/', views.AboutUs.as_view(), name='about_us'),
+    path('about_me/', views.AboutMe.as_view(), name='about_me'),
     path('contact_us/', views.ContactUs.as_view(), name='contact_us'),
+    path('chefs/', views.ChefList.as_view(), name='chefs'),
 ]

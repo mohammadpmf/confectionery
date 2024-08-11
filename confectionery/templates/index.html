@@ -106,7 +106,7 @@
                     </div>
                     <div class="ps-4">
                         <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">کیک های مراسم ویژه</h6>
-                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">10018</h1>
+                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up"> 10018 </h1>
                     </div>
                 </div>
             </div>
@@ -267,21 +267,21 @@
             <div class="col-lg-4 col-md-6">
                 <div class="bg-primary border-inner text-center text-white p-5">
                     <h4 class="text-uppercase mb-3"><img src="{% static 'madval/img/cake.png' %}" style="width: 28px; height: 28px; margin-right: 18px;" alt="">{% trans "Cakes" %}</h4>
-                    <p>در این قسمت، می توانید از تمامی کیک های ما دیدن کنید و کیک مورد نظر خود را سفارش دهید.</p>
+                    <p dir='rtl'>در این قسمت، می توانید از تمامی کیک های ما دیدن کنید و کیک مورد نظر خود را سفارش دهید.</p>
                     <a class="text-uppercase text-dark big-on-hover" href="{% url 'categories' 'cake' %}">{% trans "Read More" %}<i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="bg-primary border-inner text-center text-white p-5">
                     <h4 class="text-uppercase mb-3"><img src="{% static 'madval/img/pastry.png' %}" style="width: 28px; height: 28px; margin-right: 18px;" alt="">{% trans "Pastries" %}</h4>
-                    <p>در این قسمت انواع شیرینی های مختلف و جذاب را مشاهده میکنید. حتما از این قسمت دیدن فرمایید.</p>
+                    <p dir='rtl'>در این قسمت انواع شیرینی های مختلف و جذاب را مشاهده میکنید. حتما از این قسمت دیدن فرمایید.</p>
                     <a class="text-uppercase text-dark big-on-hover" href="{% url 'categories' 'pastry' %}">{% trans "Read More" %}<i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
                 <div class="bg-primary border-inner text-center text-white p-5">
                     <h4 class="text-uppercase mb-3"><img src="{% static 'madval/img/bread.png' %}" style="width: 28px; height: 28px; margin-right: 18px;" alt="">{% trans "Breads" %}</h4>
-                    <p>انواع نان های مختلف از جمله نان های رژیمی را می توانید از این قسمت مشاهده کنید.</p>
+                    <p dir='rtl'>انواع نان های مختلف از جمله نان های رژیمی را می توانید از این قسمت مشاهده کنید.</p>
                     <a class="text-uppercase text-dark big-on-hover" href="{% url 'categories' 'bread' %}">{% trans "Read More" %}<i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
@@ -299,58 +299,32 @@
 <div class="container-fluid py-5">
     <div class="container">
         <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Team Members" %}</h2>
-            <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Our Master Chefs" %}</h1>
+            <a href="{% url 'chefs' %}"><h2 class="text-primary font-secondary {% if LANGUAGE_CODE == 'fa' %}d{% endif %}">{% trans "Team Members" %}</h2></a>
+            <a href="{% url 'chefs' %}"><h1 class="display-4 text-uppercase {% if LANGUAGE_CODE == 'fa' %}d{% endif %}">{% trans "Our Master Chefs" %}</h1></a>
         </div>
         <div class="row g-5">
+            {% for chef in chefs %}
             <div class="col-lg-4 col-md-6">
                 <div class="team-item">
                     <div class="position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="{% static 'img/team-1.jpg' %}" alt="">
+                        <img class="img-fluid w-100" src="{{ chef.image.url }}" alt="">
                         <div class="team-overlay w-100 h-100 position-absolute top-50 start-50 translate-middle d-flex align-items-center justify-content-center">
                             <div class="d-flex align-items-center justify-content-start">
-                                {% include "uiverse.html" %}
+                                {% if chef.email %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="mailto:{{ chef.email }}" target="_blank"><i class="fa fa-envelope"></i></a>{% endif %}
+                                {% if chef.twitter %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.twitter }}" target="_blank"><i class="fab fa-twitter fw-normal"></i></a>{% endif %}
+                                {% if chef.facebook %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.facebook }}" target="_blank"><i class="fab fa-facebook-f fw-normal"></i></a>{% endif %}
+                                {% if chef.linkedin %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.linkedin }}" target="_blank"><i class="fab fa-linkedin-in fw-normal"></i></a>{% endif %}
+                                {% if chef.instagram %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.instagram }}" target="_blank"><i class="fab fa-instagram fw-normal"></i></a>{% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="bg-dark border-inner text-center p-4">
-                        <h4 class="text-uppercase text-primary">Full Name</h4>
-                        <p class="text-white m-0">Designation</p>
+                        <h4 class="text-uppercase text-primary d">{{ chef.name }}</h4>
+                        <p class="text-white m-0 d">تخصص: {{ chef.talent }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="team-item">
-                    <div class="position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="{% static 'img/team-2.jpg' %}" alt="">
-                        <div class="team-overlay w-100 h-100 position-absolute top-50 start-50 translate-middle d-flex align-items-center justify-content-center">
-                            <div class="d-flex align-items-center justify-content-start">
-                                {% include "uiverse.html" %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-dark border-inner text-center p-4">
-                        <h4 class="text-uppercase text-primary">Full Name</h4>
-                        <p class="text-white m-0">Designation</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="team-item">
-                    <div class="position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="{% static 'img/team-3.jpg' %}" alt="">
-                        <div class="team-overlay w-100 h-100 position-absolute top-50 start-50 translate-middle d-flex align-items-center justify-content-center">
-                            <div class="d-flex align-items-center justify-content-start">
-                                {% include "uiverse.html" %}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-dark border-inner text-center p-4">
-                        <h4 class="text-uppercase text-primary">Full Name</h4>
-                        <p class="text-white m-0">Designation</p>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

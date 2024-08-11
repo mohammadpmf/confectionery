@@ -120,3 +120,15 @@ class NewsLetter(models.Model):
     email = models.EmailField(verbose_name=_('Email'), max_length=255, unique=True)
     datetime_created = models.DateTimeField(verbose_name=_('Date Time Created'), auto_now_add=True)
     datetime_modified = models.DateTimeField(verbose_name=_('Last Time Edited'), auto_now=True)
+
+
+class Chef(models.Model):
+    name = models.CharField(verbose_name=_('Name'), max_length=255)
+    talent = models.CharField(verbose_name=_('Talent'), max_length=255)
+    image= models.ImageField(verbose_name=_('Image'), upload_to='chef_images/', blank=True)
+    description = models.TextField(verbose_name='description', max_length=10000, blank=True)
+    email = models.EmailField(verbose_name='Email', max_length=255, blank=True)
+    facebook = models.CharField(verbose_name='Facebook', max_length=255, blank=True)
+    instagram = models.CharField(verbose_name='Instagram', max_length=255, blank=True)
+    linkedin = models.CharField(verbose_name='Linkedin', max_length=255, blank=True)
+    twitter = models.CharField(verbose_name='Twitter', max_length=255, blank=True)

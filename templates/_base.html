@@ -2,6 +2,7 @@
 
 {% load i18n %}
 
+{% load madval_check_english %}
 {% load madval_persian_translation %}
 
 {% get_current_language as LANGUAGE_CODE %} 
@@ -75,14 +76,17 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                 <div class="d-inline-flex align-items-center justify-content-center">
                     {% if user.is_authenticated %}
                     <div class="text-end mt-3">
-                        <a href="{% url 'account_change_password' %}">
-                            <span class="align-middle">تغییر رمز عبور</span>
-                        </a>
-                        <span class="align-middle">|</span>
-                        <a href="{% url 'logout_confirm' %}">
-                            <span class="align-middle">خروج</span>
-                        </a>
-                        <span class="align-middle">| خوش آمدی {{ user.get_name }}</span>
+                        {% if user.get_name|has_english_letter %}
+                            <a href="{% url 'logout_confirm' %}">
+                                <span class="align-middle">خروج</span>
+                            </a>
+                            <span class="align-middle">| {{ user.get_name }} خوش آمدی</span>
+                        {% else %}
+                            <span class="align-middle"> خوش آمدی {{ user.get_name }} |</span>
+                            <a href="{% url 'logout_confirm' %}">
+                                <span class="align-middle">خروج</span>
+                            </a>
+                        {% endif %}
                         {% if user.profile_picture %}
                         <img style="border-radius: 50%;" src="{{ user.profile_picture.image.url }}" width="32" height="32">
                         {% endif %}
@@ -126,14 +130,17 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm py-3 py-lg-0 px-3 px-lg-0">
         <div class="text-end mt-2 navbar-brand d-block d-lg-none">
             {% if user.is_authenticated %}
-                <a href="{% url 'account_change_password' %}">
-                    <span class="align-middle">تغییر رمز عبور</span>
-                </a>
-                <span class="align-middle">|</span>
+                {% if user.get_name|has_english_letter %}
                 <a href="{% url 'logout_confirm' %}">
                     <span class="align-middle">خروج</span>
                 </a>
                 <span class="align-middle">| {{ user.get_name }} خوش آمدی</span>
+                {% else %}
+                    <span class="align-middle"> خوش آمدی {{ user.get_name }} |</span>
+                    <a href="{% url 'logout_confirm' %}">
+                        <span class="align-middle">خروج</span>
+                    </a>
+                {% endif %}
                 {% if user.profile_picture %}
                 <img style="border-radius: 50%;" src="{{ user.profile_picture.image.url }}" width="32" height="32">
                 {% endif %}
@@ -169,14 +176,15 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <a dir='rtl' href="{% url 'change_email' %}"><span class="dropdown-item text-right">تغییر آدرس ایمیل</span></a>
                         <a dir='rtl' href="{% url 'change_otp_number' %}"><span class="dropdown-item text-right">تغییر شماره یکباررمز (OTP)</span></a>
                         <a dir='rtl' href="{% url 'account_change_password' %}"><span class="dropdown-item text-right">تغییر رمز عبور</span></a>
-                        <a dir='rtl' href="{% url 'change_profile' %}"><span class="dropdown-item text-right">تغییر مشخصات کاربری</span></a>
+                        <a dir='rtl' href="{% url 'change_profile' %}"><span class="dropdown-item text-right">تغییر عکس و مشخصات کاربری</span></a>
                         <hr>
                         <a dir='rtl' href="{% url 'madval_logout' %}"><span class="dropdown-item text-right text-danger"><i class="fa fa-sign-out align-middle mx-1" style="font-size:36px;"></i> خروج مستقیم (بدون نیاز به تایید)</span></a>
                     </div>
                 </div>
                 <a href="{% url 'contact_us' %}" class="nav-item nav-link {% block active_contact_us %}{% endblock active_contact_us %}">تماس با ما</a>
                 <a href="{% url 'about_us' %}" class="nav-item nav-link {% block active_about_us %}{% endblock active_about_us %}">درباره ما</a>
-                <a href="team.html" class="nav-item nav-link {% block active_chefs %}{% endblock active_chefs %}">سرآشپز ها</a>
+                <a href="{% url 'about_me' %}" class="nav-item nav-link {% block active_about_me %}{% endblock active_about_me %}">درباره من</a>
+                <a href="{% url 'chefs' %}" class="nav-item nav-link {% block active_chefs %}{% endblock active_chefs %}">سرآشپز ها</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle {% block active_products %}{% endblock active_products %}" data-bs-toggle="dropdown">محصولات</a>
                     <div class="dropdown-menu m-0">
@@ -233,19 +241,16 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                             <h4 class="text-primary text-uppercase mb-4">شبکه های اجتماعی</h4>
                             <div class="d-flex mt-4">
                                 {% include "uiverse.html" %}
-                                {% comment %} <a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                                <a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                                <a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 me-2" href="https://www.linkedin.com/in/mohammad-pourmohammadi-fallah-b1278578/"><i class="fab fa-linkedin-in fw-normal"></i></a> {% endcomment %}
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">
                             <h4 class="text-primary text-uppercase mb-4">لینک ها</h4>
                             <div class="d-flex flex-column justify-content-start">
                                 <a class="text-secondary mb-2" href="{% url 'homepage' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>خانه</a>
-                                <a class="text-secondary mb-2" href="#                  "><i class="bi bi-arrow-right text-primary mx-2"></i>سرآشپز ها</a>
+                                <a class="text-secondary mb-2" href="{% url 'chefs' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>سرآشپز ها</a>
+                                <a class="text-secondary mb-2" href="{% url 'about_me' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>درباره من</a>
                                 <a class="text-secondary mb-2" href="{% url 'about_us' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>درباره ما</a>
                                 <a class="text-secondary mb-2" href="{% url 'contact_us' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>تماس با ما</a>
-                                <a class="text-secondary mb-2" href="{% url 'about_us' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>درباره من</a>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12 pt-0 pt-lg-5 mb-5">

@@ -1,0 +1,111 @@
+{% extends "_base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-dark bg-img p-5 mb-5">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="display-4 d text-uppercase text-white">{% trans "About Us" %}</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+<!-- About Start -->
+<div class="container-fluid pt-5">
+    <div class="container">
+        <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
+            <h2 class="text-primary font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "About Us" %}</h2>
+            <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: calibri;"{% endif %}>{% trans "Welcome To Motamed Confectionery" %}</h1>
+        </div>
+        <div class="row gx-5">
+            <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <img class="position-absolute w-100 h-100" src="{% static 'img/about.jpg' %}" style="object-fit: cover;">
+                </div>
+            </div>
+            <div class="col-lg-6 pb-5">
+                <h4 dir="rtl" class="mb-4">ویژگی کیک ها و شیرینی های معتمد</h4>
+                <p dir="rtl" style="text-align: justify;" class="mb-5">متن لورم ایپسوم ساختگی توسط خودم. امیدوارم از خواندن آن لذت ببرید. شیرینی سرای معتمد، یک فروشگاه آنلاین کیک و شیرینی و نان است که به منظور ارائه خدمات آنلاین به مشتریان، عرضه شده است. این پروژه، یک پروژه آزمایشی ساخت محمد پورمحمدی فلاح است که برای همسرش که عاشق پختن کیک و شیرینی است طراحی شده و کاربران می توانند در خبرنامه عضو شوند تا از آخرین اخبار اطلاع یابند. از کیک و شیرینی های مختلف دیدن کنند و قیمت ها را مقایسه کنند. همچنین در صورت علاقه می توانند سبد خرید خود را پر کرده و در صورت علاقه، آنلاین کیک و شیرینی سفارش دهند و در زمان مناسب آنها را تحویل بگیرند. البته قرار است به زودی API ای نیز برای این پروژه طراحی شود که پروژه حرفه ای تر باشد. با تشکر. شیرینی سرای معتمد.</p>
+                <div class="row g-5">
+                    <div dir="rtl" class="col-sm-6">
+                        <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px;">
+                            <i class="fa fa-heartbeat fa-2x text-white"></i>
+                        </div>
+                        <h4 class="text-uppercase">٪۱۰۰ مفید و سالم</h4>
+                        <p class="mb-0">تمامی کیک ها و شیرینی ها و نان های ما از مواد درجه ۱ ساخته می شوند.</p>
+                    </div>
+                    <div dir="rtl" class="col-sm-6">
+                        <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px;">
+                            <i class='fas fa-trophy text-white' style='font-size:36px;'></i>
+                        </div>
+                        <h4 class="text-uppercase">برنده چندین جایزه</h4>
+                        <p class="mb-0">شیرینی فروشی معتمد تا کنون در مسابقات زیادی مقام اول را در طعم و کیفیت برنده شده است.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+
+
+<!-- Facts Start -->
+<div class="container-fluid bg-img py-5 mb-5">
+    <div class="container py-5">
+        <div class="row gx-5 gy-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="d-flex">
+                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fa fa-star text-white"></i>
+                    </div>
+                    <div class="ps-4">
+                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">کیک های مراسم ویژه</h6>
+                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">10018</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="d-flex">
+                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fa fa-users text-white"></i>
+                    </div>
+                    <div class="ps-4">
+                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">مراسم باجمعیت زیاد</h6>
+                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">13272</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="d-flex">
+                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fa fa-thumbs-up text-white"></i>
+                    </div>
+                    <div class="ps-4">
+                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">مشتریان راضی</h6>
+                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">18745</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="d-flex">
+                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fa fa-check text-white"></i>
+                    </div>
+                    <div class="ps-4">
+                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">محصولات فروخته شده</h6>
+                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">19037</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Facts End -->
+{% endblock content %}
+
+
+{% block active_about_us %}active{% endblock active_about_us %}

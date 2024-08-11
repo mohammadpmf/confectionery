@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
 from django.core.paginator import Paginator
 
-from .models import Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
+from .models import Chef, Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
 from .forms import NewsLetterForm, ProductCustomUserCommentForm, ProductAnanymousUserCommentForm, SuggestionsCriticsForm
 
 PRODUCTS_PER_PAGE = 6
@@ -37,6 +37,7 @@ class HomePage(generic.TemplateView):
         # context['pastries'] = Product.objects.filter(product_type='pastry').order_by('id')[:6]
         # context['breads'] = Product.objects.filter(product_type='bread').order_by('id')[:6]
         context['top_comments'] = ProductCustomUserComment.objects.filter(is_approved=True, dont_show_my_name=False).select_related('product', 'author__profile_picture').order_by('-stars', '-datetime_modified', '-id')[:5]
+        context['chefs'] = Chef.objects.all()
         return context
     
     def post(self, request, *args, **kwargs):
@@ -280,13 +281,16 @@ class ProductList(generic.ListView):
         return render(request, 'category.html', context)
 
 
-
 class AboutUs(generic.TemplateView):
-    template_name = 'about.html'
+    template_name = 'about_us.html'
+
+
+class AboutMe(generic.TemplateView):
+    template_name = 'about_me.html'
 
 
 class ContactUs(generic.TemplateView):
-    template_name = 'contact.html'
+    template_name = 'contact_us.html'
 
     def post(self, request, *args, **kwargs):
         new_suggestion_or_something_else = SuggestionsCriticsForm(request.POST)
@@ -296,3 +300,9 @@ class ContactUs(generic.TemplateView):
         else:
             messages.error(request, new_suggestion_or_something_else.errors)
         return super().get(request, *args, **kwargs)
+
+
+class ChefList(generic.ListView):
+    template_name = 'chefs.html'
+    model = Chef
+    context_object_name = 'chefs'

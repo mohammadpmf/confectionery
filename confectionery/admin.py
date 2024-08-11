@@ -78,3 +78,10 @@ class NewsLetterAdmin(admin.ModelAdmin):
     model = models.NewsLetter
     list_display = ['email']
     list_display_links = ['email']
+
+
+@admin.register(models.Chef)
+class ChefAdmin(admin.ModelAdmin):
+    model = models.Chef
+    list_display = ['name', 'talent', 'email', 'facebook', 'instagram', 'linkedin', 'twitter']
+    list_display_links = ['name', 'talent', 'email', 'facebook', 'instagram', 'linkedin', 'twitter']
