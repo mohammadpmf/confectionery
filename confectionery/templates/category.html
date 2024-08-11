@@ -17,7 +17,6 @@
 
 {% block content %}
 <div class="container card shadow-lg mt-5" style="padding-left: 2em; padding-right:0;">
-    {% if page_name != 'favorites_page' %}
     <div dir='rtl' class="container p-5">
         <p class="d-inline"><img src="{% static 'madval/img/sort.png' %}" alt="">مرتب سازی:</p>
         <a href="?sort-by=recommendation" class="btn d {% if active_page == 'recommendation' or active_page == None %}text-primary{% endif %}">پیشنهاد خریداران</a>
@@ -28,7 +27,6 @@
         <a href="?sort-by=fastest" class="btn d {% if active_page == 'fastest' %}text-primary{% endif %}">مدت زمان آماده سازی کمتر</a>
         <hr>
     </div>
-    {% endif %}
     {% for product in page_obj %}
     <div class="row gx-5 my-2 mb-4 d-flex justify-content-evenly" id="product-{{product.id}}">
         <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px; position: relative;">

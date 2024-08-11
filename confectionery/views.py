@@ -220,31 +220,45 @@ class ProductDetail(generic.DetailView):
 
 
 class FavoriteList(LoginRequiredMixin, generic.ListView):
-    model = Favorite # روش ۱
-    # model = Product # روش ۲
-    template_name = 'category.html'
-    context_object_name = 'products'
-    paginate_by=PRODUCTS_PER_PAGE
-
-    # روش ۱
-    def get_queryset(self):
-        user = self.request.user
-        favorites = Favorite.objects.filter(user=user).select_related('product').order_by('-id')
-        products = []
-        for product in favorites:
-            products.append(product.product)
-        return products
-
-    # روش ۲
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     products = Product.objects.filter(favorited_users__user=user).order_by('-id')
-    #     return products
-
-    def get_context_data(self, **kwargs): # برای این اضافه کردم که اگه تو صفحه علاقه مندی هاش بود دیگه سورت کردن رو نشون نده بهش.
-        context = super().get_context_data(**kwargs)
-        context['page_name'] = 'favorites_page'
-        return context
+    def get(self, request, *args, **kwargs):
+        # روش اول
+        # user = request.user
+        # favorites = Favorite.objects.filter(user=user).select_related('product').order_by('-id')
+        # products = []
+        # for product in favorites:
+        #     products.append(product.product)
+        # return products
+        user = request.user
+        sort_by = self.request.GET.get('sort-by')
+        queryset = Product.objects.filter(favorited_users__user=user).annotate(
+            average_stars=Avg(
+            Case(
+                When(comments__is_approved=True, then='comments__stars'),
+                    output_field=FloatField()
+                )
+            )
+        )
+        if sort_by in [None, 'recommendation']:
+            sort_by='recommendation' # اگه انتخاب نکرده بود خودم میذارم بر اساس پیشنهاد خریداران.
+            queryset=queryset.order_by('-average_stars', '-id')
+        elif sort_by=='newest':
+            queryset=queryset.order_by('-id')
+        elif sort_by=='cheapest':
+            queryset=queryset.order_by('price_toman', '-id')
+        elif sort_by=='most_expensive':
+            queryset=queryset.order_by('-price_toman', '-id')
+        elif sort_by=='more_durable':
+            queryset=queryset.order_by('-expiration_days', '-id')
+        elif sort_by=='fastest':
+            queryset=queryset.order_by('preparation_time', '-id')
+        paginator = Paginator(queryset, PRODUCTS_PER_PAGE)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context = {
+            'active_page': sort_by,
+            'page_obj': page_obj,
+            }
+        return render(request, 'category.html', context)
 
 
 class ProductList(generic.ListView):
