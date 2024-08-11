@@ -57,6 +57,7 @@
                 <form class="d-inline" action="{% url 'cart:cart_add' product.id %}" method="post">
                     {% csrf_token %}
                     <label for="quantity"></label>
+                    <input type="hidden" name="current_page" value="{{ request.build_absolute_uri }}"> 
                     <input type="hidden" name="next_page" value="product-{{product.id}}">
                     <input type="number" name="quantity" min="1" max="30" required class="text-center" placeholder="تعداد" value="1">
                     <button type="submit" class="btn btn-outline-warning rounded-pill mx-3">افزودن به سبد خرید</button>

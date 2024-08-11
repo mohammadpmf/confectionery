@@ -30,7 +30,7 @@
     </div>
     {% endif %}
     {% for product in page_obj %}
-    <div class="row gx-5 my-2 mb-4 d-flex justify-content-evenly" id="category-product-{{product.id}}">
+    <div class="row gx-5 my-2 mb-4 d-flex justify-content-evenly" id="product-{{product.id}}">
         <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px; position: relative;">
             <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; bottom: 8px; right: 32px; z-index: 2; background-color: white;">
                 <i class="fa fa-shopping-basket em0-8" aria-hidden="true"></i> {{ product|how_many_is_in_cart:cart|pn}}
@@ -56,7 +56,8 @@
             <p dir="ltr" class="pt-5">
                 <form style="display: inline;" action="{% url 'cart:cart_add' product.id %}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="next_page" value="category-product-{{product.id}}">
+                    <input type="hidden" name="current_page" value="{{ request.build_absolute_uri }}"> 
+                    <input type="hidden" name="next_page" value="product-{{product.id}}">
                     <label for="quantity"></label>
                     <input type="number" name="quantity" min="1" max="30" required class="text-center" placeholder="تعداد" value="1">
                     <button type="submit" class="btn btn-outline-warning rounded-pill mx-3">افزودن به سبد خرید</button>

@@ -29,18 +29,9 @@ def add_to_cart_view(request, product_id):
     user = request.user
     product = get_object_or_404(Product, id=product_id)
     form = AddToCartProductForm(request.POST)
+    current_page:str = request.POST.get('current_page')
     next_page:str = request.POST.get('next_page')
-    if not next_page:
-        next_page = 'cart:cart_detail'
-    elif next_page.startswith('category-product'):
-        next_page = reverse('categories', args=[product.product_type]) + "#" + next_page
-    elif next_page.startswith('product'):
-        # next_page = reverse('product_detail', args=[product_id]) + "#" + next_page
-        # برای این گذاشتم جالب نشد. چون خودش بالای صفحه بود یه خورده میومد پایین الکی. اما
-        # پاک نکردم آی دی اچ تی ام الش ر. فقط اینجا ازش استفاده نکردم.
-        next_page = reverse('product_detail', args=[product_id])
-    elif next_page.startswith('favorites'):
-        next_page = reverse('my_favorites') + "#" + next_page
+    next_page = current_page + "#" + next_page
     if form.is_valid():
         cleaned_data = form.cleaned_data
         quantity = cleaned_data.get('quantity')

@@ -229,7 +229,7 @@ class FavoriteList(LoginRequiredMixin, generic.ListView):
     # روش ۱
     def get_queryset(self):
         user = self.request.user
-        favorites = Favorite.objects.filter(user=user).select_related('product')
+        favorites = Favorite.objects.filter(user=user).select_related('product').order_by('-id')
         products = []
         for product in favorites:
             products.append(product.product)
@@ -238,7 +238,7 @@ class FavoriteList(LoginRequiredMixin, generic.ListView):
     # روش ۲
     # def get_queryset(self):
     #     user = self.request.user
-    #     products = Product.objects.filter(favorited_users__user=user)
+    #     products = Product.objects.filter(favorited_users__user=user).order_by('-id')
     #     return products
 
     def get_context_data(self, **kwargs): # برای این اضافه کردم که اگه تو صفحه علاقه مندی هاش بود دیگه سورت کردن رو نشون نده بهش.
