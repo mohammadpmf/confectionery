@@ -289,3 +289,5 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+ZARINPAL_MERCHANT_ID = ZARINPAL_MERCHANT_ID_FAKE

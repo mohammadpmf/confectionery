@@ -20,12 +20,14 @@
     <div class="scrollmenu">
         {% for item in cart %}
         <div>
+            <a href="{{ item.product_obj.get_absolute_url }}">
             {% if item.product_obj.main_image %}
-            <img src="{{ item.product_obj.main_image.url }}" alt="">
+                <img src="{{ item.product_obj.main_image.url }}" alt="">
             {% else %}
-            <img src="{% static 'madval/img/no_image.png' %}" alt="">
+                <img src="{% static 'madval/img/no_image.png' %}" alt="">
             {% endif %}
-            <a href="#home">{{ item.product_obj.title }}: {{ item.quantity|cspn }} عدد</a>
+            </a>
+            <a class="link-text" href="{{ item.product_obj.get_absolute_url }}">{{ item.product_obj.title }}: {{ item.quantity|cspn }} عدد</a>
             {% widthratio item.product_obj.price_toman 1 item.quantity as total_item_price %}
             <span>{{ total_item_price|cspn }} {% trans "$" %}</span>
         </div>

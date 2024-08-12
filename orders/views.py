@@ -40,8 +40,7 @@ def order_create_view(request):
                     request.user.last_name = request.POST.get('last_name')
                     request.user.save()
                 request.session['order_id'] = order_obj.id
-                return redirect('homepage')
-                return redirect('payment:payment_process')
+                return redirect('payment:payment_process_sandbox')
         else:
             context={
                 'form': order_form
