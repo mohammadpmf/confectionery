@@ -1,0 +1,46 @@
+{% extends "_base.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+{% load madval_persian_translation %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'madval/css/my_scroll_menu.css' %}">
+{% endblock extra_css %}
+
+{% block page_title %}
+{% trans "Payment" %}
+{% endblock page_title %}
+
+{% block content %}
+<div dir="rtl" class="container shadow p-5 mt-5">
+    <h2 class="my-5 c text-info">اطلاعات سفارش</h2>
+    <div class="scrollmenu">
+        {% for item in cart %}
+        <div>
+            {% if item.product_obj.main_image %}
+            <img src="{{ item.product_obj.main_image.url }}" alt="">
+            {% else %}
+            <img src="{% static 'madval/img/no_image.png' %}" alt="">
+            {% endif %}
+            <a href="#home">{{ item.product_obj.title }}: {{ item.quantity|cspn }} عدد</a>
+            {% widthratio item.product_obj.price_toman 1 item.quantity as total_item_price %}
+            <span>{{ total_item_price|cspn }} {% trans "$" %}</span>
+        </div>
+        {% endfor %}
+    </div>
+    <h2 class='c em2 my-3 text-info'>مجموع: {{ cart.get_total_price|cspn }} {% trans "$" %}</h2>
+    <a class="text-danger me-1" href="{% url 'cart:cart_detail' %}">بازگشت به سبد خرید <i class="fas fa-shopping-cart"></i></a>
+    <hr>
+    <div class="checkout-title mt--10">
+        <h2 class="mt-5 mb-2 c text-primary">اطلاعات تحویل گیرنده</h2>
+    </div>
+    <form action="" method="post" class="text-primary em1-4">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-outline-success c m-2 p-3 px-5 rounded-pill">پرداخت آزمایشی درگاه زرین پال</button>
+    </form>
+</div>
+{% endblock content %}

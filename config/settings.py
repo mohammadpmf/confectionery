@@ -64,13 +64,15 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.openid_connect',  # برای اکانت هایی مثل لینکد این، که از این سرویس استفاده میکنن باید خود اپین آی دی رو هم اضافه کرد.
 
     'rosetta',
+    # 'jalali_date',
 
     # local apps
     'accounts',
     'confectionery',
     'cart',
     'madval_template_filters',
-
+    'orders',
+    'payment',
 ]
 
 MIDDLEWARE = [

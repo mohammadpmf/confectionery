@@ -31,7 +31,10 @@ def add_to_cart_view(request, product_id):
     form = AddToCartProductForm(request.POST)
     current_page:str = request.POST.get('current_page')
     next_page:str = request.POST.get('next_page')
-    next_page = current_page + "#" + next_page
+    if not next_page: # اگه از تو صفحه خود سبد خرید چیزی رو زیاد کنیم یا حذف کنیم و یا کلا حذف کنیم، نکست پیج ارسال نمیشه و چون میخوایم خودش بیاد، این کار رو کردم 
+        next_page = 'cart:cart_detail'
+    else:
+        next_page = current_page + "#" + next_page
     if form.is_valid():
         cleaned_data = form.cleaned_data
         quantity = cleaned_data.get('quantity')

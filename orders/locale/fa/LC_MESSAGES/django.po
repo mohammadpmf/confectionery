@@ -1,0 +1,111 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-11 14:34+0330\n"
+"PO-Revision-Date: 2024-08-12 16:48+0330\n"
+"Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
+
+#: .\forms.py:13
+msgid ""
+"Please Enter any further notes if you have some. Otherwise leave theis field"
+" empty."
+msgstr ""
+"لطفا در صورت نیاز، یادداشت بگذارید. در غیر این صورت، این قسمت را خالی "
+"بگذارید."
+
+#: .\forms.py:16
+msgid "Also change first_name and last_name of my account."
+msgstr "در حساب کاربری من نیز، نام و نام خانوادگی را ذخیره کن."
+
+#: .\models.py:8
+msgid "User"
+msgstr "کاربر"
+
+#: .\models.py:9
+msgid "Is Paid?"
+msgstr "پرداخت شده؟"
+
+#: .\models.py:11
+msgid "First Name"
+msgstr "نام"
+
+#: .\models.py:12
+msgid "Last Name"
+msgstr "نام خانوادگی"
+
+#: .\models.py:13
+msgid "Phone Number"
+msgstr "شماره تماس"
+
+#: .\models.py:14
+msgid "Phone number should be at least 11 digits"
+msgstr "شماره تلفن حداقل باید ۱۱ رقم باشد."
+
+#: .\models.py:15
+msgid "Phone number should be at most 14 digits"
+msgstr "شماره تلفن حداکثر باید ۱۱ رقم باشد."
+
+#: .\models.py:18
+msgid "Address"
+msgstr "آدرس"
+
+#: .\models.py:20
+msgid "Order Notes"
+msgstr "یادداشت برای سفارش"
+
+#: .\models.py:26
+msgid "Date Time of creation"
+msgstr "زمان ایجاد"
+
+#: .\models.py:27
+msgid "Date Time of last edit"
+msgstr "زمان آخرین ویرایش"
+
+#: .\models.py:42 .\templates\orders\order_create.html:20
+msgid "Order"
+msgstr "ثبت سفارش"
+
+#: .\models.py:43
+msgid "Product"
+msgstr "محصول"
+
+#: .\models.py:44
+msgid "Quantity"
+msgstr "تعداد"
+
+#: .\models.py:45
+msgid "Price"
+msgstr "قیمت"
+
+#: .\templates\orders\order_create.html:10
+msgid "Payment"
+msgstr "پرداخت"
+
+#: .\templates\orders\order_create.html:39
+msgid "These fields are required:"
+msgstr "این فیلدها اجباری هستند."
+
+#: .\templates\orders\order_create.html:76
+msgid "submit"
+msgstr "ارسال"
+
+#: .\templates\orders\order_create.html:99
+msgid "$"
+msgstr "تومان"
+
+#: .\views.py:17
+msgid "You can not proceed to checkout because your cart is empty."
+msgstr "شما نمیتوانید به صفحه پرداخت بروید. چون سبد خرید شما خالیست."

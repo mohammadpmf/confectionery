@@ -1,0 +1,46 @@
+div.scrollmenu {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+    
+div.scrollmenu div {
+    flex: 0 0 auto;
+    width: 210px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 16px;
+    border: 1px dotted pink;
+    border-radius: 16px;
+    margin: 0 8px 16px;
+}
+    
+div.scrollmenu div img {
+    width: 100%;
+    height: 65%;
+    display: block;
+}
+    
+div.scrollmenu div a {
+    width: 100%;
+    display: block;
+    height: 15%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
+
+div.scrollmenu div span {
+    width: 100%;
+    display: block;
+    height: 15%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words */
+}
