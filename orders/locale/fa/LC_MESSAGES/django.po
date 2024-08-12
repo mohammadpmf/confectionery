@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-11 14:34+0330\n"
-"PO-Revision-Date: 2024-08-12 16:48+0330\n"
+"POT-Creation-Date: 2024-08-12 20:11+0330\n"
+"PO-Revision-Date: 2024-08-12 20:12+0330\n"
 "Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: .\forms.py:13
+#: .\forms.py:15
 msgid ""
 "Please Enter any further notes if you have some. Otherwise leave theis field"
 " empty."
@@ -26,9 +26,40 @@ msgstr ""
 "لطفا در صورت نیاز، یادداشت بگذارید. در غیر این صورت، این قسمت را خالی "
 "بگذارید."
 
-#: .\forms.py:16
+#: .\forms.py:18
 msgid "Also change first_name and last_name of my account."
 msgstr "در حساب کاربری من نیز، نام و نام خانوادگی را ذخیره کن."
+
+#: .\forms.py:19 .\models.py:13
+msgid "Phone Number"
+msgstr "شماره تماس"
+
+#: .\forms.py:20
+msgid "Enter phone number!"
+msgstr "شماره تماس را وارد کنید!"
+
+#: .\forms.py:21 .\forms.py:22
+msgid "Phone number should be exactly 11 digits in Iran"
+msgstr "شماره تلفن در اینران دقیقا باید ۱۱ رقم باشد."
+
+#: .\forms.py:28
+msgid "Phone number must only contain digits (not alphabet characters!)"
+msgstr "شماره تلفن باید فقط از رقم تشکیل شده باشد (نه از حروف الفبا!)"
+
+#: .\forms.py:32
+msgid "Phone number must only contain digits (not punctuations!)"
+msgstr "شماره تلفن باید فقط از رقم تشکیل شده باشد (نه از نمادهای نگارشی!)"
+
+#: .\forms.py:34
+msgid "Please enter all digits number carefully and only in english keyboard!"
+msgstr ""
+"لطفا تمام ارقام شماره تلفن را به دقت وارد کنید و دقت کنید که کیبوردتان "
+"انگلیسی باشد."
+
+#: .\forms.py:36
+#| msgid "Phone number should be exactly 11 digits in Iran"
+msgid "Phone numbers start with 09 in Iran!"
+msgstr "شماره تلفن ها در ایران با 09 آغاز میشوند!"
 
 #: .\models.py:8
 msgid "User"
@@ -45,10 +76,6 @@ msgstr "نام"
 #: .\models.py:12
 msgid "Last Name"
 msgstr "نام خانوادگی"
-
-#: .\models.py:13
-msgid "Phone Number"
-msgstr "شماره تماس"
 
 #: .\models.py:14
 msgid "Phone number should be at least 11 digits"
@@ -74,7 +101,7 @@ msgstr "زمان ایجاد"
 msgid "Date Time of last edit"
 msgstr "زمان آخرین ویرایش"
 
-#: .\models.py:42 .\templates\orders\order_create.html:20
+#: .\models.py:42
 msgid "Order"
 msgstr "ثبت سفارش"
 
@@ -90,22 +117,21 @@ msgstr "تعداد"
 msgid "Price"
 msgstr "قیمت"
 
-#: .\templates\orders\order_create.html:10
+#: .\templates\orders\order_create.html:14
 msgid "Payment"
 msgstr "پرداخت"
 
-#: .\templates\orders\order_create.html:39
-msgid "These fields are required:"
-msgstr "این فیلدها اجباری هستند."
-
-#: .\templates\orders\order_create.html:76
-msgid "submit"
-msgstr "ارسال"
-
-#: .\templates\orders\order_create.html:99
+#: .\templates\orders\order_create.html:32
+#: .\templates\orders\order_create.html:36
 msgid "$"
 msgstr "تومان"
 
-#: .\views.py:17
+#: .\views.py:18
 msgid "You can not proceed to checkout because your cart is empty."
 msgstr "شما نمیتوانید به صفحه پرداخت بروید. چون سبد خرید شما خالیست."
+
+#~ msgid "These fields are required:"
+#~ msgstr "این فیلدها اجباری هستند."
+
+#~ msgid "submit"
+#~ msgstr "ارسال"
