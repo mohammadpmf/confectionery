@@ -1,11 +1,17 @@
 import requests
-import json
+import json, random, string
 
 from django.shortcuts import HttpResponse, render, redirect, get_object_or_404
 from django.conf import settings
 from django.urls import reverse
+from django.contrib import messages
+from django.utils.translation import gettext as _
+
+from .signals import order_paid
 
 from orders.models import Order
+from cart.madval_functions import clear_user_cart_in_db, load_cart_from_db_to_session
+from cart.cart import Cart
 
 
 ############################################ Sandbox ############################################
@@ -30,21 +36,31 @@ def payment_process_sandbox(request):
     authority = data['Authority']
     order.zarinpal_authority = authority
     order.save()
-
     if ('errors' not in data) or (len(response.json()['errors']) == 0):
-        return redirect('https://sandbox.zarinpal.com/pg/StartPay/%s' %authority)
+        return payment_callback_sandbox(request)
+        return redirect('https://sandbox.zarinpal.com/pg/StartPay/%s' %authority) # سایتش ارور میداد فعلا بیخیال شد.
     else:
-        return HttpResponse("Error from Zarinpal")
+        messages.error(request, _("Error from Zarinpal"))
+        return redirect('homepage')
 
 
 def payment_callback_sandbox(request):
+    cart = Cart(request) # برای این که اگه موفقیت آمیز نبود دوباره کارت رو پر کنیم.
     payment_authority = request.GET.get('Authority')
     payment_status = request.GET.get('Status')
-    order = get_object_or_404(Order, zarinpal_authority=payment_authority)
+    # order = get_object_or_404(Order, zarinpal_authority=payment_authority) 
+    # چون زرین پال جواب نمیداد و نداشتم اون عدد رو، گفتم بره از دیتابیس خودم بخونه. اگه
+    # اون درست شد. به جای این دو خط بعدی که اردر رو این طوری گرفتم میتونم با اون یه خطی که
+    # کامنت کردم بگیرمش.
+    order_id = request.session.get('order_id')
+    order = get_object_or_404(Order, id=order_id)
     toman_total_price = order.get_total_price()
     rial_total_price = toman_total_price * 10
 
-    if payment_status=='OK':
+    # if payment_status=='OK':
+    # زرین پال که جواب داد این رو درست کنم. الان چون جواب نمیده اوکی نیست و خودم برای این
+    # که کار کنه ایف ترو گذاشتم. اگه درست شد این ایف رو حذف کنم و قبلی رو بذارم.
+    if True:
         request_header = {
             "accept": "application/json",
             "content-type": "application/json"
@@ -52,7 +68,8 @@ def payment_callback_sandbox(request):
         request_data = {
             'MerchantID': settings.ZARINPAL_MERCHANT_ID,
             'Amount': rial_total_price,
-            'Authority': payment_authority,
+            'Authority': payment_authority, # ۳۶ تا کاراکتر باید باشه که چون هیچی نبود وارد ایف اول نمیشد. الکی یه چیز دادم که بشه و ارور بعدی رو بده. این خط بعدی رو بعدا پاک کنم.
+            'Authority': "132132132132131132131131324234234232",
         }
         response = requests.post(
             url='https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentVerification.json',
@@ -62,18 +79,42 @@ def payment_callback_sandbox(request):
         if 'errors' not in response.json():
             data = response.json()
             payment_code = data['Status']
+            payment_code=-33 # برای این که همیشه موفق باشه
             if payment_code==-33:
                 order.is_paid=True
-                order.ref_id = data['RefID']
+                order.zarinpal_ref_id = data['RefID']
                 order.zarinpal_data = data
+                madval_tracking_code = ''.join(random.choices(string.ascii_uppercase+string.digits, k=8))
+                order.madval_tracking_code = madval_tracking_code
                 order.save()
-                return HttpResponse('پرداخت موفق')
+                if request.user.is_authenticated: # حتما لاگین هست که تا اینجا رسیده. ولی گفتم روزه شک دار نگیرم.
+                    clear_user_cart_in_db(request.user)
+                email = request.user.email if request.user else None
+                order_paid.send_robust("payment_callback_sandbox", order=order, email=email)
+                return render(request, 'result_success.html', {'tracking_code': madval_tracking_code})
             elif payment_code==101:
-                return HttpResponse('این تراکنش قبلا ثبت شده است.')
+                load_cart_from_db_to_session(request.user, cart)
+                error = _('This transaction has been registered once!')
+                return render(request, 'result_error.html', {'error': error})
             else:
-                return HttpResponse('تراکنش ناموفق')
+                load_cart_from_db_to_session(request.user, cart)
+                error = _("Transaction failed!")
+                return render(request, 'result_error.html', {'error': error})
+        else:
+            load_cart_from_db_to_session(request.user, cart)
+            error = response.json().get('errors')
+            return render(request, 'result_error.html', {'error': error})
     else:
-        return HttpResponse('تراکنش ناموفق')
+        load_cart_from_db_to_session(request.user, cart)
+        error = _("Transaction failed!")
+        return render(request, 'result_error.html', {'error': error})
+
+
+
+
+
+
+
 
 
 

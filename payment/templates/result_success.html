@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+
+{% load i18n %}
+
+{% block page_title %}
+{% trans "Successful Transaction!" %}
+{% endblock page_title %}
+
+{% block content %}
+<div dir="rtl" class="container shadow p-5 my-5">
+    <h1 class="c">
+        پرداخت شما با موفقیت انجام شد. جهت پیگیری سفارش خود، کد زیر را فراموش نکنید. (تمامی حروف، بزرگ هستند)
+        <br>
+        <br>
+        <div class="d-flex justify-content-center">
+            کد پیگیری: 
+            <span class="text-primary">
+                {{ tracking_code }}
+            </span>
+        </div>
+    </h1>
+</div>
+{% endblock content %}

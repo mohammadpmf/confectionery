@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+
+{% load i18n %}
+
+{% block page_title %}
+{% trans "Transaction Failed!" %}
+{% endblock page_title %}
+
+{% block content %}
+<div dir="rtl" class="container shadow p-5 my-5">
+    <h1>
+        {{ error }}
+    </h1>
+</div>
+{% endblock content %}
