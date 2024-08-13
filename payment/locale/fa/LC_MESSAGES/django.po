@@ -1,0 +1,39 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-08-13 20:04+0330\n"
+"PO-Revision-Date: 2024-08-13 16:20+0330\n"
+"Last-Translator: فاطمه معتمد <z@z.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
+
+#: .\templates\result_error.html:6
+msgid "Transaction Failed!"
+msgstr "تراکنش ناموفق!"
+
+#: .\templates\result_success.html:6
+msgid "Successful Transaction!"
+msgstr "تراکنش موفق"
+
+#: .\views.py:43
+msgid "Error from Zarinpal"
+msgstr "ارور از سمت سرور زرین پال"
+
+#: .\views.py:97
+msgid "This transaction has been registered once!"
+msgstr "این تراکنش قبلا یک بار ثبت شده است!"
+
+#: .\views.py:101 .\views.py:109
+msgid "Transaction failed!"
+msgstr "تراکنش ناموفق!"

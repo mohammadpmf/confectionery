@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-12 20:11+0330\n"
+"POT-Creation-Date: 2024-08-13 20:04+0330\n"
 "PO-Revision-Date: 2024-08-12 20:12+0330\n"
 "Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,8 +20,8 @@ msgstr ""
 
 #: .\forms.py:15
 msgid ""
-"Please Enter any further notes if you have some. Otherwise leave theis field"
-" empty."
+"Please Enter any further notes if you have some. Otherwise leave theis field "
+"empty."
 msgstr ""
 "لطفا در صورت نیاز، یادداشت بگذارید. در غیر این صورت، این قسمت را خالی "
 "بگذارید."
@@ -57,7 +57,6 @@ msgstr ""
 "انگلیسی باشد."
 
 #: .\forms.py:36
-#| msgid "Phone number should be exactly 11 digits in Iran"
 msgid "Phone numbers start with 09 in Iran!"
 msgstr "شماره تلفن ها در ایران با 09 آغاز میشوند!"
 
@@ -93,27 +92,27 @@ msgstr "آدرس"
 msgid "Order Notes"
 msgstr "یادداشت برای سفارش"
 
-#: .\models.py:26
+#: .\models.py:27
 msgid "Date Time of creation"
 msgstr "زمان ایجاد"
 
-#: .\models.py:27
+#: .\models.py:28
 msgid "Date Time of last edit"
 msgstr "زمان آخرین ویرایش"
 
-#: .\models.py:42
+#: .\models.py:43
 msgid "Order"
 msgstr "ثبت سفارش"
 
-#: .\models.py:43
+#: .\models.py:44
 msgid "Product"
 msgstr "محصول"
 
-#: .\models.py:44
+#: .\models.py:45
 msgid "Quantity"
 msgstr "تعداد"
 
-#: .\models.py:45
+#: .\models.py:46
 msgid "Price"
 msgstr "قیمت"
 

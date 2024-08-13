@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-10 17:36+0330\n"
+"POT-Creation-Date: 2024-08-13 20:05+0330\n"
 "PO-Revision-Date: 2024-08-10 17:36+0330\n"
 "Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -342,7 +342,7 @@ msgstr ""
 "نظر شما با موفقیت دریافت شد. اما چون عضو سایت نیستید، پس از تایید نمایش داده "
 "خواهد شد."
 
-#: .\views.py:299
+#: .\views.py:313
 msgid ""
 "Your message has been recieved successfully! If it needs a response, we'll "
 "contact you ASAP!"

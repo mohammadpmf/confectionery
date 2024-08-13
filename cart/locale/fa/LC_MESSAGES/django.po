@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-08 19:02+0330\n"
+"POT-Creation-Date: 2024-08-13 20:04+0330\n"
 "PO-Revision-Date: 2024-08-08 19:02+0330\n"
 "Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,11 +102,11 @@ msgstr "برو به سبد خرید"
 msgid "Checkout"
 msgstr "پرداخت"
 
-#: .\views.py:74
+#: .\views.py:68
 msgid "All products successfully removed from your cart"
 msgstr "تمام محصولات با موفقیت از سبد خرید شما حذف شدند."
 
-#: .\views.py:76
+#: .\views.py:70
 msgid "Your cart is already empty."
 msgstr "سبد خرید شما از قبل خالیست."
 

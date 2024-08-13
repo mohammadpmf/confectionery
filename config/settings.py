@@ -27,12 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'harchi'
+SECRET_KEY = DJANGO_SECRET_KEY
 # مقداری که اینجا بود رو به اون صورت داخل فایل docker-compose.yml می نویسیم و دقت کنم که
 # علامت $ هر جا بود باید یه $ دیگه کنارش بنویسیم. چون برای داکر کامپوز اسکیپ کاراکتر هست.
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = DJANGO_DEBUG
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']#, '.herokuapp.com']
 
@@ -197,8 +197,8 @@ EMAIL_HOST = "smtp.gmail.com"
 # خلاصه این که اس اس ال یه مشکلاتی داشت و ورژن تی ال اس رو دادن که امن تره
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587 # TLS
-EMAIL_HOST_USER = 'shookooljooni254@gmail.com'
-EMAIL_HOST_PASSWORD = 'dhbifelfqtxebxgu'
+EMAIL_HOST_USER = DJANGO_EMAIL_ADDRESS
+EMAIL_HOST_PASSWORD = DJANGO_EMAIL_APP_PASSWORD
 ########################     END EMAIL     ########################
 
 WSGI_APPLICATION = 'config.wsgi.application'
@@ -210,9 +210,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'confectionery',
-        'USER': 'root',
-        'PASSWORD': 'root',
+        'NAME': DJANGO_DATABASE_NAME,
+        'USER': DJANGO_DATABASE_USERNAME,
+        'PASSWORD': DJANGO_DATABASE_PASSWORD,
         'HOST': 'localhost',
         'PORT': 3306
         # 'ENGINE': 'django.db.backends.sqlite3',
@@ -265,7 +265,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Media
