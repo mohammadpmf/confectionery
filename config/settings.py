@@ -65,6 +65,7 @@ INSTALLED_APPS = [
 
     'rosetta',
     # 'jalali_date',
+    # "azbankgateways", نصبش کردم. اما درست کار نمیکرد کامنت کردم. کدهاش رو حذف نکردم.
 
     # local apps
     'accounts',
@@ -290,4 +291,38 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
+AZ_IRANIAN_BANK_GATEWAYS = {
+    "GATEWAYS": {
+        "ZARINPAL": {
+            "MERCHANT_CODE": ZARINPAL_MERCHANT_ID_FAKE,
+            "SANDBOX": 1,  # 0 disable, 1 active
+        },
+        "IDPAY": {
+            "MERCHANT_CODE": "<YOUR MERCHANT CODE>",
+            "METHOD": "POST",  # GET or POST
+            "X_SANDBOX": 1,  # 0 disable, 1 active
+        },
+        "PAYV1": {
+            "MERCHANT_CODE": "<YOUR MERCHANT CODE>",
+            "X_SANDBOX": 1,  # 0 disable, 1 active
+        },
+    },
+    "IS_SAMPLE_FORM_ENABLE": True,  # اختیاری و پیش فرض غیر فعال است
+    "DEFAULT": "ZARINPAL",
+    "CURRENCY": "IRR",  # اختیاری
+    "TRACKING_CODE_QUERY_PARAM": "tc",  # اختیاری
+    "TRACKING_CODE_LENGTH": 16,  # اختیاری
+    "SETTING_VALUE_READER_CLASS": "azbankgateways.readers.DefaultReader",  # اختیاری
+    "BANK_PRIORITIES": [
+        "ZARINPAL",
+        "IDPAY",
+        "PAYV1",
+    ],  # اختیاری
+    "IS_SAFE_GET_GATEWAY_PAYMENT": False,  # اختیاری، بهتر است True بزارید.
+    "CUSTOM_APP": None,  # اختیاری
+}
+
 ZARINPAL_MERCHANT_ID = ZARINPAL_MERCHANT_ID_FAKE
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

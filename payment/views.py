@@ -152,3 +152,86 @@ def payment_callback(request):
         return HttpResponse('تراکنش ناموفق')
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########################### az_iranian_bank_gateways ###########################
+# نصبش کردم. اما درست کار نمیکرد کامنت کردم. کدهاش رو حذف نکردم.
+# import logging
+# from django.urls import reverse
+# from django.shortcuts import render
+# from django.http import HttpResponse, Http404
+
+# from azbankgateways.exceptions import AZBankGatewaysException
+# from azbankgateways import (
+#     bankfactories,
+#     models as bank_models,
+#     default_settings as settings,
+# )
+
+
+# def go_to_gateway_view(request):
+#     order_id = request.session.get('order_id')
+#     order = get_object_or_404(Order, id=order_id)
+#     toman_total_price = order.get_total_price()
+#     user_mobile_number = order.phone_number
+#     factory = bankfactories.BankFactory()
+#     try:
+#         bank = (
+#             factory.auto_create()
+#         )  # or factory.create(bank_models.BankType.BMI) or set identifier
+#         bank.set_request(request)
+#         bank.set_amount(toman_total_price)
+#         bank.set_client_callback_url(reverse("payment:payment_callback_sandbox"))
+#         bank.set_mobile_number(user_mobile_number)  # اختیاری
+#         bank_record = bank.ready()
+#         context = bank.get_gateway()
+#         return render(request, "redirect_to_bank.html", context=context)
+#     except AZBankGatewaysException as e:
+#         logging.critical(e)
+#         return render(request, "redirect_to_bank.html", {'errors': e})
+
+
+
+# def callback_gateway_view(request):
+#     tracking_code = request.GET.get(settings.TRACKING_CODE_QUERY_PARAM, None)
+#     if not tracking_code:
+#         logging.debug("این لینک معتبر نیست.")
+#         raise Http404
+
+#     try:
+#         bank_record = bank_models.Bank.objects.get(tracking_code=tracking_code)
+#     except bank_models.Bank.DoesNotExist:
+#         logging.debug("این لینک معتبر نیست.")
+#         raise Http404
+
+#     # در این قسمت باید از طریق داده هایی که در بانک رکورد وجود دارد، رکورد متناظر یا هر اقدام مقتضی دیگر را انجام دهیم
+#     if bank_record.is_success:
+#         # پرداخت با موفقیت انجام پذیرفته است و بانک تایید کرده است.
+#         # می توانید کاربر را به صفحه نتیجه هدایت کنید یا نتیجه را نمایش دهید.
+#         return HttpResponse("پرداخت با موفقیت انجام شد.")
+
+#     # پرداخت موفق نبوده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت.
+#     return HttpResponse(
+#         "پرداخت با شکست مواجه شده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت."
+#     )

@@ -1,0 +1,39 @@
+
+<!--
+########################### az_iranian_bank_gateways ###########################
+ -->
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>انتقال به درگاه پرداخت</title>
+</head>
+<body>
+    <p> {{ errors }} </p>
+   {% if url %}
+     <h5>در حال اتصال به درگاه پرداخت ...</h5>
+   {% else %}
+     <h5>خطا در ارتباط با درگاه</h5>
+   {% endif %}
+
+   {% if url %}
+      <form id='id_form' action="{{ url }}" method="{{ method }}">
+          {% csrf_token %}
+          {% for key, value in params.items %}
+              <input type="hidden" name="{{ key }}" value="{{ value }}">
+          {% endfor %}
+      </form>
+
+      <script type="text/javascript">
+          window.onload = function () {
+
+              function submitForm() {
+                  document.forms['id_form'].submit();
+              }
+
+              submitForm();
+          }
+      </script>
+   {% endif %}
+</body>
+</html>

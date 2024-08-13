@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from azbankgateways.urls import az_bank_gateways_urls
 
+admin.autodiscover()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +31,7 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('order/', include('orders.urls')),
     path('payment/', include('payment.urls')),
+    # path("bankgateways/", az_bank_gateways_urls()), # نصبش کردم. اما درست کار نمیکرد کامنت کردم. کدهاش رو حذف نکردم.
 
     # Rosetta (i18n)
     path('rosetta/', include('rosetta.urls')),

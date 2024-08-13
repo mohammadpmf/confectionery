@@ -65,6 +65,7 @@ INSTALLED_APPS = [
 
     'rosetta',
     # 'jalali_date',
+    # "azbankgateways", نصبش کردم. اما درست کار نمیکرد کامنت کردم. کدهاش رو حذف نکردم.
 
     # local apps
     'accounts',
