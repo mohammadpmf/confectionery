@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.linkedin_oauth2',
-    'allauth.socialaccount.providers.openid_connect',  # برای اکانت هایی مثل لینکد این، که از این سرویس استفاده میکنن باید خود اپین آی دی رو هم اضافه کرد.
+    'allauth.socialaccount.providers.openid_connect', # برای اکانت هایی مثل لینکد این، که از این سرویس استفاده میکنن باید خود اپین آی دی رو هم اضافه کرد.
 
     'rosetta',
     # 'jalali_date',
@@ -292,3 +292,38 @@ MESSAGE_TAGS = {
 }
 
 ZARINPAL_MERCHANT_ID = ZARINPAL_MERCHANT_ID_FAKE
+
+########################### az_iranian_bank_gateways ###########################
+# AZ_IRANIAN_BANK_GATEWAYS = {
+#     "GATEWAYS": {
+#         "ZARINPAL": {
+#             "MERCHANT_CODE": ZARINPAL_MERCHANT_ID_FAKE,
+#             "SANDBOX": 1,  # 0 disable, 1 active
+#         },
+#         "IDPAY": {
+#             "MERCHANT_CODE": "<YOUR MERCHANT CODE>",
+#             "METHOD": "POST",  # GET or POST
+#             "X_SANDBOX": 1,  # 0 disable, 1 active
+#         },
+#         "PAYV1": {
+#             "MERCHANT_CODE": "<YOUR MERCHANT CODE>",
+#             "X_SANDBOX": 1,  # 0 disable, 1 active
+#         },
+#     },
+#     "IS_SAMPLE_FORM_ENABLE": True,  # اختیاری و پیش فرض غیر فعال است
+#     "DEFAULT": "ZARINPAL",
+#     "CURRENCY": "IRR",  # اختیاری
+#     "TRACKING_CODE_QUERY_PARAM": "tc",  # اختیاری
+#     "TRACKING_CODE_LENGTH": 16,  # اختیاری
+#     "SETTING_VALUE_READER_CLASS": "azbankgateways.readers.DefaultReader",  # اختیاری
+#     "BANK_PRIORITIES": [
+#         "ZARINPAL",
+#         "IDPAY",
+#         "PAYV1",
+#     ],  # اختیاری
+#     "IS_SAFE_GET_GATEWAY_PAYMENT": False,  # اختیاری، بهتر است True بزارید.
+#     "CUSTOM_APP": None,  # اختیاری
+# }
+# USE_X_FORWARDED_HOST = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+########################### End az_iranian_bank_gateways ###########################
