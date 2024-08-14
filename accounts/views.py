@@ -82,7 +82,7 @@ class LoginWithPhoneNumber(generic.TemplateView):
         except ConnectionError as error:
             messages.error(request, _("A connection error occured. Please check your Internet!"))
             messages.error(request, error)
-            return redirect('change_otp_number')
+            return redirect('account_login')
         finally:
             threading.Thread(target=self.expire_sent_otp, args=(phone_number, )).start()
 
