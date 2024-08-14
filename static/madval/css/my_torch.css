@@ -1,0 +1,31 @@
+body{
+    background-color: #232323;
+    color: #222222;
+    cursor: default;
+}
+
+div#torch{
+    z-index: -1;
+    position: fixed;
+    width: 10vw;
+    height: 10vw;
+    background-color: #c7fbff;
+    border-radius: 50%;
+}
+
+.madval-part, .madval-part h1, .madval-part h2, .madval-part p{
+    direction: rtl;
+    font-family: calibri;
+    line-height: 1.6em;
+    color: #222222;
+    text-align: justify;
+}
+
+dl a dt, dd a, dt a, div div div ul li a{
+    padding-right: 0px;
+    color: #222222;
+}
+
+dd{
+    margin-right: 12px;
+}

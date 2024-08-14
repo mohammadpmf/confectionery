@@ -11,7 +11,7 @@ from .models import OrderItem
 
 @login_required
 def order_create_view(request):
-    order_form = OrderForm()
+    order_form = OrderForm(instance=request.user)
     cart = Cart(request)
 
     if len(cart)==0:
