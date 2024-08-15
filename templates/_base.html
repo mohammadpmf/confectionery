@@ -183,12 +183,12 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                 </div>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown" data-bs-toggle="dropdown"><i class="fa fa-search" aria-hidden="true"></i></a>
-                    <div dir="rtl" class="dropdown-menu m-0" id="madval-search-box">
+                    <div dir="rtl" class="dropdown-menu m-0 p-4 br8" id="madval-search-box" style="background-color: lightblue;">
                         <form class="d-block em1-4 p-3" action="{% url 'searched_products' %}" method="get">
                             {% csrf_token %}
                             <div class="d-flex flex-column align-items-start">
                                 <div>
-                                    <input dir="rtl" type="text" name="searched_text" class="form-control border-white p-3 mb-3 c em1-6" placeholder="دنبال چی میگردی؟" value={{ searched_text }}>
+                                    <input dir="rtl" type="text" name="searched_text" class="form-control border-white p-3 mb-3 c em1-6 br12" placeholder="دنبال چی میگردی؟" value={{ searched_text }}>
                                 </div>
                                 <div>
                                     <input type="checkbox" name="title" value="1" {% if title %}checked{% endif %}>
@@ -202,9 +202,10 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                                     <input type="checkbox" name="ingredients" value="1" {% if ingredients %}checked{% endif %}>
                                     <label for="ingredients">بر اساس مواد تشکیل دهنده جست و جو کن</label><br>
                                 </div>
+                                <br>
                                 <div class="d-flex">
-                                    <input dir="rtl" type="number" name="min_price" class="form-control border-white p-3 mx-3 mb-3 c" step="5000" placeholder="کمترین قیمت (اختیاری)" min="0" value={{ min_price }}>
-                                    <input dir="rtl" type="number" name="max_price" class="form-control border-white p-3 mx-3 mb-3 c" step="5000" placeholder="بیشترین قیمت (اختیاری)" min="0" value={{ max_price }}>
+                                    <input dir="rtl" type="number" name="min_price" class="form-control border-white p-3 mx-2 mb-3 c br12" step="5000" placeholder="کمترین قیمت (اختیاری)" min="0" value={{ min_price }}>
+                                    <input dir="rtl" type="number" name="max_price" class="form-control border-white p-3 mx-2 mb-3 c br12" step="5000" placeholder="بیشترین قیمت (اختیاری)" min="0" value={{ max_price }}>
                                 </div>
                             </div>
                             <button type="submit" class="btn d btn-outline-primary">جست و جو کن<i class="fa fa-search" aria-hidden="true"></i></button>
@@ -228,12 +229,12 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                     </div>
                 </div>
                 <a href="{% url 'homepage' %}" class="nav-item nav-link {% block active_home %}{% endblock active_home %}">خانه</a>
-                <div class="" style="position: relative;">
-                    <a class="nav-item nav-link {% block active_cart %}{% endblock active_cart %}" style="position: absolute; top: 0; left: 0; z-index: 1;" href="{% url 'cart:cart_detail' %}"><i class="fas fa-shopping-cart"></i></a>
-                    {% if cart|length %}
-                        <div class="d-flex justify-content-center align-items-center rounded-circle" style="position: absolute; bottom: 24px; left: 28px; border: 1px solid white; color: white; background-color: green; font-size: 1.25em; z-index: 2; width: 24px; height: 24px;">{{ cart|length|pn }}</div>
-                    {% endif %}
-                </div>
+                <a href="{% url 'cart:cart_detail' %}" class="nav-item nav-link {% block active_cart %}{% endblock active_cart %}"><i class="fas fa-shopping-cart"></i></a>
+                {% if cart|length %}
+                    <div id="madval-cart-jangoolak-div">
+                        <div id="madval-cart-jangoolak-number" class="d-flex justify-content-center align-items-center rounded-circle">{{ cart|length|pn }}</div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </nav>

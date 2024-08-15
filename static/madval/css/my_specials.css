@@ -2,8 +2,45 @@
     width: 100%;
 }
 
+#madval-cart-jangoolak-div{
+    position: relative;
+}
+
+#madval-cart-jangoolak-number{
+    position: absolute;
+    bottom: 0px;
+    left: 12px;
+    border: 1px solid white;
+    color: white;
+    background-color: green;
+    font-size: 1.25em;
+    z-index: 2;
+    width: 24px;
+    height: 24px;
+}
+
 @media (min-width: 992px) {
     #madval-search-box {
         width: 30vw;
     }
+    #madval-cart-jangoolak-number{
+        bottom: 24px;
+        left: -24px;
+    }
+}
+
+.br4{
+    border-radius: 4px;
+}
+.br8{
+    border-radius: 8px;
+}
+.br12{
+    border-radius: 12px;
+}
+.br16{
+    border-radius: 16px;
+}
+.br24{
+    border-radius: 24px;
 }
