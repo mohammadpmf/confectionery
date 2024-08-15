@@ -55,6 +55,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
     
     <link href="{% static 'madval/css/my_fonts.css' %}" rel="stylesheet">
     <link href="{% static 'madval/css/my_messages.css' %}" rel="stylesheet">
+    <link href="{% static 'madval/css/my_specials.css' %}" rel="stylesheet">
 
     {% block extra_css %}{% endblock extra_css %}
 
@@ -160,7 +161,6 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto mx-lg-auto py-0">
-                
                 <div class="nav-item dropdown {% block active_profile %}{% endblock active_profile %}">
                     <a href="#" class="nav-link dropdown" data-bs-toggle="dropdown">
                         {% if user.profile_picture %}
@@ -179,6 +179,32 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         <a dir='rtl' href="{% url 'change_profile' %}"><span class="dropdown-item text-right">تغییر عکس و مشخصات کاربری</span></a>
                         <hr>
                         <a dir='rtl' href="{% url 'madval_logout' %}"><span class="dropdown-item text-right text-danger"><i class="fa fa-sign-out align-middle mx-1" style="font-size:36px;"></i> خروج مستقیم (بدون نیاز به تایید)</span></a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown" data-bs-toggle="dropdown"><i class="fa fa-search" aria-hidden="true"></i></a>
+                    <div dir="rtl" class="dropdown-menu m-0" id="madval-search-box">
+                        <form class="d-block em1-4 p-3" action="{% url 'searched_products' %}" method="get">
+                            {% csrf_token %}
+                            <div class="d-flex flex-column align-items-start">
+                                <div>
+                                    <input dir="rtl" type="text" name="searched_text" class="form-control border-white p-3 mb-3 c em1-6" placeholder="دنبال چی میگردی؟" required>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="title" value="1" checked>
+                                    <label for="title">بر اساس نام محصولات جست و جو کن</label><br>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="description" value="1" checked>
+                                    <label for="description">بر اساس جزییات محصولات جست و جو کن</label><br>
+                                </div>
+                                <div>
+                                    <input type="checkbox" name="ingredients" value="1" checked>
+                                    <label for="ingredients">بر اساس مواد تشکیل دهنده جست و جو کن</label><br>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn d btn-outline-primary">جست و جو کن<i class="fa fa-search" aria-hidden="true"></i></button>
+                        </form>
                     </div>
                 </div>
                 <a href="{% url 'contact_us' %}" class="nav-item nav-link {% block active_contact_us %}{% endblock active_contact_us %}">تماس با ما</a>

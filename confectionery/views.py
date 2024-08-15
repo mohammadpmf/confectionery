@@ -2,7 +2,7 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
-from django.db.models import Prefetch, Avg, Count, Case, When, FloatField, StdDev, Variance
+from django.db.models import Prefetch, Avg, Count, Case, When, FloatField, StdDev, Variance, Q
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
@@ -342,3 +342,70 @@ class MyOrdersDetail(LoginRequiredMixin, generic.DetailView):
 
     def get_queryset(self):
         return super().get_queryset().prefetch_related('items__product')
+
+
+class SearchedProducts(generic.ListView):
+    def get(self, request, *args, **kwargs):
+        sort_by = request.GET.get('sort-by')
+        searched_text = request.GET.get('searched_text')
+        title = request.GET.get('title')
+        description = request.GET.get('description')
+        ingredients = request.GET.get('ingredients')
+        queryset = Product.objects.all()
+        # اول شرط های پایین رو همین شکلی نوشته بودم و برای دفعه اول درست کار میکرد. چون فرم اچ تی ام ال
+        # تکست باکسش وقتی چیزی نمیفرسته نال چیزی نمیفرسته و این متغیرهای بالایی نال میشدند.
+        # اما وقتی برای رندر کردن همینا رو میفرستیم برای اچ تی ام ال و با تگ اِی دوباره همین ها رو
+        # میگیریم، این بار کلمه نان رو میفرستادن که خب دیگه نان پایتونی نبود و وقتی مینوشتم
+        # if ingredients
+        # این شرط ترو میشد. چون یه استرینگ بود که داخلش نان نوشته شده بود. به هر حال گفتم
+        # روزه شک دار نگیرم و این مقادیر رو دقیقا با استرینگ ۱ مقایسه کردم که این شکلی
+        # درست کار میکنه.
+        if title=="1" and description=="1" and ingredients=="1":
+            queryset = queryset.filter(Q(title__icontains=searched_text) | Q(extra_information__icontains=searched_text) | Q(ingredients__icontains=searched_text))
+        elif title=="1" and description=="1":
+            queryset = queryset.filter(Q(title__icontains=searched_text) | Q(extra_information__icontains=searched_text))
+        elif title=="1" and ingredients=="1":
+            queryset = queryset.filter(Q(title__icontains=searched_text) | Q(ingredients__icontains=searched_text))
+        elif description=="1" and ingredients=="1":
+            queryset = queryset.filter(Q(extra_information__icontains=searched_text) | Q(ingredients__icontains=searched_text))
+        elif title=="1":
+            queryset = queryset.filter(title__icontains=searched_text)
+        elif description=="1":
+            queryset = queryset.filter(extra_information__icontains=searched_text)
+        elif ingredients=="1":
+            queryset = queryset.filter(ingredients__icontains=searched_text)
+        else:
+            pass
+        queryset = queryset.annotate(
+            average_stars=Avg(
+            Case(
+                When(comments__is_approved=True, then='comments__stars'),
+                    output_field=FloatField()
+                )
+            )
+        )
+        if sort_by in [None, 'recommendation']:
+            sort_by='recommendation' # اگه انتخاب نکرده بود خودم میذارم بر اساس پیشنهاد خریداران.
+            queryset = queryset.order_by('-average_stars', '-id')
+        elif sort_by=='newest':
+            queryset = queryset.order_by('-id')
+        elif sort_by=='cheapest':
+            queryset = queryset.order_by('price_toman', '-id')
+        elif sort_by=='most_expensive':
+            queryset = queryset.order_by('-price_toman', '-id')
+        elif sort_by=='more_durable':
+            queryset = queryset.order_by('-expiration_days', '-id')
+        elif sort_by=='fastest':
+            queryset = queryset.order_by('preparation_time', '-id')
+        paginator = Paginator(queryset, PRODUCTS_PER_PAGE)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context = {
+            'active_page': sort_by,
+            'page_obj': page_obj,
+            'searched_text': searched_text,
+            'title': title,
+            'description': description,
+            'ingredients': ingredients,
+        }
+        return render(request, 'category.html', context)

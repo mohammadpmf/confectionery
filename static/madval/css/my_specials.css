@@ -1,0 +1,9 @@
+#madval-search-box{
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    #madval-search-box {
+        width: 30vw;
+    }
+}

@@ -19,12 +19,12 @@
 <div class="container card shadow-lg mt-5" style="padding-left: 2em; padding-right:0;">
     <div dir='rtl' class="container p-5">
         <p class="d-inline"><img src="{% static 'madval/img/sort.png' %}" alt="">مرتب سازی:</p>
-        <a href="?sort-by=recommendation" class="btn d {% if active_page == 'recommendation' or active_page == None %}text-primary{% endif %}">پیشنهاد خریداران</a>
-        <a href="?sort-by=newest" class="btn d {% if active_page == 'newest' %}text-primary{% endif %}">جدیدترین</a>
-        <a href="?sort-by=cheapest" class="btn d {% if active_page == 'cheapest' %}text-primary{% endif %}">ارزان ترین</a>
-        <a href="?sort-by=most_expensive" class="btn d {% if active_page == 'most_expensive' %}text-primary{% endif %}">گران ترین</a>
-        <a href="?sort-by=more_durable" class="btn d {% if active_page == 'more_durable' %}text-primary{% endif %}">ماندگاری بیشتر</a>
-        <a href="?sort-by=fastest" class="btn d {% if active_page == 'fastest' %}text-primary{% endif %}">مدت زمان آماده سازی کمتر</a>
+        <a href="?sort-by=recommendation&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}" class="btn d {% if active_page == 'recommendation' or active_page == None %}text-primary{% endif %}">پیشنهاد خریداران</a>
+        <a href="?sort-by=newest&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}" class="btn d {% if active_page == 'newest' %}text-primary{% endif %}">جدیدترین</a>
+        <a href="?sort-by=cheapest&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}" class="btn d {% if active_page == 'cheapest' %}text-primary{% endif %}">ارزان ترین</a>
+        <a href="?sort-by=most_expensive&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}" class="btn d {% if active_page == 'most_expensive' %}text-primary{% endif %}">گران ترین</a>
+        <a href="?sort-by=more_durable&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}" class="btn d {% if active_page == 'more_durable' %}text-primary{% endif %}">ماندگاری بیشتر</a>
+        <a href="?sort-by=fastest&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}" class="btn d {% if active_page == 'fastest' %}text-primary{% endif %}">مدت زمان آماده سازی کمتر</a>        
         <hr>
     </div>
     {% for product in page_obj %}
@@ -73,9 +73,9 @@
     <nav dir="rtl" aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             {% if page_obj.number|add:'-3' > 1 %}
-                    <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page=1&sort-by={{ active_page }}">1</a></li>
+                    <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page=1&sort-by={{ active_page }}&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}">1</a></li>
                 {% if page_obj.number|add:'-4' != 1 %}
-                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'-4' }}&sort-by={{ active_page }}">&hellip;</a></li>
+                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'-4' }}&sort-by={{ active_page }}&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}">&hellip;</a></li>
                 {% endif %}
             {% endif %}
             {% for i in page_obj.paginator.page_range %}
@@ -89,19 +89,19 @@
                     {% endif %}
                 {% elif i > page_obj.number|add:'-4' and i < page_obj.number|add:'4' %}
                     {% if i == 1 %}
-                        <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page={{ i }}&sort-by={{ active_page }}">{{ i }}</a></li>
+                        <li class="page-item mx-1"><a class="page-link madval-rounded-right" href="?page={{ i }}&sort-by={{ active_page }}&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}">{{ i }}</a></li>
                     {% elif i == page_obj.paginator.num_pages %}
-                        <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{ i }}&sort-by={{ active_page }}">{{ i }}</a></li>
+                        <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{ i }}&sort-by={{ active_page }}&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}">{{ i }}</a></li>
                     {% else %}
-                        <li class="page-item mx-1"><a class="page-link" href="?page={{ i }}&sort-by={{ active_page }}">{{ i }}</a></li>
+                        <li class="page-item mx-1"><a class="page-link" href="?page={{ i }}&sort-by={{ active_page }}&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}">{{ i }}</a></li>
                     {% endif %}
                 {% endif %}
             {% endfor %}
             {% if page_obj.paginator.num_pages > page_obj.number|add:'3' %}
                 {% if page_obj.number|add:'4' != page_obj.paginator.num_pages %}
-                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'4' }}&sort-by={{ active_page }}">&hellip;</a></li>
+                    <li class="page-item mx-1"><a class="page-link" href="?page={{ page_obj.number|add:'4' }}&sort-by={{ active_page }}&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}">&hellip;</a></li>
                 {% endif %}
-                    <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{page_obj.paginator.num_pages}}&sort-by={{ active_page }}">{{page_obj.paginator.num_pages}}</a></li>
+                    <li class="page-item mx-1"><a class="page-link madval-rounded-left" href="?page={{page_obj.paginator.num_pages}}&sort-by={{ active_page }}&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}">{{page_obj.paginator.num_pages}}</a></li>
             {% endif %}
         </ul>
     </nav>

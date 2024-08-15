@@ -14,4 +14,5 @@ urlpatterns = [
     path('chefs/', views.ChefList.as_view(), name='chefs'),
     path('my_orders/', views.MyOrdersList.as_view(), name='my_orders'),
     path('my_orders/<int:pk>/', views.MyOrdersDetail.as_view(), name='my_orders_detail'),
+    path('search/', views.SearchedProducts.as_view(), name='searched_products'),
 ]
