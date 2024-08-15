@@ -362,8 +362,7 @@ class SearchedProducts(generic.ListView):
         except:
             max_price = None
         if min_price and max_price and min_price>max_price:
-            min_price = None
-            max_price = None
+            min_price, max_price = max_price, min_price
         if min_price and max_price:
             query_price = Q(price_toman__range=(min_price, max_price))
         elif min_price:
