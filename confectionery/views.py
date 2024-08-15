@@ -351,6 +351,32 @@ class SearchedProducts(generic.ListView):
         title = request.GET.get('title')
         description = request.GET.get('description')
         ingredients = request.GET.get('ingredients')
+        min_price = request.GET.get('min_price')
+        max_price = request.GET.get('max_price')
+        try:
+            min_price = int(min_price)
+        except:
+            min_price = None
+        try:
+            max_price = int(max_price)
+        except:
+            max_price = None
+        if min_price and max_price and min_price>max_price:
+            min_price = None
+            max_price = None
+        if min_price and max_price:
+            query_price = Q(price_toman__range=(min_price, max_price))
+        elif min_price:
+            query_price = Q(price_toman__gte=min_price)
+        elif max_price: 
+            query_price = Q(price_toman__lte=max_price)
+        else:
+            query_price = Q(price_toman__gte=-1) # اگه هر دو تا نان بودن یعنی یا طرف وارد نکرده یا
+            # یه مشکلی داشته که خودم نانشون کردم. خلاصه. یه شرط الکی مینویسم که همیشه درست باشه تا
+            # موقع اور کردن با بقیه مشکلی ایجاد نکنه.
+        query_title = Q(title__icontains=searched_text)
+        query_description = Q(extra_information__icontains=searched_text)
+        query_ingredients = Q(ingredients__icontains=searched_text)
         queryset = Product.objects.all()
         # اول شرط های پایین رو همین شکلی نوشته بودم و برای دفعه اول درست کار میکرد. چون فرم اچ تی ام ال
         # تکست باکسش وقتی چیزی نمیفرسته نال چیزی نمیفرسته و این متغیرهای بالایی نال میشدند.
@@ -361,21 +387,21 @@ class SearchedProducts(generic.ListView):
         # روزه شک دار نگیرم و این مقادیر رو دقیقا با استرینگ ۱ مقایسه کردم که این شکلی
         # درست کار میکنه.
         if title=="1" and description=="1" and ingredients=="1":
-            queryset = queryset.filter(Q(title__icontains=searched_text) | Q(extra_information__icontains=searched_text) | Q(ingredients__icontains=searched_text))
+            queryset = queryset.filter((query_title | query_description | query_ingredients) & query_price)
         elif title=="1" and description=="1":
-            queryset = queryset.filter(Q(title__icontains=searched_text) | Q(extra_information__icontains=searched_text))
+            queryset = queryset.filter((query_title | query_description) & query_price)
         elif title=="1" and ingredients=="1":
-            queryset = queryset.filter(Q(title__icontains=searched_text) | Q(ingredients__icontains=searched_text))
+            queryset = queryset.filter((query_title | query_ingredients) & query_price)
         elif description=="1" and ingredients=="1":
-            queryset = queryset.filter(Q(extra_information__icontains=searched_text) | Q(ingredients__icontains=searched_text))
+            queryset = queryset.filter((query_description | query_ingredients) & query_price)
         elif title=="1":
-            queryset = queryset.filter(title__icontains=searched_text)
+            queryset = queryset.filter(query_title & query_price)
         elif description=="1":
-            queryset = queryset.filter(extra_information__icontains=searched_text)
+            queryset = queryset.filter(query_description & query_price)
         elif ingredients=="1":
-            queryset = queryset.filter(ingredients__icontains=searched_text)
+            queryset = queryset.filter(query_ingredients & query_price)
         else:
-            pass
+            queryset = queryset.filter(query_price)
         queryset = queryset.annotate(
             average_stars=Avg(
             Case(
@@ -407,5 +433,7 @@ class SearchedProducts(generic.ListView):
             'title': title,
             'description': description,
             'ingredients': ingredients,
+            'min_price': min_price,
+            'max_price': max_price,
         }
         return render(request, 'category.html', context)
