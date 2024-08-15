@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.db.models import Prefetch, Avg, Count, Case, When, FloatField, StdDev, Variance
@@ -6,11 +8,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
 from django.core.paginator import Paginator
 
+from orders.models import Order, OrderItem
+
 from .models import Chef, Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
 from .forms import NewsLetterForm, ProductCustomUserCommentForm, ProductAnanymousUserCommentForm, SuggestionsCriticsForm
 
 PRODUCTS_PER_PAGE = 6
-
+ORDERS_PER_PAGE = 10
 
 class HomePage(generic.TemplateView):
     template_name = 'index.html'
@@ -320,3 +324,21 @@ class ChefList(generic.ListView):
     template_name = 'chefs.html'
     model = Chef
     context_object_name = 'chefs'
+
+
+class MyOrdersList(LoginRequiredMixin, generic.ListView):
+    template_name = 'my_orders.html'
+    paginate_by = 15
+
+    def get_queryset(self):
+        user = self.request.user
+        return Order.objects.filter(user=user).prefetch_related('items').order_by('-datetime_created')
+
+
+class MyOrdersDetail(LoginRequiredMixin, generic.DetailView):
+    model = Order
+    template_name = 'my_orders_detail.html'
+    context_object_name = 'order'
+
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related('items__product')

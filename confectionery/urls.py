@@ -12,4 +12,6 @@ urlpatterns = [
     path('about_me/', views.AboutMe.as_view(), name='about_me'),
     path('contact_us/', views.ContactUs.as_view(), name='contact_us'),
     path('chefs/', views.ChefList.as_view(), name='chefs'),
+    path('my_orders/', views.MyOrdersList.as_view(), name='my_orders'),
+    path('my_orders/<int:pk>/', views.MyOrdersDetail.as_view(), name='my_orders_detail'),
 ]

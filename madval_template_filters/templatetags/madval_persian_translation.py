@@ -3,6 +3,17 @@ from django import template
 register = template.Library()
 
 
+WEEKDAYS = {
+    'Saturday': 'شنبه',
+    'Sunday': 'یکشنبه',
+    'Monday': 'دوشنبه',
+    'Tuesday': 'سه شنبه',
+    'Wednesday': 'چهارشنبه',
+    'Thursday': 'پنجشنبه',
+    'Friday': 'جمعه'
+}
+
+
 @register.filter(name='pn')
 def persian_numbers(value):
     value = str(value)
@@ -36,3 +47,8 @@ def comma_separated_persian_numbers(value, separator=3):
         value = res[::-1]
     table = value.maketrans('0123456789', '۰۱۲۳۴۵۶۷۸۹')
     return value.translate(table)
+
+
+@register.filter(name='p_weekdays')
+def p_weekdays(value):
+    return WEEKDAYS.get(value)

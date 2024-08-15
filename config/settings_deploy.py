@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.openid_connect', # برای اکانت هایی مثل لینکد این، که از این سرویس استفاده میکنن باید خود اپین آی دی رو هم اضافه کرد.
 
     'rosetta',
-    # 'jalali_date',
+    'jalali_date',
     # "azbankgateways", نصبش کردم. اما درست کار نمیکرد کامنت کردم. کدهاش رو حذف نکردم.
 
     # local apps
