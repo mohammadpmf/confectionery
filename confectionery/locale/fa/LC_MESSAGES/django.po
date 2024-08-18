@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 20:05+0330\n"
+"POT-Creation-Date: 2024-08-18 21:43+0330\n"
 "PO-Revision-Date: 2024-08-10 17:36+0330\n"
 "Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -251,18 +251,17 @@ msgstr ""
 "که مجموع سفارش قبلی شما و سفارش فعلی شما بیشتر از ۳۰ عدد شده بود، به ۳۰ عدد "
 "تغییر یافتند."
 
-#: .\templates\about_me.html:11 .\templates\about_me.html:21
 #: .\templates\about_us.html:11 .\templates\about_us.html:21
 #: .\templates\index.html:63
 msgid "About Us"
 msgstr "درباره ما"
 
-#: .\templates\about_me.html:22 .\templates\about_us.html:22
-#: .\templates\index.html:64
+#: .\templates\about_us.html:22 .\templates\index.html:64
 msgid "Welcome To Motamed Confectionery"
 msgstr "به وبسایت کیک و شیرینی معتمد خوش آمدید"
 
-#: .\templates\category.html:10
+#: .\templates\category.html:10 .\templates\my_orders.html:12
+#: .\templates\my_orders_detail.html:12
 msgid "Product List"
 msgstr "لیست محصولات"
 
@@ -308,7 +307,7 @@ msgstr "نان ها"
 msgid "30%% Discount For This Summer"
 msgstr "٪۳۰ تخفیف در تابستان امسال"
 
-#: .\views.py:48
+#: .\views.py:52
 msgid ""
 "Your email successfully added to our database! You will be noticed from all "
 "news ASAP!"
@@ -316,25 +315,15 @@ msgstr ""
 "آدرس ایمیل شما با موفقیت به پایگاه داده ما اضافه شد. به محض آمدن یک خبر "
 "جدید، از آن مطلع خواهید شد."
 
-#: .\views.py:183
-#, python-format
-msgid "%s successfully added to your favorites."
-msgstr "%s با موفقیت به لیست علاقه مندی های شما اضافه شد."
-
-#: .\views.py:187
-#, python-format
-msgid "%s successfully removed from your favorites."
-msgstr "%s با موفقیت از لیست علاقه مندی های شما حذف شد."
-
-#: .\views.py:205
+#: .\views.py:209
 msgid "Your comment updated successfully."
-msgstr "نظر شما با موفقیت ویرایس یافت."
+msgstr "نظر شما با موفقیت ویرایش یافت."
 
-#: .\views.py:212
+#: .\views.py:216
 msgid "Your comment recieved successfully."
 msgstr "نظر شما با موفقیت دریافت شد."
 
-#: .\views.py:217
+#: .\views.py:221
 msgid ""
 "Your comment recieved successfully. But as you are not a member of this "
 "site, it will be shown after confirmation!"
@@ -342,13 +331,19 @@ msgstr ""
 "نظر شما با موفقیت دریافت شد. اما چون عضو سایت نیستید، پس از تایید نمایش داده "
 "خواهد شد."
 
-#: .\views.py:313
+#: .\views.py:317
 msgid ""
 "Your message has been recieved successfully! If it needs a response, we'll "
 "contact you ASAP!"
 msgstr ""
 "پیغام شما با موفقیت دریافت شد. در صورت نیاز به پاسخگویی، در اسرع وقت با شما "
 "ارتباط برقرار میکنیم."
+
+#~ msgid "%s successfully added to your favorites."
+#~ msgstr "%s با موفقیت به لیست علاقه مندی های شما اضافه شد."
+
+#~ msgid "%s successfully removed from your favorites."
+#~ msgstr "%s با موفقیت از لیست علاقه مندی های شما حذف شد."
 
 #~ msgid "Order Now"
 #~ msgstr "همین حالا سفارش دهید"

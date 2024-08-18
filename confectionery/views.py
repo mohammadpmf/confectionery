@@ -184,11 +184,11 @@ class ProductDetail(generic.DetailView):
         if like_situation in ['0', '1']: # یعنی طرف رو دکمه لایک زده و کامنت نذاشته
             if like_situation=='1':
                 Favorite.objects.create(product=product, user=user)
-                messages.success(request, _("%s successfully added to your favorites." %product.title))
+                messages.success(request, "%s با موفیت به لیست علاقه مندی شما اضافه شد." %product.title)
             else:
                 temp = Favorite.objects.filter(product=product, user=user)
                 temp.delete()
-                messages.success(request, _("%s successfully removed from your favorites." %product.title))
+                messages.success(request, "%s با موفقیت از لیست علاقه مندی شما حذف شد." %product.title)
             return redirect('product_detail', product.pk)
         if user.is_authenticated:
             c = ProductCustomUserComment.objects.filter(product=product, author=self.request.user).first()

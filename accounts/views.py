@@ -67,7 +67,7 @@ class LoginWithPhoneNumber(generic.TemplateView):
             # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
             answer = True
             if answer:
-                messages.success(request, _("A verification code sent to %s. Please enter the recieved code to continue." %phone_number))
+                messages.success(request, "یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید." %phone_number)
                 return render(request, 'login_with_phone_number.html', context)
             messages.error(request, _("A problem occured in sending message. Please try again in a few minutes."))
             return redirect('account_login')
@@ -132,7 +132,7 @@ class LoginWithPhoneNumber(generic.TemplateView):
                     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     temp = PhoneNumber.objects.get(phone_number=phone_number)
                     if temp.verified:
-                        messages.success(request, _("Welcome %s" %username))
+                        messages.success(request, "خوش آمدی %s" %username)
                         return redirect('homepage')
                 context = {'phone_number': phone_number}
                 messages.success(request, _("Successfull Login."))
@@ -290,7 +290,7 @@ class ChangeOTPNumberConfirm(LoginRequiredMixin, generic.TemplateView):
             # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
             answer = True
             if answer:
-                messages.success(request, _("A verification code sent to %s. Please enter the recieved code to continue." %phone_number))
+                messages.success(request, "یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید." %phone_number)
                 return render(request, 'change_users_otp_number_confirm.html', context)
             messages.error(request, _("A problem occured in sending message. Please try again in a few minutes."))
             return redirect('change_otp_number')

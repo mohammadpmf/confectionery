@@ -123,9 +123,7 @@
                 </p>
                 <hr>
             {% endfor %}
-            {% if comments.count > number_of_comments %}
             <a class="text-primary" style="cursor: pointer;" onclick="open_comments()">نمایش تمامی نظرات</a>
-            {% endif %}
             </div>
         </div>
         {% endif %}
@@ -144,9 +142,7 @@
                 </p>
                 <hr>
             {% endfor %}
-            {% if anonymous_comments.count > number_of_comments %}
             <a class="text-info" style="cursor: pointer;" onclick="open_anonymous_comments()">نمایش تمامی نظرات</a>
-            {% endif %}
             </div>
         </div>
         {% endif %}
