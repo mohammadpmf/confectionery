@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 20:04+0330\n"
-"PO-Revision-Date: 2024-08-12 20:12+0330\n"
-"Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
+"POT-Creation-Date: 2024-08-18 12:04+0330\n"
+"PO-Revision-Date: 2024-08-18 12:05+0330\n"
+"Last-Translator: محمد پورمحمدی فلاح <shookooljooni254@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,8 +20,8 @@ msgstr ""
 
 #: .\forms.py:15
 msgid ""
-"Please Enter any further notes if you have some. Otherwise leave theis field "
-"empty."
+"Please Enter any further notes if you have some. Otherwise leave theis field"
+" empty."
 msgstr ""
 "لطفا در صورت نیاز، یادداشت بگذارید. در غیر این صورت، این قسمت را خالی "
 "بگذارید."
@@ -41,6 +41,13 @@ msgstr "شماره تماس را وارد کنید!"
 #: .\forms.py:21 .\forms.py:22
 msgid "Phone number should be exactly 11 digits in Iran"
 msgstr "شماره تلفن در اینران دقیقا باید ۱۱ رقم باشد."
+
+#: .\forms.py:23
+msgid ""
+"If you have disabled advertising messages, SMS won't send to your number"
+msgstr ""
+"در صورتی که پیامک های تبلیغاتی را غیر فعال کرده باشید، اس ام اس برای شما "
+"ارسال نخواهد شد."
 
 #: .\forms.py:28
 msgid "Phone number must only contain digits (not alphabet characters!)"

@@ -20,7 +20,7 @@ class OrderForm(forms.ModelForm):
         'required' : _('Enter phone number!'),
         'min_value' : _("Phone number should be exactly 11 digits in Iran"),
         'max_value' : _("Phone number should be exactly 11 digits in Iran"),
-    })
+    }, help_text=_('If you have disabled advertising messages, SMS won\'t send to your number'))
 
     def clean_phone_number(self):
         data:str = self.cleaned_data["phone_number"]

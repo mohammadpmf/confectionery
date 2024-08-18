@@ -165,10 +165,9 @@ class RegisterWithPhoneNumber(generic.TemplateView):
             temp.save()
             messages.success(request, _("Your choice accepted successfully! That page won't be shown to you next time!"))
         else: # یعنی رو دکمه تایید نزده. اما شاید بخواد دفعه بعد بزنه. از طرفی شاید هم فرم اول رو پر کرده و میخواد اطلاعات رو وارد کنه. پس بررسی میکنیم.
-            username = request.POST.get('username')
             email = request.POST.get('email')
             password = request.POST.get('password')
-            if username and email and password: # یعنی اگه یوزرنیم و ایمیل و پسورد وارد کرده بود، پس میخواد تغییر بده
+            if email and password: # یعنی اگه ایمیل و پسورد وارد کرده بود، پس میخواد تغییر بده
                 form = forms.ChangeUserInfoAfterRegisterationForm(request.POST)
                 if form.is_valid():
                     with transaction.atomic():
@@ -176,7 +175,6 @@ class RegisterWithPhoneNumber(generic.TemplateView):
                         temp = PhoneNumber.objects.get(user=user)
                         temp.verified=True
                         temp.save()
-                        user.username=cleaned_data['username']
                         user.email = cleaned_data['email']
                         user.password = make_password(cleaned_data['password']) # خود جنگو ساده رو قبول نمیکنه. با این میشه هشش کرد.
                         user.save()
@@ -327,9 +325,12 @@ class ChangeOTPNumberConfirm(LoginRequiredMixin, generic.TemplateView):
             pass
         if correct_otp==sent_otp:
             with transaction.atomic():
-                temp = PhoneNumber.objects.get(user=user)
-                temp.phone_number=phone_number
-                temp.save()
+                temp = PhoneNumber.objects.filter(user=user).first()
+                if temp: # تو حالتی که اول طرف شماره موبایل ثبت نکرده باشه، ارور میداد. پس باید بسازیم براش.
+                    temp.phone_number=phone_number
+                    temp.save()
+                else:
+                    PhoneNumber.objects.create(user=user, phone_number=phone_number, verified=True)
                 user.phone_number=phone_number
                 user.save()
                 messages.success(request, _("OTP Phone number updated successfully!"))

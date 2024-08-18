@@ -213,7 +213,7 @@ DATABASES = {
         'NAME': env('MY_DATABASE_NAME'),
         'USER': env('MY_DATABASE_USERNAME'),
         'PASSWORD': env('MY_DATABASE_PASSWORD'),
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': 3306
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',

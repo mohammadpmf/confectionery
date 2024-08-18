@@ -14,18 +14,27 @@
     0%{
         right: 2vw;
     }    
-    8%{
-        right: 10vw;
+    10%{
+        right: 0vw;
     }    
-    28%{
+    12%{
+        right: 12vw;
+    }    
+    30%{
+        right: 8vw;
+    }
+    32%{
+        right: 18vw;
+    }
+    50%{
+        right: 14vw;
+    }
+    52%{
+        right: 24vw;
+    }
+    99%{
         right: 5vw;
     }
-    29%{
-        right: 50vw;
-    }
-    95%{
-        right: 50vw;
-    }    
     100%{
         right: 100vw;
     }    
@@ -36,12 +45,12 @@
     position: fixed;
     bottom: 0;
     right: 2vw;
-    width: 48vw;
+    width: 75vw;
     left: unset;
     overflow: auto;
     direction: rtl;
     font-family: Calibri;
-    font-size: 1.4em;
+    font-size: 1.1em;
     z-index: 10000 !important;
     animation: blink 3 1.5s;
 }
@@ -50,12 +59,76 @@
     position: fixed;
     bottom: 0;
     right: 2vw;
-    width: 48vw;
+    width: 75vw;
     left: unset;
     overflow: auto;
     direction: rtl;
     font-family: Calibri;
-    font-size: 1.4em;
+    font-size: 1.1em;
     z-index: 10000 !important;
     animation: move-messages-to-corner 10s forwards;
+}
+
+@media (min-width: 992px) {
+    @keyframes blink {
+        0%{
+            opacity: 1;
+        }    
+        50%{
+            opacity: 0.1;
+        }    
+        100%{
+            opacity: 1;
+        }    
+    }
+    
+    @keyframes move-messages-to-corner {
+        0%{
+            right: 2vw;
+        }    
+        8%{
+            right: 10vw;
+        }    
+        28%{
+            right: 5vw;
+        }
+        29%{
+            right: 50vw;
+        }
+        95%{
+            right: 50vw;
+        }    
+        100%{
+            right: 100vw;
+        }    
+    }
+    
+    .madval-messages{
+        display: inline-block;
+        position: fixed;
+        bottom: 0;
+        right: 2vw;
+        width: 48vw;
+        left: unset;
+        overflow: auto;
+        direction: rtl;
+        font-family: Calibri;
+        font-size: 1.4em;
+        z-index: 10000 !important;
+        animation: blink 3 1.5s;
+    }
+    .move-to-corner{
+        display: inline-block;
+        position: fixed;
+        bottom: 0;
+        right: 2vw;
+        width: 48vw;
+        left: unset;
+        overflow: auto;
+        direction: rtl;
+        font-family: Calibri;
+        font-size: 1.4em;
+        z-index: 10000 !important;
+        animation: move-messages-to-corner 10s forwards;
+    }
 }

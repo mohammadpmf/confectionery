@@ -2,7 +2,8 @@ free css/
 free css zip files/
 madval1369_secret.py
 sample.html
-
+sample.py
+*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

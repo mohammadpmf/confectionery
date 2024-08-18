@@ -25,7 +25,7 @@ class HomePage(generic.TemplateView):
         context['pastries']=[]
         context['breads']=[]
         total = 0
-        for product in Product.objects.order_by('id'):
+        for product in Product.objects.order_by('-id'):
             if total==18:
                 break
             if product.product_type=='cake' and len(context['cakes'])<6:
@@ -37,9 +37,9 @@ class HomePage(generic.TemplateView):
             elif product.product_type=='bread' and len(context['breads'])<6:
                 context['breads'].append(product)
                 total+=1
-        # context['cakes'] = Product.objects.filter(product_type='cake').order_by('id')[:6]
-        # context['pastries'] = Product.objects.filter(product_type='pastry').order_by('id')[:6]
-        # context['breads'] = Product.objects.filter(product_type='bread').order_by('id')[:6]
+        # context['cakes'] = Product.objects.filter(product_type='cake').order_by('-id')[:6]
+        # context['pastries'] = Product.objects.filter(product_type='pastry').order_by('-id')[:6]
+        # context['breads'] = Product.objects.filter(product_type='bread').order_by('-id')[:6]
         context['top_comments'] = ProductCustomUserComment.objects.filter(is_approved=True, dont_show_my_name=False).select_related('product', 'author__profile_picture').order_by('-stars', '-datetime_modified', '-id')[:5]
         context['chefs'] = Chef.objects.all()
         return context

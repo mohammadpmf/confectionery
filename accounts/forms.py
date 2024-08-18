@@ -22,7 +22,7 @@ class CustomUserChangeForm(UserChangeForm):
 class ChangeUserInfoAfterRegisterationForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
-        fields = ('username', 'email', 'password')
+        fields = ('email', 'password')
 
     def clean_password(self):
         data:str = self.cleaned_data["password"]
