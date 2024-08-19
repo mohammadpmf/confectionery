@@ -121,6 +121,7 @@ class ProductDetail(generic.DetailView):
     template_name = 'detail.html'
     context_object_name = 'product'
 
+
     def get_queryset(self):
         query_set = super().get_queryset().prefetch_related(
             'images',

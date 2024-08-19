@@ -48,7 +48,7 @@ class Product(models.Model):
     extra_information = models.TextField(verbose_name=_('Extra Information'), max_length=10000, blank=True)
     
     def get_absolute_url(self):
-        return reverse("product_detail", kwargs={"pk": self.pk})
+        return reverse("product_detail", kwargs={"pk": self.pk, "slug": self.slug})
 
     def __str__(self):
         return f"{self.title} {self.weight}{gettext('Kgs')} {gettext('Price')}: {self.price_toman} {gettext('Toman')}"
