@@ -1,11 +1,14 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
 urlpatterns = [
     path('', views.HomePage.as_view(), name='homepage'),
     path('category/<category>/', views.CategoryList.as_view(), name='categories'),
-    path('product/<int:pk>/<slug:slug>/', views.ProductDetail.as_view(), name='product_detail'),
+    # path('product/<int:pk>/<slug:slug>/', views.ProductDetail.as_view(), name='product_detail'),
+    re_path(r'product/(?P<pk>[-\w]+)/(?P<slug>[-\w]+)/', views.ProductDetail.as_view(), name='product_detail'),
+    # re_path(r'product/(?P<pk>[-\w]+)/(?P<slug>[\w-]+)/$', views.ProductDetail.as_view(), name='product_detail'),
+    # re_path(r'product/(?P<pk>[-\w]+)/(?P<slug>[\u0600-\u06FF\w-]+)/$', views.ProductDetail.as_view(), name='product_detail'), #This pattern [\u0600-\u06FF\w-]+ explicitly includes the Unicode range for Persian characters.
     path('my_favorites/', views.FavoriteList.as_view(), name='my_favorites'),
     path('all_products/', views.ProductList.as_view(), name='all_products'),
     path('about_us/', views.AboutUs.as_view(), name='about_us'),

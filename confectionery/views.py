@@ -190,7 +190,7 @@ class ProductDetail(generic.DetailView):
                 temp = Favorite.objects.filter(product=product, user=user)
                 temp.delete()
                 messages.success(request, "%s با موفقیت از لیست علاقه مندی شما حذف شد." %product.title)
-            return redirect('product_detail', product.pk)
+            return redirect('product_detail', product.pk, product.slug)
         if user.is_authenticated:
             c = ProductCustomUserComment.objects.filter(product=product, author=self.request.user).first()
             if c:

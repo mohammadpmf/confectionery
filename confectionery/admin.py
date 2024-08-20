@@ -30,9 +30,9 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 20
     ordering = ['id']
     save_on_top = True # بولین هست و تو صفحه جزییات، سیو و دیلیت و گزینه ها رو علاوه بر پایین صفحه، بالا هم میاره اگه بذاریم ترو. به صورت پیش فرض فالس هست.
-    # prepopulated_fields = {
-    #     'slug': ['title', ] بعدا که اسلاگ فارسی رو اضافه کردم این رو هم بذارم.
-    # }
+    prepopulated_fields = {
+        'slug': ['title', ]
+    }
     inlines = [ProductImageAdminInline, ProductCustomUserCommentAdminInline, ProductAnanymousUserCommentAdminInline]
 
 

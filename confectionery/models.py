@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy as _
 from django.core.validators import MaxValueValidator
 from django.conf import settings
+from django.utils.text import slugify
 
 
 class Product(models.Model):
@@ -38,7 +39,7 @@ class Product(models.Model):
     flour_type = models.CharField(verbose_name=_('Flour Type'), max_length=8, choices=FLOUR_TYPE_CHOICES)
     sugar_rate = models.CharField(verbose_name=_('Sugar Rate'), max_length=8, choices=FAT_SUGRE_RATE_CHOICES)
     fat_rate = models.CharField(verbose_name=_('Fat Rate'), max_length=8, choices=FAT_SUGRE_RATE_CHOICES)
-    slug = models.SlugField(verbose_name=_('Slug'), )
+    slug = models.SlugField(verbose_name=_('Slug'), allow_unicode=True, unique=True)
     weight = models.DecimalField(verbose_name=_('Weight'), max_digits=3, decimal_places=1)
     price_toman = models.PositiveIntegerField(verbose_name=_('Price Toman'), )
     preparation_time = models.PositiveSmallIntegerField(verbose_name=_('Preparation Time'), validators=[MaxValueValidator(10)])
@@ -46,7 +47,12 @@ class Product(models.Model):
     expiration_days = models.PositiveSmallIntegerField(verbose_name=_('Expiration Days'), default=3, validators=[MaxValueValidator(60)])
     main_image = models.ImageField(verbose_name=_('Main Image'), upload_to='main_images/', blank=True)
     extra_information = models.TextField(verbose_name=_('Extra Information'), max_length=10000, blank=True)
-    
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title, allow_unicode=True)
+        super().save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse("product_detail", kwargs={"pk": self.pk, "slug": self.slug})
 
