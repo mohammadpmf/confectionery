@@ -49,6 +49,6 @@ def comma_separated_persian_numbers(value, separator=3):
     return value.translate(table)
 
 
-@register.filter(name='p_weekdays')
-def p_weekdays(value):
+@register.filter(name='p_weekday')
+def p_weekday(value):
     return WEEKDAYS.get(value)
