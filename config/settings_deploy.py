@@ -71,7 +71,7 @@ INSTALLED_APPS = [
     'accounts',
     'confectionery',
     'cart',
-    'madval_template_filters',
+    'django_madval',
     'orders',
     'payment',
 ]
