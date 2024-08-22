@@ -33,7 +33,7 @@
                                     <th>شماره تماس تحویل گیرنده</th>
                                     <th>کد پیگیری سفارش</th>
                                     <th>زمان سفارش</th>
-                                    <th>مبلغ کل سفارش</th>
+                                    <th>مبلغ پرداختی سفارش</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -71,7 +71,7 @@
                                     </td>
                                     <td>
                                         <span class="product-price-wrapper">
-                                            <span class="money mt-2 d-block em1-4">{{ order.get_total_price|cspn }} تومان</span>
+                                            <span class="money mt-2 d-block em1-4">{{ order.get_total_price_with_discount|cspn }} تومان</span>
                                         </span>
                                     </td>
                                     <td>

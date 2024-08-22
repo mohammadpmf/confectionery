@@ -57,10 +57,29 @@
                     <th>زمان سفارش</th>
                     <td>{{ order.datetime_created|to_jalali:'%A'|p_weekday }} {{ order.datetime_created|to_jalali:'%Y/%m/%d'|pn }}</td>
                 </tr>
+                {% if order.discount %}
                 <tr>
-                    <th>مبلغ کل سفارش</th>
+                    <th>مبلغ سفارش</th>
                     <td>{{ order.get_total_price|cspn }} تومان</td>
                 </tr>
+                <tr>
+                    <th>مبلغ تخفیف</th>
+                    <td>{{ order.get_discount_amount|cspn }} تومان</td>
+                </tr>
+                <tr>
+                    <th>کد تخفیف</th>
+                    <td>{{ order.discount.text }}</td>
+                </tr>
+                <tr>
+                    <th>مبلغ سفارش پس از اعمال تخفیف</th>
+                    <td>{{ order.get_total_price_with_discount|cspn }} تومان</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <th>مبلغ سفارش</th>
+                    <td>{{ order.get_total_price|cspn }} تومان</td>
+                </tr>
+                {% endif %}
             </table>
             <h2 class="my-3 mt-5 c">محصولات سفارش داده شده</h2>
             <hr>

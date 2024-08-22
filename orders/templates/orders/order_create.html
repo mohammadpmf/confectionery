@@ -5,9 +5,11 @@
 
 {% load crispy_forms_tags %}
 {% load madval_persian_translation %}
+{% load madval_math %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'madval/css/my_scroll_menu.css' %}">
+<link rel="stylesheet" href="{% static 'madval/css/my_cpecials.css' %}">
 {% endblock extra_css %}
 
 {% block page_title %}
@@ -33,7 +35,20 @@
         </div>
         {% endfor %}
     </div>
-    <h2 class='c em2 my-3 text-info'>مجموع: {{ cart.get_total_price|cspn }} {% trans "$" %}</h2>
+    <form action="" method="get">
+        {% csrf_token %}
+        <div id="div_id_discount" class="my-5 em1-2">
+            <input type="text" name="discount_text" {% if discount_text %}value="{{ discount_text }}"{% endif %} maxlength="255" class="textinput form-control w-25 d-inline" id="id_discount" placeholder="در صورتی که کد تخفیف دارید، در اینجا وارد کنید">
+            <button class="btn btn-outline-primary c p-2 px-3 mx-3 rounded-pill" type="submit">اعمال کد تخفیف</button>
+        </div>
+    </form>
+    {% if discount_amount > 0 %}
+        <h2 class='c em2 my-3 text-danger text-decoration-line-through'>مجموع: {{ cart.get_total_price|cspn }} {% trans "$" %}</h2>
+        <h2 class='c em2 my-3 text-success'>تخفیف: {{ discount_amount|cspn }} {% trans "$" %}</h2>
+        <h2 class='c em2 my-3 text-info'>مجموع پس از اعمال تخفیف: {{ cart.get_total_price|sub:discount_amount|cspn }} {% trans "$" %}</h2>
+    {% else %}
+       <h2 class='c em2 my-3 text-info'>مجموع: {{ cart.get_total_price|cspn }} {% trans "$" %}</h2>
+    {% endif %}
     <a class="text-danger me-1" href="{% url 'cart:cart_detail' %}">بازگشت به سبد خرید <i class="fas fa-shopping-cart"></i></a>
     <hr>
     <div class="checkout-title mt--10">
@@ -41,8 +56,9 @@
     </div>
     <form action="" method="post" class="text-primary em1-4">
         {% csrf_token %}
+        <input type="hidden" name="discount_text" {% if discount_text %}value="{{ discount_text }}"{% endif %}>
         {{ form|crispy }}
-        <button type="submit" class="btn btn-outline-success c m-2 p-3 px-5 rounded-pill">پرداخت آزمایشی درگاه زرین پال</button>
+        <button type="submit" class="btn btn-outline-success c m-2 p-3 px-5 rounded-pill">پرداخت آزمایشی</button>
     </form>
 </div>
 {% endblock content %}

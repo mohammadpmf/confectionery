@@ -333,7 +333,7 @@ class MyOrdersList(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return Order.objects.filter(user=user).prefetch_related('items').order_by('-datetime_created')
+        return Order.objects.filter(user=user).select_related('discount').prefetch_related('items').order_by('-datetime_created')
 
 
 class MyOrdersDetail(LoginRequiredMixin, generic.DetailView):
@@ -342,7 +342,7 @@ class MyOrdersDetail(LoginRequiredMixin, generic.DetailView):
     context_object_name = 'order'
 
     def get_queryset(self):
-        return super().get_queryset().prefetch_related('items__product')
+        return super().get_queryset().select_related('discount').prefetch_related('items__product')
 
 
 class SearchedProducts(generic.ListView):

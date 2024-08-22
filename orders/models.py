@@ -35,6 +35,9 @@ class Discount(models.Model):
         if date.today()>self.expiration_date:
             return True
         return self.used_times>=self.limit
+    
+    def __str__(self):
+        return self.text
 
 
 class Order(models.Model):
@@ -71,6 +74,21 @@ class Order(models.Model):
         #     total_price += item.price*item.quantity
         # return total_price
         return sum(item.price*item.quantity for item in self.items.all())
+    
+    def get_discount_amount(self):
+        discount_amount=0
+        if self.discount:
+            discount_amount = self.discount.discount_amount
+            if not discount_amount:
+                total_price = self.get_total_price()
+                discount_amount = round(total_price*self.discount.discount_percentage)
+                max_amount = self.discount.max_discount_amount
+                if discount_amount>max_amount:
+                    discount_amount=max_amount
+        return discount_amount
+    
+    def get_total_price_with_discount(self):
+        return self.get_total_price()-self.get_discount_amount()
 
 
 class OrderItem(models.Model):

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-22 11:03+0330\n"
-"PO-Revision-Date: 2024-08-22 11:06+0330\n"
+"POT-Creation-Date: 2024-08-22 20:23+0330\n"
+"PO-Revision-Date: 2024-08-22 20:24+0330\n"
 "Last-Translator: محمد پورمحمدی فلاح <shookooljooni254@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Also change first_name and last_name of my account."
 msgstr "در حساب کاربری من نیز، نام و نام خانوادگی را ذخیره کن."
 
-#: .\forms.py:19 .\models.py:42
+#: .\forms.py:19 .\models.py:50
 msgid "Phone Number"
 msgstr "شماره تماس"
 
@@ -67,27 +67,27 @@ msgstr ""
 msgid "Phone numbers start with 09 in Iran!"
 msgstr "شماره تلفن ها در ایران با 09 آغاز میشوند!"
 
-#: .\models.py:13
+#: .\models.py:17
 msgid "Text"
 msgstr "متن"
 
-#: .\models.py:14
+#: .\models.py:18
 msgid "Discount Amount"
 msgstr "مقدار تخفیف"
 
-#: .\models.py:15
+#: .\models.py:19
 msgid "Discount Percentage"
 msgstr "درصد تخفیف"
 
-#: .\models.py:16
+#: .\models.py:20
 msgid "Max Discount Amount"
 msgstr "حداکثر مقدار تخفیف"
 
-#: .\models.py:20 .\models.py:37
+#: .\models.py:24 .\models.py:44
 msgid "User"
 msgstr "کاربر"
 
-#: .\models.py:25
+#: .\models.py:29
 msgid ""
 "You should choose either discount_amount or discount_percentage!\n"
 "Both of them can't be Null!"
@@ -95,7 +95,7 @@ msgstr ""
 "شما باید یکی از دو فیلد مقدار تخفیف یا درصد تخفیف را پر کنید. هر دو آنها نمی"
 " توانند خالی باشند."
 
-#: .\models.py:27
+#: .\models.py:31
 msgid ""
 "You should choose one of discount_amount or discount_percentage!\n"
 "You can't choose both of them at the same time!"
@@ -103,70 +103,103 @@ msgstr ""
 "شما باید یکی از دو فیلد مقدار تخفیف یا درصد تخفیف را پر کنید. نمی توانید هر "
 "دو آن ها را همزمان انتخاب کنید."
 
-#: .\models.py:38
+#: .\models.py:45
+msgid "Discount"
+msgstr "تخفیف"
+
+#: .\models.py:46
 msgid "Is Paid?"
 msgstr "پرداخت شده؟"
 
-#: .\models.py:40
+#: .\models.py:48
 msgid "First Name"
 msgstr "نام"
 
-#: .\models.py:41
+#: .\models.py:49
 msgid "Last Name"
 msgstr "نام خانوادگی"
 
-#: .\models.py:43
+#: .\models.py:51
 msgid "Phone number should be at least 11 digits"
 msgstr "شماره تلفن حداقل باید ۱۱ رقم باشد."
 
-#: .\models.py:44
+#: .\models.py:52
 msgid "Phone number should be at most 14 digits"
 msgstr "شماره تلفن حداکثر باید ۱۱ رقم باشد."
 
-#: .\models.py:47
+#: .\models.py:55
 msgid "Address"
 msgstr "آدرس"
 
-#: .\models.py:49
+#: .\models.py:57
 msgid "Order Notes"
 msgstr "یادداشت برای سفارش"
 
-#: .\models.py:56
+#: .\models.py:64
 msgid "Date Time of creation"
 msgstr "زمان ایجاد"
 
-#: .\models.py:57
+#: .\models.py:65
 msgid "Date Time of last edit"
 msgstr "زمان آخرین ویرایش"
 
-#: .\models.py:72
+#: .\models.py:95
 msgid "Order"
 msgstr "ثبت سفارش"
 
-#: .\models.py:73
+#: .\models.py:96
 msgid "Product"
 msgstr "محصول"
 
-#: .\models.py:74
+#: .\models.py:97
 msgid "Quantity"
 msgstr "تعداد"
 
-#: .\models.py:75
+#: .\models.py:98
 msgid "Price"
 msgstr "قیمت"
 
-#: .\templates\orders\order_create.html:14
+#: .\templates\orders\order_create.html:16
 msgid "Payment"
 msgstr "پرداخت"
 
-#: .\templates\orders\order_create.html:32
-#: .\templates\orders\order_create.html:36
+#: .\templates\orders\order_create.html:34
+#: .\templates\orders\order_create.html:46
+#: .\templates\orders\order_create.html:47
+#: .\templates\orders\order_create.html:48
+#: .\templates\orders\order_create.html:50
 msgid "$"
 msgstr "تومان"
 
-#: .\views.py:18
+#: .\views.py:16
 msgid "You can not proceed to checkout because your cart is empty."
 msgstr "شما نمیتوانید به صفحه پرداخت بروید. چون سبد خرید شما خالیست."
+
+#: .\views.py:37 .\views.py:77
+msgid "This discount code is not verified!"
+msgstr "کد تخفیف نامعتبر است!"
+
+#: .\views.py:40 .\views.py:81
+msgid "Sorry. This discount code is expired!"
+msgstr "متاسفانه این کد تخفیف منقضی شده است!"
+
+#: .\views.py:42
+#| msgid "Sorry. This discount code is expired!"
+msgid "Sorry. This discount code is not for your account!"
+msgstr "متاسفانه این کد تخفیف مخصوص حساب کاربری شما نیست!"
+
+#: .\views.py:53 .\views.py:91
+msgid ""
+"Sorry, the price after discount is less than 10000 Toman. We cant't checkout"
+" that order. Please choose another item that make total price more than "
+"10000 Toman."
+msgstr ""
+"متاسفیم. اما قیمت سبد خرید شما با تخفیف کمتر از ۱۰۰۰۰ تومان است. لطفا آیتم "
+"دیگری انتخاب کنید تا قیمت با تخفیف بیش از ۱۰۰۰۰ تومان شود."
+
+#: .\views.py:59
+msgid "Discount successfully applied to your order."
+msgstr "تخفیف با موفقیت روی سفارش شما اعمال شد."
 
 #~ msgid "These fields are required:"
 #~ msgstr "این فیلدها اجباری هستند."

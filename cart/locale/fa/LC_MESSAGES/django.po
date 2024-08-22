@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-13 20:04+0330\n"
+"POT-Creation-Date: 2024-08-22 18:40+0330\n"
 "PO-Revision-Date: 2024-08-08 19:02+0330\n"
 "Last-Translator: محمد پورمحمدی فلاح <z@z.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Translated-Using: django-rosetta 0.10.0\n"
 
-#: .\cart.py:38
+#: .\cart.py:47
 msgid "Product successfully updated"
 msgstr "محصول با موفقیت ویرایش شد."
 
-#: .\cart.py:43
+#: .\cart.py:52
 msgid "Number of products should be an integer number!"
 msgstr "تعداد محصولات باید یک عدد صحیح باشد."
 
-#: .\cart.py:46 .\forms.py:41
+#: .\cart.py:55 .\forms.py:41
 msgid ""
 "Number of products can't be more than 30. If you have a big, order, please "
 "contact 09356640204."
@@ -34,7 +34,7 @@ msgstr ""
 "تعداد محصولات سفارشی نمیتواند بیش از ۳۰ عدد باشد. در صورتی که سفارش بزرگی "
 "دارید، لطفا با شماره ۰۹۳۵۶۶۴۰۲۰۴ تماس بگیرید."
 
-#: .\cart.py:49
+#: .\cart.py:58
 msgid ""
 "Number of products can't be less than 1. If you don't wan't it, you can "
 "remove it from your cart."
@@ -42,11 +42,11 @@ msgstr ""
 "تعداد محصولات سفارشی نمیتواند کمتر از ۱ باشد. در صورتی که محصول را "
 "نمیخواهید، میتوانید آن را از سبد خرید خود حذف کنید."
 
-#: .\cart.py:53
+#: .\cart.py:62
 msgid "Product successfully added to cart"
 msgstr "محصول با موفقیت به سبد خرید اضافه شد."
 
-#: .\cart.py:63
+#: .\cart.py:72
 msgid "Product successfully removed from cart"
 msgstr "محصول با موفقیت از سبد خرید شما حذف شد."
 

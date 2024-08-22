@@ -17,7 +17,7 @@ from cart.cart import Cart
 ############################################ Sandbox ############################################
 def payment_process_sandbox(request):
     order_id = request.session.get('order_id')
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Order.objects.select_related('user', 'discount'), id=order_id)
     toman_total_price = order.get_total_price()
     rial_total_price = toman_total_price * 10 # موقع تست دیدم خودش تومان هست دیگه من ریال رو استفاده نکردم
     zarinpal_request_url = 'https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.json'
@@ -48,12 +48,12 @@ def payment_callback_sandbox(request):
     cart = Cart(request) # برای این که اگه موفقیت آمیز نبود دوباره کارت رو پر کنیم.
     payment_authority = request.GET.get('Authority')
     payment_status = request.GET.get('Status')
-    # order = get_object_or_404(Order, zarinpal_authority=payment_authority) 
+    # order = get_object_or_404(Order.objects.select_related('user', 'discount'), zarinpal_authority=payment_authority) 
     # چون زرین پال جواب نمیداد و نداشتم اون عدد رو، گفتم بره از دیتابیس خودم بخونه. اگه
-    # اون درست شد. به جای این دو خط بعدی که اردر رو این طوری گرفتم میتونم با اون یه خطی که
+    # اون درست شد. به جای خطوط بعدی که اردر رو این طوری گرفتم میتونم با اون یه خطی که
     # کامنت کردم بگیرمش.
     order_id = request.session.get('order_id')
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Order.objects.select_related('user', 'discount'), id=order_id)
     toman_total_price = order.get_total_price()
     rial_total_price = toman_total_price * 10
 
@@ -87,10 +87,22 @@ def payment_callback_sandbox(request):
                 madval_tracking_code = ''.join(random.choices(string.ascii_uppercase+string.digits, k=8))
                 order.madval_tracking_code = madval_tracking_code
                 order.save()
+                if order.discount:
+                    order.discount.used_times+=1
+                    order.discount.save()
                 if request.user.is_authenticated: # حتما لاگین هست که تا اینجا رسیده. ولی گفتم روزه شک دار نگیرم.
                     clear_user_cart_in_db(request.user)
                 email = request.user.email if request.user else None
                 order_paid.send_robust("payment_callback_sandbox", order=order, email=email)
+                messages.success(request, "پرداخت شما با موفقیت انجام شد. جهت پیگیری سفارش خود، کد زیر را فراموش نکنید. (تمامی حروف، بزرگ هستند) "+madval_tracking_code)
+                return redirect('homepage')
+                # نمیدونم چرا وقتی این صفحه رو رندر میکرد، ۱۳ تا رکوئست میشد. با این که هیچ اطلاعات
+                # اضافه ای هم نمیخواد و فقط همین کد رو ارسال میکردم. اما وقتی ریدایرکت میکنم
+                # به صفحه اول ۸ تا کوئری میشه. در هر صورت کوئری هایی میزد که من لازمشون نداشتم
+                # فعلا این رو همین شکلی میذارم. البته احتمالش هست که وقتی ریدایرکت میکنم، این
+                # همون صفحه هوم پیج رو میگه که ۸ تا کوئری زده و اون ۱۳ تا رو هم تو مرحله قبلش زده
+                # اما به هر حال خط به خط جا به جا کردم و نفهمیدم که اون ۱۳ تایی برای چی بود.
+                # خلاصه که فعلا این شکلی گذاشتمش.
                 return render(request, 'result_success.html', {'tracking_code': madval_tracking_code})
             elif payment_code==101:
                 load_cart_from_db_to_session(request.user, cart)
