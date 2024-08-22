@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Order, OrderItem
+from .models import Order, OrderItem, Discount
 
 
 class OrderItemInline(admin.TabularInline):
@@ -22,3 +22,10 @@ class OrderItemAdmin(admin.ModelAdmin):
     model = OrderItem
     list_display = ['order', 'product', 'quantity', 'price', ]
     list_display_links = ['order', 'product', 'quantity', 'price', ]
+
+
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    model = Discount
+    list_display = ['id', 'text', 'discount_amount', 'discount_percentage', 'max_discount_amount', 'limit', 'used_times', 'expiration_date', 'user', 'is_expired']
+    list_display_links = ['id', 'text', 'discount_amount', 'discount_percentage', 'max_discount_amount', 'limit', 'used_times', 'expiration_date', 'user', 'is_expired']

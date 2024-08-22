@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-18 12:04+0330\n"
-"PO-Revision-Date: 2024-08-18 12:05+0330\n"
+"POT-Creation-Date: 2024-08-22 11:03+0330\n"
+"PO-Revision-Date: 2024-08-22 11:06+0330\n"
 "Last-Translator: محمد پورمحمدی فلاح <shookooljooni254@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr ""
 msgid "Also change first_name and last_name of my account."
 msgstr "در حساب کاربری من نیز، نام و نام خانوادگی را ذخیره کن."
 
-#: .\forms.py:19 .\models.py:13
+#: .\forms.py:19 .\models.py:42
 msgid "Phone Number"
 msgstr "شماره تماس"
 
@@ -67,59 +67,91 @@ msgstr ""
 msgid "Phone numbers start with 09 in Iran!"
 msgstr "شماره تلفن ها در ایران با 09 آغاز میشوند!"
 
-#: .\models.py:8
+#: .\models.py:13
+msgid "Text"
+msgstr "متن"
+
+#: .\models.py:14
+msgid "Discount Amount"
+msgstr "مقدار تخفیف"
+
+#: .\models.py:15
+msgid "Discount Percentage"
+msgstr "درصد تخفیف"
+
+#: .\models.py:16
+msgid "Max Discount Amount"
+msgstr "حداکثر مقدار تخفیف"
+
+#: .\models.py:20 .\models.py:37
 msgid "User"
 msgstr "کاربر"
 
-#: .\models.py:9
+#: .\models.py:25
+msgid ""
+"You should choose either discount_amount or discount_percentage!\n"
+"Both of them can't be Null!"
+msgstr ""
+"شما باید یکی از دو فیلد مقدار تخفیف یا درصد تخفیف را پر کنید. هر دو آنها نمی"
+" توانند خالی باشند."
+
+#: .\models.py:27
+msgid ""
+"You should choose one of discount_amount or discount_percentage!\n"
+"You can't choose both of them at the same time!"
+msgstr ""
+"شما باید یکی از دو فیلد مقدار تخفیف یا درصد تخفیف را پر کنید. نمی توانید هر "
+"دو آن ها را همزمان انتخاب کنید."
+
+#: .\models.py:38
 msgid "Is Paid?"
 msgstr "پرداخت شده؟"
 
-#: .\models.py:11
+#: .\models.py:40
 msgid "First Name"
 msgstr "نام"
 
-#: .\models.py:12
+#: .\models.py:41
 msgid "Last Name"
 msgstr "نام خانوادگی"
 
-#: .\models.py:14
+#: .\models.py:43
 msgid "Phone number should be at least 11 digits"
 msgstr "شماره تلفن حداقل باید ۱۱ رقم باشد."
 
-#: .\models.py:15
+#: .\models.py:44
 msgid "Phone number should be at most 14 digits"
 msgstr "شماره تلفن حداکثر باید ۱۱ رقم باشد."
 
-#: .\models.py:18
+#: .\models.py:47
 msgid "Address"
 msgstr "آدرس"
 
-#: .\models.py:20
+#: .\models.py:49
 msgid "Order Notes"
 msgstr "یادداشت برای سفارش"
 
-#: .\models.py:27
+#: .\models.py:56
 msgid "Date Time of creation"
 msgstr "زمان ایجاد"
 
-#: .\models.py:28
+#: .\models.py:57
 msgid "Date Time of last edit"
 msgstr "زمان آخرین ویرایش"
 
-#: .\models.py:43
+#: .\models.py:72
 msgid "Order"
 msgstr "ثبت سفارش"
 
-#: .\models.py:44
+#: .\models.py:73
 msgid "Product"
 msgstr "محصول"
 
-#: .\models.py:45
+#: .\models.py:74
 msgid "Quantity"
 msgstr "تعداد"
 
-#: .\models.py:46
+#: .\models.py:75
 msgid "Price"
 msgstr "قیمت"
 

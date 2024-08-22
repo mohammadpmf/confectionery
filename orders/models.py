@@ -1,11 +1,45 @@
+from datetime import date
+from random import choices, randint
+from string import ascii_uppercase, digits
+
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext as _
 from django.core.validators import MaxLengthValidator, MinLengthValidator
+from django.core.exceptions import ValidationError
+
+
+def generate_random_code():
+    return ''.join(choices(ascii_uppercase+digits, k=randint(8, 10)))
+
+
+class Discount(models.Model):
+    text = models.CharField(verbose_name=_('Text'), max_length=31, unique=True, default=generate_random_code)
+    discount_amount = models.PositiveIntegerField(verbose_name=_('Discount Amount'), blank=True, null=True)
+    discount_percentage = models.DecimalField(verbose_name=_('Discount Percentage'), max_digits=2, decimal_places=2, blank=True, null=True)
+    max_discount_amount = models.PositiveIntegerField(verbose_name=_('Max Discount Amount'), default=150000)
+    limit = models.PositiveIntegerField(default=10)
+    used_times = models.PositiveIntegerField(default=0)
+    expiration_date = models.DateField()
+    user = models.ForeignKey(verbose_name=_('User'), to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='discounts', blank=True, null=True)
+
+    def clean(self):
+        super().clean()
+        if self.discount_amount in [None, ''] and self.discount_percentage in [None, '']:
+            raise ValidationError(_("You should choose either discount_amount or discount_percentage!\nBoth of them can't be Null!"))
+        elif self.discount_amount not in [None, ''] and self.discount_percentage not in [None, '']:
+            raise ValidationError(_("You should choose one of discount_amount or discount_percentage!\nYou can't choose both of them at the same time!"))
+
+    @property
+    def is_expired(self):
+        if date.today()>self.expiration_date:
+            return True
+        return self.used_times>=self.limit
 
 
 class Order(models.Model):
     user = models.ForeignKey(verbose_name=_('User'), to=settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='orders')
+    discount = models.ForeignKey(verbose_name=_('Discount'), to=Discount, on_delete=models.PROTECT, related_name='orders', blank=True, null=True)
     is_paid = models.BooleanField(verbose_name=_('Is Paid?'), default=False)
 
     first_name = models.CharField(verbose_name=_('First Name'), max_length=255)
