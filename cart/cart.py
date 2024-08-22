@@ -28,6 +28,15 @@ class Cart:
         #     },
         # }
 
+        # این دو خط رو بعدا خودم با کلی زحمت و کمک کوپایلت آوردم اینجا. دست بهش نزنم که خیلی جای خوبیه
+        # هم توی تابع ایتر و هم توی تابع گت توتال پرایس، هر بار میرفت محصولات رو میگرفت و با سلکت ریلیتد
+        # و پریفچ هم حل نمیشد. خلاصه به کلی دیباگ کردن گفتم که ممکنه هر لحظه بهش نیاز داشته باشیم
+        # پس آوردمش توی اینیت و گفتم همون اول که داره کارت رو میسازه برامون تمام محصولاتی که داریم
+        # رو هم بیاره و داشته باشیم هر جا خواستیم ازش استفاده کنیم. هر وقت با آیتم هایی که داخل
+        # سبد خرید هستند کار داریم از سلف دات پروداکتس استفاده میکنیم.
+        product_ids = self.cart.keys()
+        self.products = Product.objects.filter(id__in=product_ids)
+
     def add(self, product: Product, quantity=1, replace_current_quantity=False, give_message=True):
         product_id=str(product.id)
         if product_id not in self.cart: # اگه تو سبد خرید نبود که همین الان اضافه شده. پس اضافه اش میکنیم با مقدار اولیه صفر
@@ -64,16 +73,14 @@ class Cart:
             self.save()
     
     def __iter__(self):
-        product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)
         cart = self.cart.copy()
-        for product in products:
+        for product in self.products:
             cart[str(product.id)]['product_obj'] = product
         for item in cart.values():
             item['total_price'] = item['product_obj'].price_toman * item['quantity']
             item['total_weight'] = item['product_obj'].weight * item['quantity']
             yield item
-    
+
     def __contains__(self, item):
         return item in self.cart
 
@@ -85,8 +92,18 @@ class Cart:
         del self.session['cart']
         self.save()
 
+    # این کد حاجی حسینی بود که تو تمپلیت درست کار میکرد. اما وقتی تو ویو تابع گت توتال پرایس
+    # رو صدا میکردم، ارور میداد که پروداکت آبج رو نداره. خلاصه با کلی سر و کله زدن با کوپایلت
+    # این کد رو برام فرستاد که از اول همه آبجکت ها رو بگیره. ظاهرا موقع ایتریت کردن که توی
+    # اچ تی ام ال انجام میده مشکلی نیست. اما تو ویوز کلش رو از اول میخواست. خلاصه از تابع دوم
+    # استفاده کنم تو اچ تی ام ال و تو ویوز مشکلی نداره و کار میکنه.
+    # def get_total_price(self):
+    #     return sum([item['quantity'] * item['product_obj'].price_toman for item in self.cart.values()])
     def get_total_price(self):
-        return sum([item['quantity'] * item['product_obj'].price_toman for item in self.cart.values()])
+        cart = self.cart.copy()
+        for product in self.products:
+            cart[str(product.id)]['product_obj'] = product
+        return sum(item['quantity'] * item['product_obj'].price_toman for item in cart.values())
     
     def is_empty(self):
         return not self.cart
