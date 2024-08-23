@@ -18,9 +18,10 @@ class Discount(models.Model):
     discount_amount = models.PositiveIntegerField(verbose_name=_('Discount Amount'), blank=True, null=True)
     discount_percentage = models.DecimalField(verbose_name=_('Discount Percentage'), max_digits=2, decimal_places=2, blank=True, null=True)
     max_discount_amount = models.PositiveIntegerField(verbose_name=_('Max Discount Amount'), default=150000)
-    limit = models.PositiveIntegerField(default=10)
-    used_times = models.PositiveIntegerField(default=0)
-    expiration_date = models.DateField()
+    limit = models.PositiveIntegerField(verbose_name=_('Limit'), default=10)
+    same_user_limit = models.PositiveIntegerField(verbose_name=_('Same User Limit'), default=1)
+    used_times = models.PositiveIntegerField(verbose_name=_('Used Times'), default=0)
+    expiration_date = models.DateField(verbose_name=_('Expiration Date'))
     user = models.ForeignKey(verbose_name=_('User'), to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='discounts', blank=True, null=True)
 
     def clean(self):

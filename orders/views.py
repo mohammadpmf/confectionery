@@ -32,7 +32,7 @@ def order_create_view(request):
         sent_discount_text = request.GET.get('discount_text')
         discount_amount=0
         if sent_discount_text: # اگه طرف چیزی ارسال کرده بود بررسی میکنیم. اما دفعه اول که میخواد صفحه رو نشون بده که قاعدتا نباید بهش ارور بدیم. چون کدی وارد نکرده.
-            discount = Discount.objects.filter(text=sent_discount_text).first()
+            discount = Discount.objects.prefetch_related('orders__user').filter(text=sent_discount_text).first()
             if not discount:
                 messages.error(request, _('This discount code is not verified!'))
             else:
@@ -41,22 +41,30 @@ def order_create_view(request):
                 elif discount.user and discount.user!=request.user: # اگه برای یوزر خاصی بود و با اون یوزر درخواست نداده
                     messages.error(request, _('Sorry. This discount code is not for your account!'))
                 else:
-                    discount_amount = discount.discount_amount
-                    if not discount_amount:
-                        discount_amount = round(cart.get_total_price()*discount.discount_percentage)
-                        # اینجا صدا کردن کارت دات گت توتال پرایس باعث میشه یه کوئری مشابه بزنه. اما
-                        # گفتم ارزش وسواس خرج دادن نداره. دیگه همین طوری نوشتمش.
-                        max_amount = discount.max_discount_amount
-                        if discount_amount>max_amount:
-                            discount_amount=max_amount
-                    if cart.get_total_price()-discount_amount<10000:
-                        messages.error(request, _('Sorry, the price after '
-                            "discount is less than 10000 Toman. We cant't "
-                            'checkout that order. Please choose another '
-                            'item that make total price more than 10000 Toman.'))
-                        discount_amount = 0
+                    used_times_counter_for_this_user = 0
+                    for tmp_order in discount.orders.all():
+                        if tmp_order.user==request.user:
+                            used_times_counter_for_this_user+=1
+                    if used_times_counter_for_this_user>=discount.same_user_limit:
+                        messages.error(request, _('Sorry. The maximum use of this discount code '
+                                'has reached for your account!'))
                     else:
-                        messages.success(request, _('Discount successfully applied to your order.'))
+                        discount_amount = discount.discount_amount
+                        if not discount_amount:
+                            discount_amount = round(cart.get_total_price()*discount.discount_percentage)
+                            # اینجا صدا کردن کارت دات گت توتال پرایس باعث میشه یه کوئری مشابه بزنه. اما
+                            # گفتم ارزش وسواس خرج دادن نداره. دیگه همین طوری نوشتمش.
+                            max_amount = discount.max_discount_amount
+                            if discount_amount>max_amount:
+                                discount_amount=max_amount
+                        if cart.get_total_price()-discount_amount<10000:
+                            messages.error(request, _('Sorry, the price after '
+                                "discount is less than 10000 Toman. We cant't "
+                                'checkout that order. Please choose another '
+                                'item that make total price more than 10000 Toman.'))
+                            discount_amount = 0
+                        else:
+                            messages.success(request, _('Discount successfully applied to your order.'))
         context = {
             'form': order_form,
             'discount_text': sent_discount_text,
@@ -72,7 +80,7 @@ def order_create_view(request):
         # 1  => دارای کد تخفیف
         # -1 => مشکل دار
         if sent_discount_text:
-            discount = Discount.objects.filter(text=sent_discount_text).first()
+            discount = Discount.objects.prefetch_related('orders__user').filter(text=sent_discount_text).first()
             if not discount:
                 messages.error(request, _('This discount code is not verified!'))
                 discount_status = -1
@@ -84,23 +92,32 @@ def order_create_view(request):
                     messages.error(request, _('Sorry. This discount code is not for your account!'))
                     discount_status = -1
                 else:
-                    discount_amount = discount.discount_amount
-                    if not discount_amount:
-                        discount_amount = round(cart.get_total_price()*discount.discount_percentage)
-                        max_amount = discount.max_discount_amount
-                        if discount_amount>max_amount:
-                            discount_amount=max_amount
-                    if cart.get_total_price()-discount_amount<10000:
-                        messages.error(request, _('Sorry, the price after '
-                            "discount is less than 10000 Toman. We cant't "
-                            'checkout that order. Please choose another '
-                            'item that make total price more than 10000 Toman.'))
-                        discount_amount = 0
+                    used_times_counter_for_this_user = 0
+                    for tmp_order in discount.orders.all():
+                        if tmp_order.user==request.user:
+                            used_times_counter_for_this_user+=1
+                    if used_times_counter_for_this_user>=discount.same_user_limit:
+                        messages.error(request, _('Sorry. The maximum use of this discount code '
+                                'has reached for your account!'))
                         discount_status = -1
                     else:
-                        # messages.success(request, _('Discount successfully applied to your order.'))
-                        # اینجا دیگه پیغام ندادم.
-                        discount_status = 1
+                        discount_amount = discount.discount_amount
+                        if not discount_amount:
+                            discount_amount = round(cart.get_total_price()*discount.discount_percentage)
+                            max_amount = discount.max_discount_amount
+                            if discount_amount>max_amount:
+                                discount_amount=max_amount
+                        if cart.get_total_price()-discount_amount<10000:
+                            messages.error(request, _('Sorry, the price after '
+                                "discount is less than 10000 Toman. We cant't "
+                                'checkout that order. Please choose another '
+                                'item that make total price more than 10000 Toman.'))
+                            discount_amount = 0
+                            discount_status = -1
+                        else:
+                            # messages.success(request, _('Discount successfully applied to your order.'))
+                            # اینجا دیگه پیغام ندادم.
+                            discount_status = 1
         order_form = OrderForm(request.POST)
         if discount_status in[0, 1] and order_form.is_valid():
             with transaction.atomic():
