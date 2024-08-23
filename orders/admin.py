@@ -27,5 +27,5 @@ class OrderItemAdmin(admin.ModelAdmin):
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):
     model = Discount
-    list_display = ['id', 'text', 'discount_amount', 'discount_percentage', 'max_discount_amount', 'limit', 'used_times', 'same_user_limit', 'expiration_date', 'user', 'is_expired']
-    list_display_links = ['id', 'text', 'discount_amount', 'discount_percentage', 'max_discount_amount', 'limit', 'used_times', 'same_user_limit', 'expiration_date', 'user', 'is_expired']
+    list_display = ['id', 'text', 'discount_amount', 'discount_percentage', 'max_discount_amount', 'limit', 'used_times', 'same_user_limit', 'expiration_date', 'is_expired']
+    list_display_links = ['id', 'text', 'discount_amount', 'discount_percentage', 'max_discount_amount', 'limit', 'used_times', 'same_user_limit', 'expiration_date', 'is_expired']

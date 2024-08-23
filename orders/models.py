@@ -22,7 +22,10 @@ class Discount(models.Model):
     same_user_limit = models.PositiveIntegerField(verbose_name=_('Same User Limit'), default=1)
     used_times = models.PositiveIntegerField(verbose_name=_('Used Times'), default=0)
     expiration_date = models.DateField(verbose_name=_('Expiration Date'))
-    user = models.ForeignKey(verbose_name=_('User'), to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='discounts', blank=True, null=True)
+    users = models.ManyToManyField(verbose_name=_('Users'), to=settings.AUTH_USER_MODEL, related_name='discounts', blank=True)
+    # خودش وارنینگ داده بود و نوشته بود که
+    # orders.Discount.user: (fields.W340) null has no effect on ManyToManyField.
+    # منم حذفش کردم.
 
     def clean(self):
         super().clean()

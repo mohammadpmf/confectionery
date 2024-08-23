@@ -38,8 +38,12 @@ def order_create_view(request):
             else:
                 if discount.is_expired:
                     messages.error(request, _('Sorry. This discount code is expired!'))
-                elif discount.user and discount.user!=request.user: # اگه برای یوزر خاصی بود و با اون یوزر درخواست نداده
+                elif discount.users.exists() and request.user not in discount.users.all():
                     messages.error(request, _('Sorry. This discount code is not for your account!'))
+                    # اگه افرادی برای این کد تخفیف تعیین نشده بودند که برای همه است. پس شرط اول
+                    # فالس میشه و از این الیف رد میشیم. اما اگه افرادی تعیین شده بودند، تو این حالت
+                    # بررسی میکنیم که این شخص داخل اون افراد هست یا نه. اگه نبود که ارور میدیم
+                    # و اگر هم بود که خب شرط دوم فالس میشه و این الیف اجرا نمیشه.
                 else:
                     used_times_counter_for_this_user = 0
                     for tmp_order in discount.orders.all():
@@ -88,8 +92,12 @@ def order_create_view(request):
                 if discount.is_expired:
                     messages.error(request, _('Sorry. This discount code is expired!'))
                     discount_status = -1
-                elif discount.user and discount.user!=request.user: # اگه برای یوزر خاصی بود و با اون یوزر درخواست نداده
+                elif discount.users.exists() and request.user not in discount.users.all():
                     messages.error(request, _('Sorry. This discount code is not for your account!'))
+                    # اگه افرادی برای این کد تخفیف تعیین نشده بودند که برای همه است. پس شرط اول
+                    # فالس میشه و از این الیف رد میشیم. اما اگه افرادی تعیین شده بودند، تو این حالت
+                    # بررسی میکنیم که این شخص داخل اون افراد هست یا نه. اگه نبود که ارور میدیم
+                    # و اگر هم بود که خب شرط دوم فالس میشه و این الیف اجرا نمیشه.
                     discount_status = -1
                 else:
                     used_times_counter_for_this_user = 0
