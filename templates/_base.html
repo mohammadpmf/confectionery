@@ -161,8 +161,8 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto mx-lg-auto py-0">
-                <div class="nav-item dropdown {% block active_profile %}{% endblock active_profile %}">
-                    <a href="#" class="nav-link dropdown" data-bs-toggle="dropdown">
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown {% block active_profile %}{% endblock active_profile %}" data-bs-toggle="dropdown">
                         {% if user.profile_picture %}
                             <img style="border-radius: 50%;" src="{{ user.profile_picture.image.url }}" width="32" height="32">
                         {% else %}
@@ -212,6 +212,7 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                         </form>
                     </div>
                 </div>
+                <a href="{% url 'discount_codes' %}" class="nav-item nav-link {% block active_discount_codes %}{% endblock active_discount_codes %}"><i class="fa fa-gift" aria-hidden="true"></i></a>
                 <a href="{% url 'contact_us' %}" class="nav-item nav-link {% block active_contact_us %}{% endblock active_contact_us %}">تماس با ما</a>
                 <a href="{% url 'about_us' %}" class="nav-item nav-link {% block active_about_us %}{% endblock active_about_us %}">درباره ما</a>
                 <a href="{% url 'about_me' %}" class="nav-item nav-link {% block active_about_me %}{% endblock active_about_me %}">درباره من</a>

@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
 from django.core.paginator import Paginator
 
-from orders.models import Order, OrderItem
+from orders.models import Discount, Order, OrderItem
 
 from .models import Chef, Favorite, Product, ProductCustomUserComment, ProductAnanymousUserComment
 from .forms import NewsLetterForm, ProductCustomUserCommentForm, ProductAnanymousUserCommentForm, SuggestionsCriticsForm
@@ -437,3 +437,21 @@ class SearchedProducts(generic.ListView):
             'max_price': max_price,
         }
         return render(request, 'category.html', context)
+
+
+class DiscountCodes(generic.ListView):
+    def get(self, request, *args, **kwargs):
+        all_discounts_query = Discount.objects.prefetch_related('users').order_by('-expiration_date', '-max_discount_amount', '-discount_percentage', '-discount_amount', '-id')
+        limited_discounts   = all_discounts_query.filter(limit__lt=1000000)
+        unlimited_discounts = all_discounts_query.filter(limit__gte=1000000)
+        special_discounts = []
+        user = self.request.user
+        if user.is_authenticated:
+            for discount in limited_discounts:
+                if (not discount.users.all()) or user in discount.users.all(): # اگه لیستش خالی بود یعنی تخفیف مال همه است. اگه خالی نبود نگاه میکنیم اگه یوزر هم جزوشون بود بهش اضافه میکنیم.
+                    special_discounts.append(discount)
+        context = {
+            'unlimited_discounts': unlimited_discounts,
+            'special_discounts': special_discounts,
+        }
+        return render(request, 'discounts.html', context)

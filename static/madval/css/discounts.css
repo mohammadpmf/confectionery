@@ -1,0 +1,7 @@
+table, tr, th, td{
+    border: 1px solid gray;
+    padding: 4px;
+}
+table, tr, th, td{
+    text-align: center;
+}
