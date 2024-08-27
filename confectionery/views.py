@@ -441,17 +441,41 @@ class SearchedProducts(generic.ListView):
 
 class DiscountCodes(generic.ListView):
     def get(self, request, *args, **kwargs):
+        user = self.request.user
         all_discounts_query = Discount.objects.prefetch_related('users').order_by('-expiration_date', '-max_discount_amount', '-discount_percentage', '-discount_amount', '-id')
         limited_discounts   = all_discounts_query.filter(limit__lt=1000000)
         unlimited_discounts = all_discounts_query.filter(limit__gte=1000000)
         special_discounts = []
-        user = self.request.user
         if user.is_authenticated:
+            all_orders_of_this_user = Order.objects.select_related('user', 'discount').filter(user=user)
             for discount in limited_discounts:
-                if (not discount.users.all()) or user in discount.users.all(): # اگه لیستش خالی بود یعنی تخفیف مال همه است. اگه خالی نبود نگاه میکنیم اگه یوزر هم جزوشون بود بهش اضافه میکنیم.
-                    special_discounts.append(discount)
+                if (not discount.users.all()) or user in discount.users.all(): # اگه لیستش خالی بود یعنی تخفیف مال همه است. اگه خالی نبود نگاه میکنیم اگه یوزر هم جزوشون بود بررسیش میکنیم.
+                    # total_time_user_used_this_discount = all_orders_of_this_user.filter(discount=discount).count() # این باز هم هر بار یه کوئری میزد که بهینه تر کرده بودم. اما باز میخوام بهینه ترش کنم. پس دیگه سراغ دیتابیس نمیرم و با حلقه خودم پیداش میکنم.
+                    total_time_user_used_this_discount = 0
+                    for order in all_orders_of_this_user:
+                        if order.discount==discount:
+                            total_time_user_used_this_discount += 1
+                    special_discounts.append((discount, total_time_user_used_this_discount))
+        # تا اینجا کار تخفیف های خاص تموم شده. اما برای تخفیف های نامحمدود هم باید
+        # بررسی کنیم که کاربر فعلی ازش استفاده کرده یا نه. برای اون تاپلش ۲ تایی نیست. ۳ تایی تعریف کردم
+        # اولی که خود تخفیف هست. دومی تعداد دفعات استفاده شده. سومی تعداد دفعات استفاده شده
+        # توسط کاربری که لاگین کرده.
+        # اگه لاکین نکرده باشه و صفحه رو ببینه قاعدتا میشه ۰ بار. اما اگه لاگین کرده باشه
+        # تعداد دفعات استفاده شده رو ذخیره میکنم.
+        infinite_discounts = []
+        for discount in unlimited_discounts:
+            if user.is_authenticated:
+                # all_orders_of_this_user = Order.objects.select_related('user', 'discount').filter(user=user) دیگه لازم نیست. چون از قبلی داریمش.
+                if (not discount.users.all()) or user in discount.users.all(): # اگه لیستش خالی بود یعنی تخفیف مال همه است. اگه خالی نبود نگاه میکنیم اگه یوزر هم جزوشون بود بررسیش میکنیم.
+                    total_time_user_used_this_discount = 0
+                    for order in all_orders_of_this_user:
+                        if order.discount==discount:
+                            total_time_user_used_this_discount += 1
+                    infinite_discounts.append((discount, total_time_user_used_this_discount))
+            else:
+                infinite_discounts.append((discount, 0))
         context = {
-            'unlimited_discounts': unlimited_discounts,
+            'unlimited_discounts': infinite_discounts,
             'special_discounts': special_discounts,
         }
         return render(request, 'discounts.html', context)

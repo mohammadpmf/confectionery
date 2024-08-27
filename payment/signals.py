@@ -33,8 +33,8 @@ def handle_order_paid(sender, **kwargs):
     #     except:
     #         print('something went wrong about sms')
     try:
-        send_mail(send_from="Motamed Confectionary", send_to=[receiver_email], subject='سفارش موفق',
-              message=message, username=DJANGO_EMAIL_ADDRESS, password=DJANGO_EMAIL_APP_PASSWORD)
+        # send_mail(send_from="Motamed Confectionary", send_to=[receiver_email], subject='سفارش موفق',
+        #       message=message, username=DJANGO_EMAIL_ADDRESS, password=DJANGO_EMAIL_APP_PASSWORD)
         print('email sent!')
     except:
         print('something went wrong about email')
