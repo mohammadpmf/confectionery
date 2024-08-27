@@ -52,39 +52,45 @@ class LoginWithPhoneNumber(generic.TemplateView):
         if phone_number.isalpha() or len(phone_number)!=11:
             messages.error(request, _("Phone number should be exactly 11 digits to get verification code"))
             return redirect('account_login')
-        otp = str(random.randint(100000, 999999))
-        messages.warning(request, f"otp is {otp}😊")
+        # اگه تا اینجا رسیده بود یعنی اوکی هست. اما شاید یه بار براش ارسال شده. برای اینکه
+        # دوباره الکی ارسال نشه هم یه ایف میذاریم. اما بعد از این که اطلاعاتش رو گرفتیم.
         username = PhoneNumber.objects.select_related('user').filter(phone_number=phone_number).first() # اگه باشه که میده. اگه نباشه نان میده
-        LoginWithPhoneNumber.otps[phone_number]={
-            'otp': otp,
-            'username': username,
-        }
         context = {
             'username': username,
             'phone_number': phone_number,
         }
-        try:
-            # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
-            answer = True
-            if answer:
-                messages.success(request, "یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید." %phone_number)
-                return render(request, 'login_with_phone_number.html', context)
-            messages.error(request, _("A problem occured in sending message. Please try again in a few minutes."))
-            return redirect('account_login')
-        except ConnectTimeout as error:
-            messages.error(request, _("A problem occured in sms message server. Please try again in a few minutes."))
-            messages.error(request, error)
-            return redirect('account_login')
-        except SSLError as error:
-            messages.error(request, _("A problem occured which is related to SSL. Please check your VPN status or proxy settings!"))
-            messages.error(request, error)
-            return redirect('account_login')
-        except ConnectionError as error:
-            messages.error(request, _("A connection error occured. Please check your Internet!"))
-            messages.error(request, error)
-            return redirect('account_login')
-        finally:
-            threading.Thread(target=self.expire_sent_otp, args=(phone_number, )).start()
+        if phone_number in LoginWithPhoneNumber.otps:
+            messages.warning(request, _("The OTP is sent for you! If you did'nt get it in 2 minutes, try again."))
+            return render(request, 'login_with_phone_number.html', context)
+        else:
+            otp = str(random.randint(100000, 999999))
+            messages.warning(request, f"otp is {otp}😊")
+            LoginWithPhoneNumber.otps[phone_number]={
+                'otp': otp,
+                'username': username,
+            }
+            try:
+                # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
+                answer = True
+                if answer:
+                    messages.success(request, "یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید." %phone_number)
+                    return render(request, 'login_with_phone_number.html', context)
+                messages.error(request, _("A problem occured in sending message. Please try again in a few minutes."))
+                return redirect('account_login')
+            except ConnectTimeout as error:
+                messages.error(request, _("A problem occured in sms message server. Please try again in a few minutes."))
+                messages.error(request, error)
+                return redirect('account_login')
+            except SSLError as error:
+                messages.error(request, _("A problem occured which is related to SSL. Please check your VPN status or proxy settings!"))
+                messages.error(request, error)
+                return redirect('account_login')
+            except ConnectionError as error:
+                messages.error(request, _("A connection error occured. Please check your Internet!"))
+                messages.error(request, error)
+                return redirect('account_login')
+            finally:
+                threading.Thread(target=self.expire_sent_otp, args=(phone_number, )).start()
 
     def post(self, request, *args, **kwargs):
         phone_number = request.POST.get('phone_number')
@@ -275,39 +281,43 @@ class ChangeOTPNumberConfirm(LoginRequiredMixin, generic.TemplateView):
         if is_registered:
             messages.error(request, _("This phone number is already registered!"))
             return redirect('change_otp_number')
-        otp = str(random.randint(100000, 999999))
-        messages.warning(request, f"otp is {otp}😊")
-        ChangeOTPNumberConfirm.otps[request.user]={ # این دفعه چون اکانت داره از قبل، دیگه به شماره اش کاری نداریم و تو دیکشنری کلیدش رو یوزرنیمیش میذاریم
-            'otp': otp,
-            'phone_number': phone_number
-        }
         context = {
             'phone_number': phone_number,
         }
-        try:
-            # وقتی اسم برای اکانت میذاشتم ارور میداد و سایت قاصدک آی پی لیمیتد مینوشت. اما با همون شماره کار کرد ولی دیر میومد و تو سایتش هم مینوشت در حال بررسی. شاید واقعا نگاه میکردن که کلمه عزیز برای کی به کار رفته. به هر حال کد من درست بود. اما دردسر زیاد داشت و و از همون اولی استفاده کردم تا اطلاع ثانوی
-            # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE_TO_CHANGE_OTP_NUMBER, 'param1': request.user.get_name(), 'param2': phone_number, 'param3': otp})
-            # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
-            answer = True
-            if answer:
-                messages.success(request, "یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید." %phone_number)
-                return render(request, 'change_users_otp_number_confirm.html', context)
-            messages.error(request, _("A problem occured in sending message. Please try again in a few minutes."))
-            return redirect('change_otp_number')
-        except ConnectTimeout as error:
-            messages.error(request, _("A problem occured in sms message server. Please try again in a few minutes."))
-            messages.error(request, error)
-            return redirect('change_otp_number')
-        except SSLError as error:
-            messages.error(request, _("A problem occured which is related to SSL. Please check your VPN status or proxy settings!"))
-            messages.error(request, error)
-            return redirect('change_otp_number')
-        except ConnectionError as error:
-            messages.error(request, _("A connection error occured. Please check your Internet!"))
-            messages.error(request, error)
-            return redirect('change_otp_number')
-        finally:
-            threading.Thread(target=self.expire_sent_otp, args=(request.user, )).start()
+        if request.user in ChangeOTPNumberConfirm.otps:
+            messages.warning(request, _("The OTP is sent for you! If you did'nt get it in 2 minutes, try again."))
+            return render(request, 'change_users_otp_number_confirm.html', context)
+        else:
+            otp = str(random.randint(100000, 999999))
+            messages.warning(request, f"otp is {otp}😊")
+            ChangeOTPNumberConfirm.otps[request.user]={ # این دفعه چون اکانت داره از قبل، دیگه به شماره اش کاری نداریم و تو دیکشنری کلیدش رو یوزرنیمیش میذاریم
+                'otp': otp,
+                'phone_number': phone_number
+            }
+            try:
+                # وقتی اسم برای اکانت میذاشتم ارور میداد و سایت قاصدک آی پی لیمیتد مینوشت. اما با همون شماره کار کرد ولی دیر میومد و تو سایتش هم مینوشت در حال بررسی. شاید واقعا نگاه میکردن که کلمه عزیز برای کی به کار رفته. به هر حال کد من درست بود. اما دردسر زیاد داشت و و از همون اولی استفاده کردم تا اطلاع ثانوی
+                # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE_TO_CHANGE_OTP_NUMBER, 'param1': request.user.get_name(), 'param2': phone_number, 'param3': otp})
+                # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
+                answer = True
+                if answer:
+                    messages.success(request, "یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید." %phone_number)
+                    return render(request, 'change_users_otp_number_confirm.html', context)
+                messages.error(request, _("A problem occured in sending message. Please try again in a few minutes."))
+                return redirect('change_otp_number')
+            except ConnectTimeout as error:
+                messages.error(request, _("A problem occured in sms message server. Please try again in a few minutes."))
+                messages.error(request, error)
+                return redirect('change_otp_number')
+            except SSLError as error:
+                messages.error(request, _("A problem occured which is related to SSL. Please check your VPN status or proxy settings!"))
+                messages.error(request, error)
+                return redirect('change_otp_number')
+            except ConnectionError as error:
+                messages.error(request, _("A connection error occured. Please check your Internet!"))
+                messages.error(request, error)
+                return redirect('change_otp_number')
+            finally:
+                threading.Thread(target=self.expire_sent_otp, args=(request.user, )).start()
 
     def post(self, request, *args, **kwargs):
         user = request.user
