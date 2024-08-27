@@ -39,7 +39,7 @@ class Product(models.Model):
     flour_type = models.CharField(verbose_name=_('Flour Type'), max_length=8, choices=FLOUR_TYPE_CHOICES)
     sugar_rate = models.CharField(verbose_name=_('Sugar Rate'), max_length=8, choices=FAT_SUGRE_RATE_CHOICES)
     fat_rate = models.CharField(verbose_name=_('Fat Rate'), max_length=8, choices=FAT_SUGRE_RATE_CHOICES)
-    slug = models.SlugField(verbose_name=_('Slug'), allow_unicode=True, unique=True)
+    slug = models.SlugField(verbose_name=_('Slug'), allow_unicode=True, unique=True, db_collation='utf8_persian_ci')
     weight = models.DecimalField(verbose_name=_('Weight'), max_digits=3, decimal_places=1)
     price_toman = models.PositiveIntegerField(verbose_name=_('Price Toman'), )
     preparation_time = models.PositiveSmallIntegerField(verbose_name=_('Preparation Time'), validators=[MaxValueValidator(10)])
