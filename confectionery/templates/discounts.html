@@ -17,7 +17,7 @@
 
 {% block content %}
 
-<div dir="rtl" class="c container shadow my-5 p-5">
+<div dir="rtl" class="c container shadow my-5 p-lg-5">
     <p class="c primary em1-4 mb-4">
         در این بخش می توانید کدهای تخفیف را مشاهده کنید.
     </p>
@@ -50,135 +50,139 @@
     <h1 class='c text-primary my-3 mt-5'>
         کدهای تخفیف اختصاصی مخصوص کاربران ویژه
     </h1>
-    <table class="table table-sm table-hover table-dark">
-        <tr>
-            <th style="width: 4%">ردیف</th>
-            <th style="width: 12%">کد تخفیف</th>
-            <th style="width: 12%">مقدار تخفیف</th>
-            <th style="width: 12%">حداکثر مقدار تخفیف قابل اعمال</th>
-            <th style="width: 12%">محدودیت استفاده</th>
-            <th style="width: 12%">محدودیت استفاده برای یک حساب کاربری</th>
-            <th style="width: 12%">تعداد دفعات استفاده شده توسط شما ({{ user.username }})</th>
-            <th style="width: 12%">تعداد دفعات استفاده شده توسط تمامی کاربران ویژه</th>
-            <th style="width: 12%">تاریخ مصرف</th>
-        </tr>
-        {% for discount in special_discounts %}
-        {% if discount.0.is_expired or discount.0.same_user_limit == discount.1 %}
-        <tr class="table-danger">
-        {% else %}
-        <tr class="table-info">
-        {% endif %}
-            <td>{{ forloop.counter|pn }}</td>
-            <td>{{ discount.0.text }}</td>
-            <td>
-                {% if discount.0.discount_amount %}
-                    {{ discount.0.discount_amount|cspn }} تومان
-                {% else %}
-                {% widthratio discount.0.discount_percentage 1 100 as percentage %}
-                    {{ percentage|cspn }} درصد
-                {% endif %}
-            </td>
-            <td>
-                {% if discount.0.discount_amount %}
-                    {{ discount.0.discount_amount|cspn }}
-                {% else %}
-                    {{ discount.0.max_discount_amount|cspn }}
-                {% endif %}
-                تومان
-            </td>
-            <td>
-                {% if discount.0.limit > 10000 %}
-                    نامحدود
-                {% else %}
-                    {{ discount.0.limit|cspn }} بار
-                {% endif %}
-            </td>
-            <td>
-                {% if discount.0.same_user_limit > 10000 %}
-                    نامحدود
-                {% else %}
-                    {{ discount.0.same_user_limit|cspn }} بار
-                {% endif %}
-            </td>
-            <td>{{ discount.1|pn }} بار</td>
-            <td>{{ discount.0.used_times|pn }} بار</td>
-            {% if discount.0.is_expired %}
-            <td> منقضی شده! </td>
+    <div class="scrollmenu">
+        <table class="table table-sm table-hover table-dark">
+            <tr>
+                <th style="width: 4%">ردیف</th>
+                <th style="width: 12%">کد تخفیف</th>
+                <th style="width: 12%">مقدار تخفیف</th>
+                <th style="width: 12%">حداکثر مقدار تخفیف قابل اعمال</th>
+                <th style="width: 12%">محدودیت استفاده</th>
+                <th style="width: 12%">محدودیت استفاده برای یک حساب کاربری</th>
+                <th style="width: 12%">تعداد دفعات استفاده شده توسط شما ({{ user.username }})</th>
+                <th style="width: 12%">تعداد دفعات استفاده شده توسط تمامی کاربران ویژه</th>
+                <th style="width: 12%">تاریخ مصرف</th>
+            </tr>
+            {% for discount in special_discounts %}
+            {% if discount.0.is_expired or discount.0.same_user_limit == discount.1 %}
+            <tr class="table-danger">
             {% else %}
-            <td>{{ discount.0.expiration_date|to_jalali:'%A'|p_weekday }} {{ discount.0.expiration_date|to_jalali:'%Y/%m/%d'|pn }} </td>
+            <tr class="table-info">
             {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
+                <td>{{ forloop.counter|pn }}</td>
+                <td>{{ discount.0.text }}</td>
+                <td>
+                    {% if discount.0.discount_amount %}
+                        {{ discount.0.discount_amount|cspn }} تومان
+                    {% else %}
+                    {% widthratio discount.0.discount_percentage 1 100 as percentage %}
+                        {{ percentage|cspn }} درصد
+                    {% endif %}
+                </td>
+                <td>
+                    {% if discount.0.discount_amount %}
+                        {{ discount.0.discount_amount|cspn }}
+                    {% else %}
+                        {{ discount.0.max_discount_amount|cspn }}
+                    {% endif %}
+                    تومان
+                </td>
+                <td>
+                    {% if discount.0.limit > 10000 %}
+                        نامحدود
+                    {% else %}
+                        {{ discount.0.limit|cspn }} بار
+                    {% endif %}
+                </td>
+                <td>
+                    {% if discount.0.same_user_limit > 10000 %}
+                        نامحدود
+                    {% else %}
+                        {{ discount.0.same_user_limit|cspn }} بار
+                    {% endif %}
+                </td>
+                <td>{{ discount.1|pn }} بار</td>
+                <td>{{ discount.0.used_times|pn }} بار</td>
+                {% if discount.0.is_expired %}
+                <td> منقضی شده! </td>
+                {% else %}
+                <td>{{ discount.0.expiration_date|to_jalali:'%A'|p_weekday }} {{ discount.0.expiration_date|to_jalali:'%Y/%m/%d'|pn }} </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
     <hr>
     {% endif %}
     <h1 class='c text-primary my-3 mt-5'>
         کدهای تخفیف عمومی قابل استفاده برای تمام کاربران سایت
     </h1>
-    <table class="table table-sm table-hover table-dark">
-        <tr>
-            <th style="width: 4%">ردیف</th>
-            <th style="width: 12%">کد تخفیف</th>
-            <th style="width: 12%">مقدار تخفیف</th>
-            <th style="width: 12%">حداکثر مقدار تخفیف قابل اعمال</th>
-            <th style="width: 12%">محدودیت استفاده</th>
-            <th style="width: 12%">محدودیت استفاده برای یک حساب کاربری</th>
-            {% if user.is_authenticated %}
-            <th style="width: 12%">تعداد دفعات استفاده شده توسط شما ({{ user.username }})</th>
-            {% endif %}
-            <th style="width: 12%">تعداد دفعات استفاده شده توسط تمامی کاربران سایت</th>
-            <th style="width: 12%">تاریخ مصرف</th>
-        </tr>
-        {% for discount in unlimited_discounts %}
-        {% if discount.0.is_expired or discount.0.same_user_limit == discount.1 %}
-        <tr class="table-danger">
-        {% else %}
-        <tr class="table-info">
-        {% endif %}
-            <td>{{ forloop.counter|pn }}</td>
-            <td>{{ discount.0.text }}</td>
-            <td>
-                {% if discount.0.discount_amount %}
-                    {{ discount.0.discount_amount|cspn }} تومان
-                {% else %}
-                {% widthratio discount.0.discount_percentage 1 100 as percentage %}
-                    {{ percentage|cspn }} درصد
+    <div class="scrollmenu">
+        <table class="table table-sm table-hover table-dark">
+            <tr>
+                <th style="width: 4%">ردیف</th>
+                <th style="width: 12%">کد تخفیف</th>
+                <th style="width: 12%">مقدار تخفیف</th>
+                <th style="width: 12%">حداکثر مقدار تخفیف قابل اعمال</th>
+                <th style="width: 12%">محدودیت استفاده</th>
+                <th style="width: 12%">محدودیت استفاده برای یک حساب کاربری</th>
+                {% if user.is_authenticated %}
+                <th style="width: 12%">تعداد دفعات استفاده شده توسط شما ({{ user.username }})</th>
                 {% endif %}
-            </td>
-            <td>
-                {% if discount.0.discount_amount %}
-                    {{ discount.0.discount_amount|cspn }}
-                {% else %}
-                    {{ discount.0.max_discount_amount|cspn }}
-                {% endif %}
-                تومان
-            </td>
-            <td>
-                {% if discount.0.limit > 10000 %}
-                    نامحدود
-                {% else %}
-                    {{ discount.0.limit|cspn }} بار
-                {% endif %}
-            </td>
-            <td>
-                {% if discount.0.same_user_limit > 10000 %}
-                    نامحدود
-                {% else %}
-                    {{ discount.0.same_user_limit|cspn }} بار
-                {% endif %}
-            </td>
-            {% if user.is_authenticated %}
-            <td>{{ discount.1|pn }} بار</td>
-            {% endif %}
-            <td>{{ discount.0.used_times|pn }} بار</td>
-            {% if discount.0.is_expired %}
-            <td> منقضی شده! </td>
+                <th style="width: 12%">تعداد دفعات استفاده شده توسط تمامی کاربران سایت</th>
+                <th style="width: 12%">تاریخ مصرف</th>
+            </tr>
+            {% for discount in unlimited_discounts %}
+            {% if discount.0.is_expired or discount.0.same_user_limit == discount.1 %}
+            <tr class="table-danger">
             {% else %}
-            <td>{{ discount.0.expiration_date|to_jalali:'%A'|p_weekday }} {{ discount.0.expiration_date|to_jalali:'%Y/%m/%d'|pn }} </td>
+            <tr class="table-info">
             {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
+                <td>{{ forloop.counter|pn }}</td>
+                <td>{{ discount.0.text }}</td>
+                <td>
+                    {% if discount.0.discount_amount %}
+                        {{ discount.0.discount_amount|cspn }} تومان
+                    {% else %}
+                    {% widthratio discount.0.discount_percentage 1 100 as percentage %}
+                        {{ percentage|cspn }} درصد
+                    {% endif %}
+                </td>
+                <td>
+                    {% if discount.0.discount_amount %}
+                        {{ discount.0.discount_amount|cspn }}
+                    {% else %}
+                        {{ discount.0.max_discount_amount|cspn }}
+                    {% endif %}
+                    تومان
+                </td>
+                <td>
+                    {% if discount.0.limit > 10000 %}
+                        نامحدود
+                    {% else %}
+                        {{ discount.0.limit|cspn }} بار
+                    {% endif %}
+                </td>
+                <td>
+                    {% if discount.0.same_user_limit > 10000 %}
+                        نامحدود
+                    {% else %}
+                        {{ discount.0.same_user_limit|cspn }} بار
+                    {% endif %}
+                </td>
+                {% if user.is_authenticated %}
+                <td>{{ discount.1|pn }} بار</td>
+                {% endif %}
+                <td>{{ discount.0.used_times|pn }} بار</td>
+                {% if discount.0.is_expired %}
+                <td> منقضی شده! </td>
+                {% else %}
+                <td>{{ discount.0.expiration_date|to_jalali:'%A'|p_weekday }} {{ discount.0.expiration_date|to_jalali:'%Y/%m/%d'|pn }} </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 
 {% endblock content %}
