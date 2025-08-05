@@ -1,5 +1,6 @@
 from django.dispatch import Signal
 from django.dispatch import receiver
+from django.conf import settings
 
 import ghasedakpack
 import smtplib
@@ -10,7 +11,6 @@ from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
 from email import encoders
 
-from config.madval1369_secret import *
 
 order_paid = Signal() # این جا تعریف کردم. تو ویوز ازش استفاده کردم و در جای لازم سیگنال فرستادم
 # و اینجا دوباره گفتم هر وقت پیغام گرفتی این کار رو انجام بده.
@@ -22,13 +22,13 @@ def handle_order_paid(sender, **kwargs):
     receiver_email = kwargs['email']
     message = "%s %s عزیز! سفارش شما با موفقیت ثبت شد. کد پیگیری: %s" \
                 %(order.first_name, order.last_name, order.madval_tracking_code)
-    sms = ghasedakpack.Ghasedak(GHASEDAK_API_KEY)
+    sms = ghasedakpack.Ghasedak(settings.GHASEDAK_API_KEY)
     # try:
-    #     sms.send({'message': message, 'receptor' : order.phone_number, 'linenumber': MY_LINE_NUMBER_ON_GHASEDAK_1})
+    #     sms.send({'message': message, 'receptor' : order.phone_number, 'linenumber': settings.MY_LINE_NUMBER_ON_GHASEDAK_1})
     #     print('sms sent by line 1!')
     # except:
     #     try:
-    #         sms.send({'message': message, 'receptor' : order.phone_number, 'linenumber': MY_LINE_NUMBER_ON_GHASEDAK_2})
+    #         sms.send({'message': message, 'receptor' : order.phone_number, 'linenumber': settings.MY_LINE_NUMBER_ON_GHASEDAK_2})
     #         print('sms sent by line 2!')
     #     except:
     #         print('something went wrong about sms')

@@ -11,13 +11,13 @@ from requests.exceptions import ConnectTimeout, SSLError
 import ghasedakpack
 import random, string, time, threading
 
-from config.madval1369_secret import *
+from django.conf import settings
 from .models import PhoneNumber, ProfilePicture
 from . import forms
 from cart.madval_functions import save_cart_in_db
 
 
-sms = ghasedakpack.Ghasedak(GHASEDAK_API_KEY)
+sms = ghasedakpack.Ghasedak(settings.GHASEDAK_API_KEY)
 good_line_number_for_sending_otp = '30005088' # مال خودم رو که میذارم، شانسی از این شماره یا 20008580 میفرسته که شماره ۳۰۰۰ اوکی هست. ولی ۲۰۰۰ داغانه یه بار تقریبا ۲۰ دقیقه طول کشید تا بفرسته که خب دیگه یکبار رمز به درد بخوری نیست.
 
 
@@ -70,7 +70,7 @@ class LoginWithPhoneNumber(generic.TemplateView):
                 'username': username,
             }
             try:
-                # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
+                # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': settings.MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
                 answer = True
                 if answer:
                     messages.success(request, "یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید." %phone_number)
@@ -296,8 +296,8 @@ class ChangeOTPNumberConfirm(LoginRequiredMixin, generic.TemplateView):
             }
             try:
                 # وقتی اسم برای اکانت میذاشتم ارور میداد و سایت قاصدک آی پی لیمیتد مینوشت. اما با همون شماره کار کرد ولی دیر میومد و تو سایتش هم مینوشت در حال بررسی. شاید واقعا نگاه میکردن که کلمه عزیز برای کی به کار رفته. به هر حال کد من درست بود. اما دردسر زیاد داشت و و از همون اولی استفاده کردم تا اطلاع ثانوی
-                # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE_TO_CHANGE_OTP_NUMBER, 'param1': request.user.get_name(), 'param2': phone_number, 'param3': otp})
-                # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
+                # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': settings.MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE_TO_CHANGE_OTP_NUMBER, 'param1': request.user.get_name(), 'param2': phone_number, 'param3': otp})
+                # answer = sms.verification({'receptor': phone_number, 'linenumber': good_line_number_for_sending_otp,'type': '1', 'template': settings.MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE, 'param1': otp})
                 answer = True
                 if answer:
                     messages.success(request, "یک پیامک برای شماره %s ارسال شد. لطفا کد ارسال شده را جهت ادامه وارد کنید." %phone_number)
