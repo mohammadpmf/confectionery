@@ -142,6 +142,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGOUT_ON_GET = True
+# TODO: change this to False and implent later
+# ACCOUNT_LOGOUT_ON_GET = False
+
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 
