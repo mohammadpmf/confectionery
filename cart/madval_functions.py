@@ -1,8 +1,5 @@
 from .models import UserCart, CartItem
 
-from confectionery.models import Product
-
-
 # def save_cart_in_db(user, cart: dict):
 #     db_cart = UserCart.objects.prefetch_related('items').filter(user=user).first()
 #     if not db_cart: # اگه از قبل نبود میسازیم. اگر هم بود که تو خط قبل گرفتیمش.

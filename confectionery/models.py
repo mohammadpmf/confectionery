@@ -47,6 +47,13 @@ class Product(models.Model):
     expiration_days = models.PositiveSmallIntegerField(verbose_name=_('Expiration Days'), default=3, validators=[MaxValueValidator(60)])
     main_image = models.ImageField(verbose_name=_('Main Image'), upload_to='main_images/', blank=True)
     extra_information = models.TextField(verbose_name=_('Extra Information'), max_length=10000, blank=True)
+    # images
+    # ananymous_comments
+    # comments
+    # favorited_users
+    
+    # order_items
+    # cart_items
 
     def save(self, *args, **kwargs):
         if not self.slug:

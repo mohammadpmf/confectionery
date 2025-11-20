@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
+# from django.db.models.signals import pre_delete, post_delete, pre_save, post_save
 
 from cart.cart import Cart
 from cart.madval_functions import load_cart_from_db_to_session
@@ -9,7 +10,7 @@ from cart.madval_functions import load_cart_from_db_to_session
 
 @receiver(user_logged_in)
 def post_login(sender, user, request, **kwargs):
-    if user.is_authenticated:
+    # if user.is_authenticated:
         cart = Cart(request)
         message = load_cart_from_db_to_session(user, cart)
         if message==">30":

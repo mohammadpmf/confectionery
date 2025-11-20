@@ -21,25 +21,39 @@ class HomePage(generic.TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cakes']=[]
-        context['pastries']=[]
-        context['breads']=[]
-        total = 0
-        for product in Product.objects.order_by('-id'):
-            if total==18:
-                break
-            if product.product_type=='cake' and len(context['cakes'])<6:
-                context['cakes'].append(product)
-                total+=1
-            elif product.product_type=='pastry' and len(context['pastries'])<6:
-                context['pastries'].append(product)
-                total+=1
-            elif product.product_type=='bread' and len(context['breads'])<6:
-                context['breads'].append(product)
-                total+=1
+        # context['cakes']=[]
+        # context['pastries']=[]
+        # context['breads']=[]
+        # total = 0
+        # for product in Product.objects.order_by('-id'):
+        #     if total==18:
+        #         break
+        #     if product.product_type==Product.PRODUCT_TYPE_CHOICES_CAKE and len(context['cakes'])<6:
+        #         context['cakes'].append(product)
+        #         total+=1
+        #     elif product.product_type==Product.PRODUCT_TYPE_CHOICES_PASTRY and len(context['pastries'])<6:
+        #         context['pastries'].append(product)
+        #         total+=1
+        #     elif product.product_type==Product.PRODUCT_TYPE_CHOICES_BREAD and len(context['breads'])<6:
+        #         context['breads'].append(product)
+        #         total+=1
         # context['cakes'] = Product.objects.filter(product_type='cake').order_by('-id')[:6]
         # context['pastries'] = Product.objects.filter(product_type='pastry').order_by('-id')[:6]
         # context['breads'] = Product.objects.filter(product_type='bread').order_by('-id')[:6]
+        from django.db.models import F, Window
+        from django.db.models.functions import RowNumber
+        qs = Product.objects.annotate(
+            rn=Window(
+                expression=RowNumber(),
+                partition_by=[F('product_type')],
+                order_by=F('id').desc()
+            )
+        ).filter(rn__lte=6)
+        context.update({
+            'cakes': [p for p in qs if p.product_type == Product.PRODUCT_TYPE_CHOICES_CAKE],
+            'pastries': [p for p in qs if p.product_type == Product.PRODUCT_TYPE_CHOICES_PASTRY],
+            'breads': [p for p in qs if p.product_type == Product.PRODUCT_TYPE_CHOICES_BREAD],
+        })
         context['top_comments'] = ProductCustomUserComment.objects.filter(is_approved=True, dont_show_my_name=False).select_related('product', 'author__profile_picture').order_by('-stars', '-datetime_modified', '-id')[:5]
         context['chefs'] = Chef.objects.all()
         return context
@@ -175,7 +189,9 @@ class ProductDetail(generic.DetailView):
             filter(is_approved=True, product=product).order_by('-datetime_modified')
         context['anonymous_comments'] = ProductAnanymousUserComment.objects.filter(is_approved=True, product=product).order_by('-datetime_created')
         if user.is_authenticated:
-            context['liked'] = True if Favorite.objects.filter(product=product, user=self.request.user) else False
+            # context['liked'] = True if Favorite.objects.filter(product=product, user=user) else False
+            # این ورژن بهتره و حرفه ای تر نوشته شده. به خاطر همین قبلی رو کامنت کردم.
+            context['liked'] = Favorite.objects.filter(product=product, user=user).exists()
         return context
     
     def post(self, request, *args, **kwargs):
@@ -219,8 +235,8 @@ class ProductDetail(generic.DetailView):
             cleaned_data.update({
                 'product_id': product.pk,
             })
-            messages.success(request, _("Your comment recieved successfully. But as you are not a member of this site, it will be shown after confirmation!"))
             ProductAnanymousUserComment.objects.create(**cleaned_data)
+            messages.success(request, _("Your comment recieved successfully. But as you are not a member of this site, it will be shown after confirmation!"))
         return super().get(request, *args, **kwargs)
 
 
@@ -329,11 +345,12 @@ class ChefList(generic.ListView):
 
 class MyOrdersList(LoginRequiredMixin, generic.ListView):
     template_name = 'my_orders.html'
-    paginate_by = 15
+    paginate_by = ORDERS_PER_PAGE
 
     def get_queryset(self):
         user = self.request.user
-        return Order.objects.filter(user=user).select_related('discount').prefetch_related('items').order_by('-datetime_created')
+        # return user.orders.all().prefetch_related('items').order_by('-datetime_created')
+        return Order.objects.filter(user=user).prefetch_related('items').order_by('-datetime_created')
 
 
 class MyOrdersDetail(LoginRequiredMixin, generic.DetailView):
@@ -342,7 +359,7 @@ class MyOrdersDetail(LoginRequiredMixin, generic.DetailView):
     context_object_name = 'order'
 
     def get_queryset(self):
-        return super().get_queryset().select_related('discount').prefetch_related('items__product')
+        return super().get_queryset().prefetch_related('items__product')
 
 
 class SearchedProducts(generic.ListView):
@@ -401,7 +418,7 @@ class SearchedProducts(generic.ListView):
         elif ingredients=="1":
             queryset = queryset.filter(query_ingredients & query_price)
         else:
-            queryset = queryset.filter(query_price)
+            queryset = queryset.filter((query_title | query_description | query_ingredients) & query_price)
         queryset = queryset.annotate(
             average_stars=Avg(
             Case(

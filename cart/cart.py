@@ -104,6 +104,11 @@ class Cart:
         for product in self.products:
             cart[str(product.id)]['product_obj'] = product
         return sum(item['quantity'] * item['product_obj'].price_toman for item in cart.values())
+        s = 0
+        for item in cart.values():
+            p = item['quantity'] * item['product_obj'].price_toman
+            s += p
+        return s
     
     def is_empty(self):
         return not self.cart

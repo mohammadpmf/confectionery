@@ -27,6 +27,8 @@ class Discount(models.Model):
     # orders.Discount.user: (fields.W340) null has no effect on ManyToManyField.
     # منم حذفش کردم.
 
+    # orders
+
     def clean(self):
         super().clean()
         if self.discount_amount in [None, ''] and self.discount_percentage in [None, '']:
@@ -67,6 +69,7 @@ class Order(models.Model):
     
     datetime_created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date Time of creation'))
     datetime_modified = models.DateTimeField(auto_now=True, verbose_name=_('Date Time of last edit'))
+    # items
 
     def __str__(self):
         return f"Order {self.id}"

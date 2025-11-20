@@ -1,6 +1,6 @@
-import requests
 import json, random, string
 
+import requests
 from django.shortcuts import HttpResponse, render, redirect, get_object_or_404
 from django.conf import settings
 from django.urls import reverse
@@ -8,11 +8,27 @@ from django.contrib import messages
 from django.utils.translation import gettext as _
 
 from .signals import order_paid
-
 from orders.models import Order
 from cart.madval_functions import clear_user_cart_in_db, load_cart_from_db_to_session
 from cart.cart import Cart
 
+
+def bypass(request):
+    order_id = request.session.get('order_id')
+    order = get_object_or_404(Order.objects.select_related('user', 'discount'), id=order_id)
+    order.is_paid=True
+    madval_tracking_code = ''.join(random.choices(string.ascii_uppercase+string.digits, k=8))
+    order.madval_tracking_code = madval_tracking_code
+    order.save()
+    if order.discount:
+        order.discount.used_times+=1
+        order.discount.save()
+    clear_user_cart_in_db(request.user)
+    email = request.user.email if request.user and request.user.email else None
+    if email:
+        order_paid.send_robust("payment_callback_sandbox", order=order, email=email)
+    messages.success(request, "پرداخت شما با موفقیت انجام شد. جهت پیگیری سفارش خود، کد زیر را فراموش نکنید. (تمامی حروف، بزرگ هستند) "+madval_tracking_code)
+    return redirect('homepage')
 
 ############################################ Sandbox ############################################
 def payment_process_sandbox(request):

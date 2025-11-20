@@ -28,6 +28,9 @@ class CustomUser(AbstractUser):
         MaxLengthValidator(14, _("Phone number should be at most 14 digits"))
         ],
     )
+    # discounts
+    # cart
+    
 
     # def __str__(self): # اول این رو نوشتم. تو قسمت احراز هویت مشکل پیش اومد. چون بعضی جاها
     # متغیر یوزر رو مقایسه میکردم و به جای یوزر اسمش رو در نظر میگرفت. اما بعضی جاها که

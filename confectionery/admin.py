@@ -6,17 +6,17 @@ from .madval_filters import PriceFilter, WeightFilter
 
 class ProductAnanymousUserCommentAdminInline(admin.TabularInline):
     model = models.ProductAnanymousUserComment
-    extra = 1
+    extra = 0
 
 
 class ProductCustomUserCommentAdminInline(admin.TabularInline):
     model = models.ProductCustomUserComment
-    extra = 1
+    extra = 0
 
 
 class ProductImageAdminInline(admin.TabularInline):
     model = models.ProductImage
-    extra = 1
+    extra = 0
 
 
 @admin.register(models.Product)

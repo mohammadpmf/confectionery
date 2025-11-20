@@ -19,15 +19,15 @@ def order_create_view(request):
         last_order = Order.objects.filter(user=request.user).order_by('datetime_created').last()
         if last_order: # اگه قبلا سفارشی ثبت کرده بود، اسم، فامیل، شماره و آدرسش رو از آخرین
             # سفارشش میاریم که فرمش پر شده باشه کارش راحت تر باشه
-            initial_date = {
+            initial_data = {
                 'first_name': last_order.first_name,
                 'last_name': last_order.last_name,
                 'address': last_order.address,
                 'phone_number': last_order.phone_number,
             }
         else:
-            initial_date={}
-        order_form = OrderForm(instance=request.user, initial=initial_date)
+            initial_data={}
+        order_form = OrderForm(instance=request.user, initial=initial_data)
 
         sent_discount_text = request.GET.get('discount_text')
         discount_amount=0
@@ -127,7 +127,7 @@ def order_create_view(request):
                             # اینجا دیگه پیغام ندادم.
                             discount_status = 1
         order_form = OrderForm(request.POST)
-        if discount_status in[0, 1] and order_form.is_valid():
+        if discount_status in [0, 1] and order_form.is_valid():
             with transaction.atomic():
                 order_obj = order_form.save(commit=False)
                 order_obj.user = request.user
@@ -153,6 +153,7 @@ def order_create_view(request):
                     request.user.last_name = request.POST.get('last_name')
                     request.user.save()
                 request.session['order_id'] = order_obj.id
+                return redirect('payment:bypass')
                 return redirect('payment:payment_process_sandbox')
         else:
             context = {
