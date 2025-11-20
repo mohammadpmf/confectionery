@@ -8,7 +8,7 @@ crispy-bootstrap5==2024.2
 cryptography==43.0.0
 dj-database-url==2.2.0
 dj-email-url==1.0.6
-Django==5.0.7
+Django==5.1.14
 django-allauth==0.63.6
 django-cache-url==3.4.5
 django-crispy-forms==2.3
