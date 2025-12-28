@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]  # , '.herokuapp.com']
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "laine-monanthous-loopily.ngrok-free.dev"]  # , '.herokuapp.com']
 
 # Application definition
 
@@ -330,3 +330,7 @@ MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE = os.getenv("MY_TEMPLATE_NAME_IN_GHASEDAK_M
 MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE_TO_CHANGE_OTP_NUMBER = os.getenv(
     "MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE_TO_CHANGE_OTP_NUMBER"
 )
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.ngrok-free.app",
+    "https://laine-monanthous-loopily.ngrok-free.dev",
+]
