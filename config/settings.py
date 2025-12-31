@@ -32,7 +32,13 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]  # , '.herokuapp.com']
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "drdjango.ir",
+    "www.drdjango.ir",
+    # ".herokuapp.com",
+]
 
 # Application definition
 
