@@ -1,9 +1,18 @@
+import uuid
+from pathlib import Path
+
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy as _
 from django.core.validators import MaxValueValidator
 from django.conf import settings
 from django.utils.text import slugify
+
+
+def upload_to_path(instance, filename):
+    ext = Path(filename).suffix
+    new_filename = f"{uuid.uuid4().hex}{ext}"
+    return f"images/{new_filename}"
 
 
 class Product(models.Model):
@@ -39,13 +48,13 @@ class Product(models.Model):
     flour_type = models.CharField(verbose_name=_('Flour Type'), max_length=8, choices=FLOUR_TYPE_CHOICES)
     sugar_rate = models.CharField(verbose_name=_('Sugar Rate'), max_length=8, choices=FAT_SUGRE_RATE_CHOICES)
     fat_rate = models.CharField(verbose_name=_('Fat Rate'), max_length=8, choices=FAT_SUGRE_RATE_CHOICES)
-    slug = models.SlugField(verbose_name=_('Slug'), allow_unicode=True, unique=True, db_collation='utf8_persian_ci')
+    slug = models.SlugField(verbose_name=_('Slug'), allow_unicode=True, unique=True)
     weight = models.DecimalField(verbose_name=_('Weight'), max_digits=3, decimal_places=1)
     price_toman = models.PositiveIntegerField(verbose_name=_('Price Toman'), )
     preparation_time = models.PositiveSmallIntegerField(verbose_name=_('Preparation Time'), validators=[MaxValueValidator(10)])
     ingredients = models.CharField(verbose_name=_('Ingredients'), max_length=1024)
     expiration_days = models.PositiveSmallIntegerField(verbose_name=_('Expiration Days'), default=3, validators=[MaxValueValidator(60)])
-    main_image = models.ImageField(verbose_name=_('Main Image'), upload_to='main_images/', blank=True)
+    main_image = models.ImageField(verbose_name=_('Main Image'), upload_to=upload_to_path, blank=True)
     extra_information = models.TextField(verbose_name=_('Extra Information'), max_length=10000, blank=True)
     # images
     # ananymous_comments
@@ -69,7 +78,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(verbose_name=_('image'), upload_to='product_images/')
+    image = models.ImageField(verbose_name=_('image'), upload_to=upload_to_path)
 
 
 class ProductAnanymousUserComment(models.Model):
@@ -138,7 +147,7 @@ class NewsLetter(models.Model):
 class Chef(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=255)
     talent = models.CharField(verbose_name=_('Talent'), max_length=255)
-    image= models.ImageField(verbose_name=_('Image'), upload_to='chef_images/', blank=True)
+    image= models.ImageField(verbose_name=_('Image'), upload_to=upload_to_path, blank=True)
     description = models.TextField(verbose_name='description', max_length=10000, blank=True)
     email = models.EmailField(verbose_name='Email', max_length=255, blank=True)
     facebook = models.CharField(verbose_name='Facebook', max_length=255, blank=True)

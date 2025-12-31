@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='product',
             name='slug',
-            field=models.SlugField(allow_unicode=True, db_collation='utf8_persian_ci', unique=True, verbose_name='Slug'),
+            field=models.SlugField(allow_unicode=True, unique=True, verbose_name='Slugg'),
         ),
     ]
