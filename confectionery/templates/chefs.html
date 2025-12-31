@@ -15,7 +15,9 @@
             {% for chef in chefs %}
             <div class="row">
                 <div class="col-12 col-lg-4 my-2">
-                    <img class="img-fluid w-100 rounded-circle" src="{{ chef.image.url }}" alt="">
+                    {% if chef.image %}
+                        <img class="img-fluid w-100 rounded-circle" src="{{ chef.image.url }}" alt="">
+                    {% endif %}
                 </div>
                 <div class="col-12 col-lg-8 my-2 mt-4 pt-2">
                     <h2 class="d">نام: {{ chef.name }} </h2>
