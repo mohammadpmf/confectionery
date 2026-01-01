@@ -30,6 +30,8 @@ packaging==24.1
 pillow==10.4.0
 platformdirs==4.2.2
 polib==1.2.0
+psycopg==3.3.2
+psycopg-binary==3.3.2
 pycparser==2.22
 pycryptodome==3.20.0
 PyJWT==2.8.0
