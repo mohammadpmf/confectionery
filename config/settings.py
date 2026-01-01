@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # علامت $ هر جا بود باید یه $ دیگه کنارش بنویسیم. چون برای داکر کامپوز اسکیپ کاراکتر هست.
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG")
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -200,6 +200,23 @@ EMAIL_PORT = 587  # TLS
 EMAIL_HOST_USER = os.getenv("DJANGO_EMAIL_ADDRESS")
 EMAIL_HOST_PASSWORD = os.getenv("DJANGO_EMAIL_APP_PASSWORD")
 ########################     END EMAIL     ########################
+########################     EMAIL     ########################
+# ورژن ارسال ایمیل با آدرس alaki@drdjango.ir
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "mail.drdjango.ir"
+# # EMAIL_USE_SSL = True
+# # EMAIL_PORT = 465 # SSL
+# # However, SSL is an older technology that contains some security flaws.
+# # Transport Layer Security (TLS) is the upgraded version of SSL that fixes existing SSL vulnerabilities.
+# # TLS authenticates more efficiently and continues to support encrypted communication channels.
+# # خلاصه این که اس اس ال یه مشکلاتی داشت و ورژن تی ال اس رو دادن که امن تره
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587  # TLS
+# EMAIL_HOST_USER = "alaki@drdjango.ir"
+# EMAIL_HOST_PASSWORD = "mypassis123"
+########################     END EMAIL     ########################
+
+
 
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -210,11 +227,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
+        # "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("DJANGO_DATABASE_NAME"),
         "USER": os.getenv("DJANGO_DATABASE_USERNAME"),
         "PASSWORD": os.getenv("DJANGO_DATABASE_PASSWORD"),
         "HOST": "localhost",
         "PORT": 3306,
+        # "PORT": 5432,
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
     }
@@ -267,10 +286,12 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+# STATIC_ROOT = "../public_html/static"
 
 # Media
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+# MEDIA_ROOT = os.path.join(BASE_DIR, "../public_html/media/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -336,3 +357,18 @@ MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE = os.getenv("MY_TEMPLATE_NAME_IN_GHASEDAK_M
 MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE_TO_CHANGE_OTP_NUMBER = os.getenv(
     "MY_TEMPLATE_NAME_IN_GHASEDAK_ME_SITE_TO_CHANGE_OTP_NUMBER"
 )
+
+FORCE_SCRIPT_NAME = ""
+
+# CSRF_TRUSTED_ORIGINS = [
+#     "https://drdjango.ir",
+#     "https://www.drdjango.ir",
+# ]
+
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+
+# SECURE_SSL_REDIRECT = True
+# SECURE_HSTS_SECONDS = 31536000
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
