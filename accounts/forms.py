@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 
+from confectionery.models import validate_image
+
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -50,7 +52,7 @@ class ChangeUserProfileInWebsiteForm(forms.ModelForm):
     # nat_code = forms.CharField(label=_('National Code'), min_length=10, max_length=10, required=False)
     # gender = forms.ChoiceField(label=_('Gender'), choices=GENDER_CHOICES, required=False)
     # phone_number = forms.CharField(label=_('Phone Number'), min_length=11, max_length=14, required=False)
-    profile_picture = forms.ImageField(label=_('Profile Picture'), required=False)
+    profile_picture = forms.ImageField(label=_('Profile Picture'), required=False, validators=[validate_image])
     remove_profile_picture = forms.BooleanField(label=_('Remove Profile Picture'), required=False)
 
 

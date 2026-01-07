@@ -1,3 +1,4 @@
+import os
 import uuid
 from pathlib import Path
 
@@ -7,6 +8,13 @@ from django.utils.translation import gettext, gettext_lazy as _
 from django.core.validators import MaxValueValidator
 from django.conf import settings
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
+
+
+def validate_image(file):
+    ext = os.path.splitext(file.name)[1].lower()
+    if ext not in [".jpg", ".jpeg", ".png", ".webp"]:
+        raise ValidationError("Invalid file type.")
 
 
 def upload_to_path(instance, filename):
@@ -54,7 +62,7 @@ class Product(models.Model):
     preparation_time = models.PositiveSmallIntegerField(verbose_name=_('Preparation Time'), validators=[MaxValueValidator(10)])
     ingredients = models.CharField(verbose_name=_('Ingredients'), max_length=1024)
     expiration_days = models.PositiveSmallIntegerField(verbose_name=_('Expiration Days'), default=3, validators=[MaxValueValidator(60)])
-    main_image = models.ImageField(verbose_name=_('Main Image'), upload_to=upload_to_path, blank=True)
+    main_image = models.ImageField(verbose_name=_('Main Image'), upload_to=upload_to_path, blank=True, validators=[validate_image])
     extra_information = models.TextField(verbose_name=_('Extra Information'), max_length=10000, blank=True)
     # images
     # ananymous_comments
@@ -78,7 +86,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(verbose_name=_('product'), to=Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(verbose_name=_('image'), upload_to=upload_to_path)
+    image = models.ImageField(verbose_name=_('image'), upload_to=upload_to_path, validators=[validate_image])
 
 
 class ProductAnanymousUserComment(models.Model):
@@ -147,7 +155,7 @@ class NewsLetter(models.Model):
 class Chef(models.Model):
     name = models.CharField(verbose_name=_('Name'), max_length=255)
     talent = models.CharField(verbose_name=_('Talent'), max_length=255)
-    image= models.ImageField(verbose_name=_('Image'), upload_to=upload_to_path, blank=True)
+    image= models.ImageField(verbose_name=_('Image'), upload_to=upload_to_path, blank=True, validators=[validate_image])
     description = models.TextField(verbose_name='description', max_length=10000, blank=True)
     email = models.EmailField(verbose_name='Email', max_length=255, blank=True)
     facebook = models.CharField(verbose_name='Facebook', max_length=255, blank=True)

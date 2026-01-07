@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxLengthValidator, MinLengthValidator
 from django.utils.translation import gettext_lazy as _
 
-from confectionery.models import upload_to_path
+from confectionery.models import upload_to_path, validate_image
 
 
 class CustomUser(AbstractUser):
@@ -101,4 +101,4 @@ class ProfilePicture(models.Model):
         on_delete=models.CASCADE,
         related_name="profile_picture",
     )
-    image = models.ImageField(verbose_name=_("Image"), upload_to=upload_to_path)
+    image = models.ImageField(verbose_name=_("Image"), upload_to=upload_to_path, validators=[validate_image])
