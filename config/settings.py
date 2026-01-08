@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # علامت $ هر جا بود باید یه $ دیگه کنارش بنویسیم. چون برای داکر کامپوز اسکیپ کاراکتر هست.
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DJANGO_DATABASE_NAME", True)
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
@@ -228,9 +228,9 @@ DATABASES = {
     "default": {
         # "ENGINE": "django.db.backends.mysql",
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "root",
-        "PASSWORD": "WPuuB7WdHeSpDdQacN3xZl7w",
+        "NAME": os.getenv("DJANGO_DATABASE_NAME"),
+        "USER": os.getenv("DJANGO_DATABASE_USERNAME"),
+        "PASSWORD": os.getenv("DJANGO_DATABASE_PASSWORD"),
         "HOST": "confectionery-postgres",
         # "PORT": 3306,
         "PORT": 5432,
