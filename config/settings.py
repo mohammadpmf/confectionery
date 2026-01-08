@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # علامت $ هر جا بود باید یه $ دیگه کنارش بنویسیم. چون برای داکر کامپوز اسکیپ کاراکتر هست.
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DATABASE_NAME", True)
+DEBUG = os.getenv("DJANGO_DEBUG", True)
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
