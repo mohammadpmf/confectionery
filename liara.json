@@ -1,0 +1,6 @@
+{
+    "disks": {
+        "name": "confectionery-disk",
+        "mountTo": "media"
+    }
+}
