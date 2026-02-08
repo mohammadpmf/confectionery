@@ -226,14 +226,14 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        # "ENGINE": "django.db.backends.mysql",
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django.db.backends.mysql",
+        # "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("DJANGO_DATABASE_NAME"),
         "USER": os.getenv("DJANGO_DATABASE_USERNAME"),
         "PASSWORD": os.getenv("DJANGO_DATABASE_PASSWORD"),
-        "HOST": "confectionery-postgres",
-        # "PORT": 3306,
-        "PORT": 5432,
+        "HOST": "localhost",
+        "PORT": 3306,
+        # "PORT": 5432,
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
     }
