@@ -16,7 +16,7 @@
 {% endblock extra_css %}
 
 {% block content %}
-<div class="container card shadow-lg mt-5" style="padding-left: 2em; padding-right:0;">
+<div class="container card shadow-lg mt-5 px-2" style="padding-left: 2em; padding-right:0;">
     <div dir='rtl' class="container p-5">
         <p class="d-inline"><img src="{% static 'madval/img/sort.png' %}" alt="">مرتب سازی:</p>
         <a href="?sort-by=recommendation&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn d {% if active_page == 'recommendation' or active_page == None %}text-primary{% endif %}">پیشنهاد خریداران</a>

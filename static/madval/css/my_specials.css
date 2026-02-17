@@ -7,8 +7,10 @@
 }
 
 #madval-cart-jangoolak-number{
+    max-width: initial;
+    box-sizing: initial;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     left: 12px;
     border: 1px solid white;
     color: white;
@@ -24,8 +26,12 @@
         width: 30vw;
     }
     #madval-cart-jangoolak-number{
-        bottom: 24px;
-        left: -24px;
+        display: inline-block;
+        bottom: 18px;
+        left: -22px;
+        width: 24px;
+        height: 24px;
+        background-color: green;
     }
 }
 

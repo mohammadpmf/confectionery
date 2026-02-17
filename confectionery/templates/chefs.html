@@ -5,7 +5,7 @@
 
 {% block content %}
 <!-- Team Start -->
-<div class="container-fluid py-5">
+<div class="container-fluid py-5 px-4 mx-4">
     <div class="container">
         <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
             <h2 class="text-primary font-secondary {% if LANGUAGE_CODE == 'fa' %}d{% endif %}">{% trans "Team Members" %}</h2>
@@ -36,7 +36,7 @@
                 {% if chef.instagram %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.instagram }}" target="_blank"><i class="fab fa-instagram fw-normal"></i></a>{% endif %}
             </div>
             {% if not forloop.last %}
-                <hr class="mx-5">
+                <hr class="mx-2">
             {% endif %}
             {% endfor %}
         </div>
