@@ -27,10 +27,12 @@ class Product(models.Model):
     PRODUCT_TYPE_CHOICES_CAKE = 'cake'
     PRODUCT_TYPE_CHOICES_PASTRY = 'pastry'
     PRODUCT_TYPE_CHOICES_BREAD = 'bread'
+    PRODUCT_TYPE_CHOICES_DESSERT = 'dessert'
     PRODUCT_TYPE_CHOICES = (
         (PRODUCT_TYPE_CHOICES_CAKE, _('Cake')),
         (PRODUCT_TYPE_CHOICES_PASTRY, _('Pastry')),
         (PRODUCT_TYPE_CHOICES_BREAD, _('Bread')),
+        (PRODUCT_TYPE_CHOICES_DESSERT, _('Dessert')),
     )
     FLOUR_TYPE_CHOICES_WHEAT = 'wheat'
     FLOUR_TYPE_CHOICES_CORN = 'corn'

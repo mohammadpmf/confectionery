@@ -163,12 +163,12 @@ class ProductDetail(generic.DetailView):
                     output_field=FloatField()
                 )
             ),
-            std_dev=StdDev(
-            Case(
-                When(comments__is_approved=True, then='comments__stars'),
-                    output_field=FloatField()
-                )
-            )
+            # std_dev=StdDev(
+            # Case(
+            #     When(comments__is_approved=True, then='comments__stars'),
+            #         output_field=FloatField()
+            #     )
+            # )
         )
         return query_set
         
@@ -320,8 +320,8 @@ class AboutUs(generic.TemplateView):
     template_name = 'about_us.html'
 
 
-class AboutMe(generic.TemplateView):
-    template_name = 'about_me.html'
+# class AboutMe(generic.TemplateView):
+#     template_name = 'about_me.html'
 
 
 class ContactUs(generic.TemplateView):

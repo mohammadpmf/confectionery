@@ -214,8 +214,6 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                 <a href="{% url 'discount_codes' %}" class="nav-item nav-link {% block active_discount_codes %}{% endblock active_discount_codes %}"><i class="fa fa-gift" aria-hidden="true"></i></a>
                 <a href="{% url 'contact_us' %}" class="nav-item nav-link {% block active_contact_us %}{% endblock active_contact_us %}">تماس با ما</a>
                 <a href="{% url 'about_us' %}" class="nav-item nav-link {% block active_about_us %}{% endblock active_about_us %}">درباره ما</a>
-                <a href="{% url 'about_me' %}" class="nav-item nav-link {% block active_about_me %}{% endblock active_about_me %}">درباره من</a>
-                <a href="{% url 'chefs' %}" class="nav-item nav-link {% block active_chefs %}{% endblock active_chefs %}">سرآشپز ها</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle {% block active_products %}{% endblock active_products %}" data-bs-toggle="dropdown">محصولات</a>
                     <div class="dropdown-menu m-0">
@@ -279,8 +277,6 @@ https://stackoverflow.com/questions/3356964/how-to-get-the-current-language-in-d
                             <h4 class="text-primary text-uppercase mb-4">لینک ها</h4>
                             <div class="d-flex flex-column justify-content-start">
                                 <a class="text-secondary mb-2" href="{% url 'homepage' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>خانه</a>
-                                <a class="text-secondary mb-2" href="{% url 'chefs' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>سرآشپز ها</a>
-                                <a class="text-secondary mb-2" href="{% url 'about_me' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>درباره من</a>
                                 <a class="text-secondary mb-2" href="{% url 'about_us' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>درباره ما</a>
                                 <a class="text-secondary mb-2" href="{% url 'contact_us' %}"><i class="bi bi-arrow-right text-primary mx-2"></i>تماس با ما</a>
                             </div>
