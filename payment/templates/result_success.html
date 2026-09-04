@@ -7,15 +7,15 @@
 {% endblock page_title %}
 
 {% block content %}
-<div dir="rtl" class="container shadow p-5 my-5" style="border-radius: var(--md-radius);">
-    <h1 class="c">
+<div dir="rtl" class="container" style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-xl); box-shadow:var(--shadow-md); padding:2rem; margin:2rem auto; max-width:700px; text-align:center;">
+    <h1 style="color:var(--color-dark);">
         پرداخت شما با موفقیت انجام شد. جهت پیگیری سفارش خود، کد زیر را فراموش نکنید. (تمامی حروف، بزرگ هستند)
         <br>
         <br>
         <div class="d-flex justify-content-center">
-            <i class="material-icons text-success me-2" style="font-size: 2em; vertical-align: middle;">check_circle</i>
+            <span class="material-icons-round me-2" style="color:var(--color-success); font-size:3rem;">check_circle</span>
             کد پیگیری: 
-            <span class="text-primary">
+            <span style="color:var(--color-primary); font-size:1.5rem; font-weight:700;">
                 {{ tracking_code }}
             </span>
         </div>

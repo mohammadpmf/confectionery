@@ -4,36 +4,46 @@
 {% load i18n %}
 
 {% block content %}
+<!-- Page Header Start -->
+<div class="container-fluid p-5 mb-5" style="background: linear-gradient(135deg, var(--color-dark), var(--color-dark-soft));">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1 class="display-4 text-uppercase text-white" style="color:var(--color-dark);">{% trans "Our Master Chefs" %}</h1>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
 <!-- Team Start -->
-<div class="container-fluid py-5 px-4 mx-4">
+<div class="container-fluid py-5">
     <div class="container">
         <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary {% if LANGUAGE_CODE == 'fa' %}d{% endif %}">{% trans "Team Members" %}</h2>
-            <h1 class="display-4 text-uppercase {% if LANGUAGE_CODE == 'fa' %}d{% endif %}">{% trans "Our Master Chefs" %}</h1>
+            <h2 class="font-secondary" style="color:var(--color-primary);" {% if LANGUAGE_CODE == 'fa' %}style="color:var(--color-primary);"{% endif %}>{% trans "Team Members" %}</h2>
+            <h1 class="display-4 text-uppercase" style="color:var(--color-dark);" {% if LANGUAGE_CODE == 'fa' %}style="color:var(--color-dark);"{% endif %}>{% trans "Our Master Chefs" %}</h1>
         </div>
-        <div dir='rtl' class="row g-5 container shadow p-5">
+        <div dir='rtl' class="row g-5 container" style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-xl); box-shadow:var(--shadow-md); padding:2rem;">
             {% for chef in chefs %}
             <div class="row">
                 <div class="col-12 col-lg-4 my-2">
                     {% if chef.image %}
-                        <img class="img-fluid w-100 rounded-circle" src="{{ chef.image.url }}" alt="" style="border-radius: var(--md-radius) !important;">
+                        <img class="img-fluid w-100 rounded-circle" src="{{ chef.image.url }}" alt="" style="border-radius: var(--radius-xl) !important;">
                     {% endif %}
                 </div>
                 <div class="col-12 col-lg-8 my-2 mt-4 pt-2">
-                    <h2 class="d">نام: {{ chef.name }} </h2>
-                    <h3 class="d text-muted">تخصص: {{ chef.talent }}</h3>
+                    <h2 style="color:var(--color-dark);">نام: {{ chef.name }} </h2>
+                    <h3 style="color:var(--color-dark);">تخصص: {{ chef.talent }}</h3>
                     {% if chef.description %}
                     <br>
-                    <p style="text-align: justify;" class="c em1-2"><span class="text-primary em1-4">من را بیشتر بشناسید: </span>این متن لورم ایپسوم توسط محمد پورمحدی فلاح نوشته شده است.<br>{{ chef.description }}</br>
+                    <p style="text-align: justify;" class="c em1-2"><span style="color:var(--color-primary);" class="em1-4">من را بیشتر بشناسید: </span>این متن لورم ایپسوم توسط محمد پورمحدی فلاح نوشته شده است.<br>{{ chef.description }}</br>
                     {% endif %}
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-start">
-                {% if chef.email %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="mailto:{{ chef.email }}" target="_blank"><i class="material-icons">email</i></a>{% endif %}
-                {% if chef.twitter %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.twitter }}" target="_blank"><i class="material-icons fw-normal">tag</i></a>{% endif %}
-                {% if chef.facebook %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.facebook }}" target="_blank"><i class="material-icons fw-normal">thumb_up</i></a>{% endif %}
-                {% if chef.linkedin %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.linkedin }}" target="_blank"><i class="material-icons fw-normal">work</i></a>{% endif %}
-                {% if chef.instagram %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.instagram }}" target="_blank"><i class="material-icons fw-normal">photo_camera</i></a>{% endif %}
+                {% if chef.email %}<a class="btn btn-primary btn-lg-square mx-1" style="border-radius:var(--radius-md);" href="mailto:{{ chef.email }}" target="_blank"><span class="material-icons-round">email</span></a>{% endif %}
+                {% if chef.twitter %}<a class="btn btn-primary btn-lg-square mx-1" style="border-radius:var(--radius-md);" href="{{ chef.twitter }}" target="_blank"><span class="material-icons-round fw-normal">tag</span></a>{% endif %}
+                {% if chef.facebook %}<a class="btn btn-primary btn-lg-square mx-1" style="border-radius:var(--radius-md);" href="{{ chef.facebook }}" target="_blank"><span class="material-icons-round fw-normal">thumb_up</span></a>{% endif %}
+                {% if chef.linkedin %}<a class="btn btn-primary btn-lg-square mx-1" style="border-radius:var(--radius-md);" href="{{ chef.linkedin }}" target="_blank"><span class="material-icons-round fw-normal">work</span></a>{% endif %}
+                {% if chef.instagram %}<a class="btn btn-primary btn-lg-square mx-1" style="border-radius:var(--radius-md);" href="{{ chef.instagram }}" target="_blank"><span class="material-icons-round fw-normal">photo_camera</span></a>{% endif %}
             </div>
             {% if not forloop.last %}
                 <hr class="mx-2">

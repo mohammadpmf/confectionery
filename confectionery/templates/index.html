@@ -1,13 +1,9 @@
 {% extends "_base.html" %}
-
 {% load static %}
 {% load i18n %}
-
 {% load madval_persian_translation %}
 
-{% block page_title %}
-{% trans "Home" %}
-{% endblock page_title %}
+{% block page_title %}{% trans "Home" %}{% endblock page_title %}
 
 {% block extra_css %}
 <link href="{% static 'madval/css/my_fonts.css' %}" rel="stylesheet">
@@ -15,237 +11,234 @@
 {% endblock extra_css %}
 
 {% block content %}
-<!-- Hero Start -->
-<div class="container-fluid bg-primary py-5 mb-5 hero-header">
+
+<!-- ========== HERO ========== -->
+<div class="container-fluid hero-header">
     <div class="container py-5">
-        <div class="row justify-content-start">
-            <div class="col-lg-8 col-md-10 col-12 text-center text-lg-start">
-                <h1 class="font-secondary text-primary my-5" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Motamed</h1>
-                <h1 class="text-danger my-5 d" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.2);">بهترین کیک در رشت</h1>
-                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-2">
+        <div class="row justify-content-start align-items-center" style="min-height: 60vh;">
+            <div class="col-lg-7 col-md-9 col-12 text-center text-lg-start">
+                <div style="animation: fade-up 0.8s ease;">
+                    <span style="display:inline-block; background:rgba(255,255,255,0.15); color:#fff; padding:6px 16px; border-radius:var(--radius-full); font-size:0.85rem; font-weight:600; letter-spacing:1px; backdrop-filter:blur(10px); margin-bottom:20px;">
+                        <span class="material-icons-round align-middle" style="font-size:16px;">star</span>
+                        شیرینی سرای معتمد
+                    </span>
+                </div>
+                <h1 class="font-secondary my-4" style="color:var(--color-gold-light); font-size:clamp(2.5rem,6vw,4.5rem); text-shadow:0 4px 20px rgba(0,0,0,0.3); animation: fade-up 0.8s ease 0.2s both;">Motamed</h1>
+                <h1 class="text-white my-4 d" style="font-size:clamp(1.5rem,4vw,2.8rem); text-shadow:0 2px 10px rgba(0,0,0,0.3); animation: fade-up 0.8s ease 0.4s both;">بهترین کیک در رشت</h1>
+                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-3 gap-4" style="animation: fade-up 0.8s ease 0.6s both;">
                     <button type="button" class="btn-play" data-bs-toggle="modal"
                         data-src="{% static 'madval/movie/teaser.mp4' %}" data-bs-target="#videoModal">
                         <span></span>
                     </button>
+                    <a href="{% url 'all_products' %}" class="btn" style="background:rgba(255,255,255,0.15); color:#fff; border:2px solid rgba(255,255,255,0.3); border-radius:var(--radius-full); padding:14px 32px; backdrop-filter:blur(10px);">
+                        <span class="material-icons-round align-middle mx-1" style="font-size:20px;">storefront</span>
+                        مشاهده محصولات
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Hero End -->
 
-<!-- Video Modal Start -->
-<div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Video Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="stopVideo()"></button>
+        <div class="modal-content" style="border-radius:var(--radius-lg); overflow:hidden;">
+            <div class="modal-header" style="border:none; padding:12px 16px;">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="stopVideo()"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-0">
                 <div class="ratio ratio-16x9">
-                    <video id="myVideoPlayer" width="320" height="240" controls>
+                    <video id="myVideoPlayer" controls>
                         <source src="{% static 'madval/movie/teaser.mp4' %}" type="video/mp4">
-                        Your browser does not support the video tag.
                     </video>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Video Modal End -->
 
-
-<!-- About Start -->
-<div class="container-fluid pt-5">
+<!-- ========== ABOUT ========== -->
+<div class="container-fluid py-5">
     <div class="container">
-        <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "About Us" %}</h2>
-            <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: calibri;"{% endif %}>{% trans "Welcome To Motamed Confectionery" %}</h1>
+        <div class="section-title text-center mx-auto mb-5" style="max-width:600px;">
+            <h2 class="font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "About Us" %}</h2>
+            <h1 {% if LANGUAGE_CODE == 'fa' %}style="font-family: calibri;"{% endif %}>{% trans "Welcome To Motamed Confectionery" %}</h1>
         </div>
-        <div class="row gx-5">
-            <div class="col-lg-5 col-md-6 mb-5 mb-lg-0" style="min-height: 400px;">
-                <div class="position-relative h-100" style="border-radius: var(--md-radius); overflow: hidden;">
-                    <img class="position-absolute w-100 h-100" src="{% static 'img/about.jpg' %}" style="object-fit: cover;">
+        <div class="row gx-5 align-items-center">
+            <div class="col-lg-5 col-md-6 col-12 mb-5 mb-lg-0">
+                <div style="border-radius:var(--radius-xl); overflow:hidden; box-shadow:var(--shadow-lg); max-height:420px;">
+                    <img class="w-100 h-100" src="{% static 'img/about.jpg' %}" style="object-fit:cover; min-height:350px;">
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 pb-5">
-                <h4 dir="rtl" class="mb-4">ویژگی کیک ها و شیرینی های معتمد</h4>
-                <p dir="rtl" style="text-align: justify;" class="mb-5">متن لورم ایپسوم ساختگی توسط خودم. امیدوارم از خواندن آن لذت ببرید. شیرینی سرای معتمد، یک فروشگاه آنلاین کیک و شیرینی و نان است که به منظور ارائه خدمات آنلاین به مشتریان، عرضه شده است. این پروژه، یک پروژه آزمایشی ساخت محمد پورمحمدی فلاح است که برای همسرش که عاشق پختن کیک و شیرینی است طراحی شده و کاربران می توانند در خبرنامه عضو شوند تا از آخرین اخبار اطلاع یابند. از کیک و شیرینی های مختلف دیدن کنند و قیمت ها را مقایسه کنند. همچنین در صورت علاقه می توانند سبد خرید خود را پر کرده و در صورت علاقه، آنلاین کیک و شیرینی سفارش دهند و در زمان مناسب آنها را تحویل بگیرند. البته قرار است به زودی API ای نیز برای این پروژه طراحی شود که پروژه حرفه ای تر باشد. با تشکر. شیرینی سرای معتمد.</p>
-                <div class="row g-5">
+            <div class="col-lg-6 col-md-6 col-12 offset-lg-1">
+                <h4 dir="rtl" class="mb-4" style="color:var(--color-dark);">ویژگی کیک ها و شیرینی های معتمد</h4>
+                <p dir="rtl" style="text-align:justify; color:var(--color-text-soft); line-height:1.9;" class="mb-5">شیرینی سرای معتمد، یک فروشگاه آنلاین کیک و شیرینی و نان است که به منظور ارائه خدمات آنلاین به مشتریان، عرضه شده است. این پروژه، یک پروژه آزمایشی ساخت محمد پورمحمدی فلاح است که برای همسرش که عاشق پختن کیک و شیرینی است طراحی شده و کاربران می توانند در خبرنامه عضو شوند تا از آخرین اخبار اطلاع یابند.</p>
+                <div class="row g-4">
                     <div dir="rtl" class="col-sm-6">
-                        <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px; border-radius: var(--md-radius);">
-                            <i class="material-icons text-white" style="font-size:36px;">favorite</i>
+                        <div style="width:64px; height:64px; background:linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; margin-bottom:16px; box-shadow:0 4px 15px rgba(193,119,103,0.3);">
+                            <span class="material-icons-round text-white" style="font-size:30px;">favorite</span>
                         </div>
-                        <h4 class="text-uppercase">٪۱۰۰ مفید و سالم</h4>
-                        <p class="mb-0">تمامی کیک ها و شیرینی ها و نان های ما از مواد درجه ۱ ساخته می شوند.</p>
+                        <h5 style="font-family:var(--font-heading); color:var(--color-dark);">٪۱۰۰ مفید و سالم</h5>
+                        <p style="color:var(--color-text-soft); font-size:0.9rem;">تمامی کیک ها و شیرینی ها و نان های ما از مواد درجه ۱ ساخته می شوند.</p>
                     </div>
                     <div dir="rtl" class="col-sm-6">
-                        <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px; border-radius: var(--md-radius);">
-                            <i class="material-icons text-white" style="font-size:36px;">emoji_events</i>
+                        <div style="width:64px; height:64px; background:linear-gradient(135deg, var(--color-gold), var(--color-primary)); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; margin-bottom:16px; box-shadow:0 4px 15px rgba(212,165,116,0.3);">
+                            <span class="material-icons-round text-white" style="font-size:30px;">emoji_events</span>
                         </div>
-                        <h4 class="text-uppercase">برنده چندین جایزه</h4>
-                        <p class="mb-0">شیرینی فروشی معتمد تا کنون در مسابقات زیادی مقام اول را در طعم و کیفیت برنده شده است.</p>
+                        <h5 style="font-family:var(--font-heading); color:var(--color-dark);">برنده چندین جایزه</h5>
+                        <p style="color:var(--color-text-soft); font-size:0.9rem;">شیرینی فروشی معتمد تا کنون در مسابقات زیادی مقام اول را برنده شده است.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- About End -->
 
-
-<!-- Facts Start -->
-<div class="container-fluid bg-img py-5 mb-5">
-    <div class="container py-5">
+<!-- ========== FACTS ========== -->
+<div class="container-fluid py-5 mb-5" style="background: linear-gradient(135deg, var(--color-dark), var(--color-dark-soft));">
+    <div class="container py-4">
         <div class="row gx-5 gy-4">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="d-flex">
-                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; border-radius: var(--md-radius-sm);">
-                        <i class="material-icons text-white" style="font-size:28px;">star</i>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                <div class="d-flex align-items-center">
+                    <div style="width:56px; height:56px; background:linear-gradient(135deg, var(--color-primary), var(--color-gold)); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <span class="material-icons-round text-white" style="font-size:26px;">star</span>
                     </div>
-                    <div class="ps-4">
-                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">کیک های مراسم ویژه</h6>
-                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up"> 10018 </h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="d-flex">
-                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; border-radius: var(--md-radius-sm);">
-                        <i class="material-icons text-white" style="font-size:28px;">groups</i>
-                    </div>
-                    <div class="ps-4">
-                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">مراسم باجمعیت زیاد</h6>
-                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">13272</h1>
+                    <div class="ps-3">
+                        <h6 dir="rtl" style="color:var(--color-primary-light); font-size:0.8rem; font-weight:600;">کیک های مراسم</h6>
+                        <h1 dir="rtl" class="text-white mb-0" style="font-size:clamp(1.5rem,3vw,2.2rem);" data-toggle="counter-up">10018</h1>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="d-flex">
-                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; border-radius: var(--md-radius-sm);">
-                        <i class="material-icons text-white" style="font-size:28px;">thumb_up</i>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                <div class="d-flex align-items-center">
+                    <div style="width:56px; height:56px; background:linear-gradient(135deg, var(--color-gold), #E8A99A); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <span class="material-icons-round text-white" style="font-size:26px;">groups</span>
                     </div>
-                    <div class="ps-4">
-                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">مشتریان راضی</h6>
-                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">18745</h1>
+                    <div class="ps-3">
+                        <h6 dir="rtl" style="color:var(--color-primary-light); font-size:0.8rem; font-weight:600;">مراسم زیاد</h6>
+                        <h1 dir="rtl" class="text-white mb-0" style="font-size:clamp(1.5rem,3vw,2.2rem);" data-toggle="counter-up">13272</h1>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="d-flex">
-                    <div class="bg-primary border-inner d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; border-radius: var(--md-radius-sm);">
-                        <i class="material-icons text-white" style="font-size:28px;">check_circle</i>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                <div class="d-flex align-items-center">
+                    <div style="width:56px; height:56px; background:linear-gradient(135deg, var(--color-success), #7BC88F); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <span class="material-icons-round text-white" style="font-size:26px;">thumb_up</span>
                     </div>
-                    <div class="ps-4">
-                        <h6 dir="rtl" style="text-align: justify;" class="text-primary text-uppercase">محصولات فروخته شده</h6>
-                        <h1 dir="rtl" class="display-5 text-white mb-0" data-toggle="counter-up">19037</h1>
+                    <div class="ps-3">
+                        <h6 dir="rtl" style="color:var(--color-primary-light); font-size:0.8rem; font-weight:600;">مشتریان راضی</h6>
+                        <h1 dir="rtl" class="text-white mb-0" style="font-size:clamp(1.5rem,3vw,2.2rem);" data-toggle="counter-up">18745</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                <div class="d-flex align-items-center">
+                    <div style="width:56px; height:56px; background:linear-gradient(135deg, #7BA7CC, #5B87AA); border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                        <span class="material-icons-round text-white" style="font-size:26px;">check_circle</span>
+                    </div>
+                    <div class="ps-3">
+                        <h6 dir="rtl" style="color:var(--color-primary-light); font-size:0.8rem; font-weight:600;">فروخته شده</h6>
+                        <h1 dir="rtl" class="text-white mb-0" style="font-size:clamp(1.5rem,3vw,2.2rem);" data-toggle="counter-up">19037</h1>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Facts End -->
 
-
-<!-- Products Start -->
-<div class="container-fluid about py-5">
+<!-- ========== PRODUCTS ========== -->
+<div class="container-fluid py-5">
     <div class="container">
-        <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Menu & Pricing" %}</h2>
-            <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Explore Our Cakes" %}</h1>
+        <div class="section-title text-center mx-auto mb-5" style="max-width:600px;">
+            <h2 class="font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Menu & Pricing" %}</h2>
+            <h1 {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>{% trans "Explore Our Cakes" %}</h1>
         </div>
         <div class="tab-class text-center">
-            <ul class="nav nav-pills d-inline-flex justify-content-center bg-dark text-uppercase border-inner p-4 mb-5">
+            <ul class="nav nav-pills d-inline-flex justify-content-center p-3 mb-5" style="background:var(--color-dark); border-radius:var(--radius-xl);">
                 <li class="nav-item">
-                    <a class="nav-link text-white active" data-bs-toggle="pill" href="#tab-1"><i class="material-icons align-middle mx-1" style="font-size:18px;">cake</i>{% trans "Cake" %}</a>
+                    <a class="nav-link text-white active" data-bs-toggle="pill" href="#tab-1"><span class="material-icons-round align-middle mx-1" style="font-size:18px;">cake</span>{% trans "Cake" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-2"><i class="material-icons align-middle mx-1" style="font-size:18px;">bakery_dining</i>{% trans "Pastry" %}</a>
+                    <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-2"><span class="material-icons-round align-middle mx-1" style="font-size:18px;">bakery_dining</span>{% trans "Pastry" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-3"><i class="material-icons align-middle mx-1" style="font-size:18px;">lunch_dining</i>{% trans "Bread" %}</a>
+                    <a class="nav-link text-white" data-bs-toggle="pill" href="#tab-3"><span class="material-icons-round align-middle mx-1" style="font-size:18px;">lunch_dining</span>{% trans "Bread" %}</a>
                 </li>
             </ul>
             <div class="tab-content">
-                <div id="tab-1" class="tab-pane fade show p-0 active">
-                    <div class="row g-3">
+                <div id="tab-1" class="tab-pane fade show active p-0">
+                    <div class="row g-4">
                         {% for product in cakes %}
                         <div dir='rtl' class="col-lg-6 col-md-6 col-12">
-                            <div class="d-flex h-100 product-item" style="padding: 0; border: none;">
-                                <div class="flex-shrink-0">
-                                    <a href="{{ product.get_absolute_url }}" class="link-to-product-detail-view-img">
-                                    {% if product.main_image %}
-                                    <img class="img-fluid" src="{{ product.main_image.url }}" alt="" style="width: 150px; height: 85px; object-fit: cover;">
-                                    {% else %}
-                                    <img class="img-fluid" src="{% static 'madval/img/no_image.png' %}" alt="" style="width: 150px; height: 85px; object-fit: cover;">
-                                    {% endif %}
+                            <div class="d-flex h-100 product-item">
+                                <div class="flex-shrink-0" style="width:160px;">
+                                    <a href="{{ product.get_absolute_url }}" class="link-to-product-detail-view-img" style="display:block; height:100px; overflow:hidden;">
+                                        {% if product.main_image %}
+                                        <img class="w-100 h-100" src="{{ product.main_image.url }}" style="object-fit:cover;" alt="">
+                                        {% else %}
+                                        <img class="w-100 h-100" src="{% static 'madval/img/no_image.png' %}" style="object-fit:cover;" alt="">
+                                        {% endif %}
                                     </a>
-                                    <h4 class="bg-dark text-primary p-2 m-0">{{ product.price_toman|cspn|add:' تومان' }}</h4>
+                                    <div style="background:var(--color-dark); color:var(--color-gold); padding:8px 12px; font-weight:700; font-size:0.95rem;">
+                                        {{ product.price_toman|cspn|add:' تومان' }}
+                                    </div>
                                 </div>
-                                <div class="d-flex flex-column justify-content-center border-inner px-4 w-100" style="background: var(--md-secondary);">
-                                    <h5 dir='rtl' style="text-align: right;"><a class="link-to-product-detail-view-a" href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:30 }}</a></h5>
-                                    {% if product.extra_information %}
-                                    <span dir='rtl' style="text-align: right;">{{ product.extra_information|truncatechars:120 }}</span>
-                                    {% else %}
-                                    <span dir='rtl' style="text-align: right;">مواد لازم جهت تهیه: {{ product.ingredients|truncatechars:120 }}</span>
-                                    {% endif %}
+                                <div class="d-flex flex-column justify-content-center px-4 py-3 w-100" style="background:var(--color-secondary);">
+                                    <h5 dir='rtl' style="text-align:right; font-size:1rem;"><a class="link-to-product-detail-view-a" href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:30 }}</a></h5>
+                                    <span dir='rtl' style="text-align:right; font-size:0.85rem; color:var(--color-text-soft);">{% if product.extra_information %}{{ product.extra_information|truncatechars:100 }}{% else %}مواد لازم: {{ product.ingredients|truncatechars:100 }}{% endif %}</span>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
                 </div>
-                <div id="tab-2" class="tab-pane fade show p-0">
-                    <div class="row g-3">
+                <div id="tab-2" class="tab-pane fade p-0">
+                    <div class="row g-4">
                         {% for product in pastries %}
                         <div dir='rtl' class="col-lg-6 col-md-6 col-12">
-                            <div class="d-flex h-100 product-item" style="padding: 0; border: none;">
-                                <div class="flex-shrink-0">
-                                    <a href="{{ product.get_absolute_url }}" class="link-to-product-detail-view-img">
-                                    {% if product.main_image %}
-                                    <img class="img-fluid" src="{{ product.main_image.url }}" alt="" style="width: 150px; height: 85px; object-fit: cover;">
-                                    {% else %}
-                                    <img class="img-fluid" src="{% static 'madval/img/no_image.png' %}" alt="" style="width: 150px; height: 85px; object-fit: cover;">
-                                    {% endif %}
+                            <div class="d-flex h-100 product-item">
+                                <div class="flex-shrink-0" style="width:160px;">
+                                    <a href="{{ product.get_absolute_url }}" class="link-to-product-detail-view-img" style="display:block; height:100px; overflow:hidden;">
+                                        {% if product.main_image %}
+                                        <img class="w-100 h-100" src="{{ product.main_image.url }}" style="object-fit:cover;" alt="">
+                                        {% else %}
+                                        <img class="w-100 h-100" src="{% static 'madval/img/no_image.png' %}" style="object-fit:cover;" alt="">
+                                        {% endif %}
                                     </a>
-                                    <h4 class="bg-dark text-primary p-2 m-0">{{ product.price_toman|cspn|add:' تومان' }}</h4>
+                                    <div style="background:var(--color-dark); color:var(--color-gold); padding:8px 12px; font-weight:700; font-size:0.95rem;">
+                                        {{ product.price_toman|cspn|add:' تومان' }}
+                                    </div>
                                 </div>
-                                <div class="d-flex flex-column justify-content-center border-inner px-4 w-100" style="background: var(--md-secondary);">
-                                    <h5 dir='rtl' style="text-align: right;"><a class="link-to-product-detail-view-a" href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:30 }}</a></h5>
-                                    {% if product.extra_information %}
-                                    <span dir='rtl' style="text-align: right;">{{ product.extra_information|truncatechars:120 }}</span>
-                                    {% else %}
-                                    <span dir='rtl' style="text-align: right;">مواد لازم جهت تهیه: {{ product.ingredients|truncatechars:120 }}</span>
-                                    {% endif %}
+                                <div class="d-flex flex-column justify-content-center px-4 py-3 w-100" style="background:var(--color-secondary);">
+                                    <h5 dir='rtl' style="text-align:right; font-size:1rem;"><a class="link-to-product-detail-view-a" href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:30 }}</a></h5>
+                                    <span dir='rtl' style="text-align:right; font-size:0.85rem; color:var(--color-text-soft);">{% if product.extra_information %}{{ product.extra_information|truncatechars:100 }}{% else %}مواد لازم: {{ product.ingredients|truncatechars:100 }}{% endif %}</span>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
                 </div>
-                <div id="tab-3" class="tab-pane fade show p-0">
-                    <div class="row g-3">
+                <div id="tab-3" class="tab-pane fade p-0">
+                    <div class="row g-4">
                         {% for product in breads %}
                         <div dir='rtl' class="col-lg-6 col-md-6 col-12">
-                            <div class="d-flex h-100 product-item" style="padding: 0; border: none;">
-                                <div class="flex-shrink-0">
-                                    <a href="{{ product.get_absolute_url }}" class="link-to-product-detail-view-img">
-                                    {% if product.main_image %}
-                                    <img class="img-fluid" src="{{ product.main_image.url }}" alt="" style="width: 150px; height: 85px; object-fit: cover;">
-                                    {% else %}
-                                    <img class="img-fluid" src="{% static 'madval/img/no_image.png' %}" alt="" style="width: 150px; height: 85px; object-fit: cover;">
-                                    {% endif %}
+                            <div class="d-flex h-100 product-item">
+                                <div class="flex-shrink-0" style="width:160px;">
+                                    <a href="{{ product.get_absolute_url }}" class="link-to-product-detail-view-img" style="display:block; height:100px; overflow:hidden;">
+                                        {% if product.main_image %}
+                                        <img class="w-100 h-100" src="{{ product.main_image.url }}" style="object-fit:cover;" alt="">
+                                        {% else %}
+                                        <img class="w-100 h-100" src="{% static 'madval/img/no_image.png' %}" style="object-fit:cover;" alt="">
+                                        {% endif %}
                                     </a>
-                                    <h4 class="bg-dark text-primary p-2 m-0">{{ product.price_toman|cspn|add:' تومان' }}</h4>
+                                    <div style="background:var(--color-dark); color:var(--color-gold); padding:8px 12px; font-weight:700; font-size:0.95rem;">
+                                        {{ product.price_toman|cspn|add:' تومان' }}
+                                    </div>
                                 </div>
-                                <div class="d-flex flex-column justify-content-center border-inner px-4 w-100" style="background: var(--md-secondary);">
-                                    <h5 dir='rtl' style="text-align: right;"><a class="link-to-product-detail-view-a" href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:30 }}</a></h5>
-                                    {% if product.extra_information %}
-                                    <span dir='rtl' style="text-align: right;">{{ product.extra_information|truncatechars:120 }}</span>
-                                    {% else %}
-                                    <span dir='rtl' style="text-align: right;">مواد لازم جهت تهیه: {{ product.ingredients|truncatechars:120 }}</span>
-                                    {% endif %}
+                                <div class="d-flex flex-column justify-content-center px-4 py-3 w-100" style="background:var(--color-secondary);">
+                                    <h5 dir='rtl' style="text-align:right; font-size:1rem;"><a class="link-to-product-detail-view-a" href="{{ product.get_absolute_url }}">{{ product.title|truncatechars:30 }}</a></h5>
+                                    <span dir='rtl' style="text-align:right; font-size:0.85rem; color:var(--color-text-soft);">{% if product.extra_information %}{{ product.extra_information|truncatechars:100 }}{% else %}مواد لازم: {{ product.ingredients|truncatechars:100 }}{% endif %}</span>
                                 </div>
                             </div>
                         </div>
@@ -256,72 +249,80 @@
         </div>
     </div>
 </div>
-<!-- Products End -->
 
-
-<!-- Service Start -->
-<div class="container-fluid service position-relative px-5 mt-5" style="margin-bottom: 135px;">
+<!-- ========== SERVICES ========== -->
+<div class="container-fluid service position-relative px-4 mt-5" style="margin-bottom:135px;">
     <div class="container">
-        <div class="row g-5">
+        <div class="row g-4">
             <div class="col-lg-4 col-md-6 col-12">
-                <div class="bg-primary border-inner text-center text-white p-5" style="border-radius: var(--md-radius);">
-                    <h4 class="text-uppercase mb-3"><img src="{% static 'madval/img/cake.png' %}" style="width: 28px; height: 28px; margin-right: 18px;" alt="">{% trans "Cakes" %}</h4>
-                    <p dir='rtl'>در این قسمت، می توانید از تمامی کیک های ما دیدن کنید و کیک مورد نظر خود را سفارش دهید.</p>
-                    <a class="text-uppercase text-dark big-on-hover" href="{% url 'categories' 'cake' %}">{% trans "Read More" %}<i class="material-icons align-middle mx-1" style="font-size:18px;">chevron_left</i></a>
+                <div class="text-center text-white p-5" style="background:linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg);">
+                    <div style="width:60px; height:60px; background:rgba(255,255,255,0.15); border-radius:var(--radius-md); display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                        <img src="{% static 'madval/img/cake.png' %}" style="width:28px; height:28px;" alt="">
+                    </div>
+                    <h4 class="text-uppercase mb-3">{% trans "Cakes" %}</h4>
+                    <p dir='rtl' style="color:rgba(255,255,255,0.85);">در این قسمت، می توانید از تمامی کیک های ما دیدن کنید و کیک مورد نظر خود را سفارش دهید.</p>
+                    <a class="big-on-hover" style="color:var(--color-gold-light); font-weight:700; text-transform:uppercase;" href="{% url 'categories' 'cake' %}">{% trans "Read More" %}<span class="material-icons-round align-middle mx-1" style="font-size:18px;">chevron_left</span></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-12">
-                <div class="bg-primary border-inner text-center text-white p-5" style="border-radius: var(--md-radius);">
-                    <h4 class="text-uppercase mb-3"><img src="{% static 'madval/img/pastry.png' %}" style="width: 28px; height: 28px; margin-right: 18px;" alt="">{% trans "Pastries" %}</h4>
-                    <p dir='rtl'>در این قسمت انواع شیرینی های مختلف و جذاب را مشاهده میکنید. حتما از این قسمت دیدن فرمایید.</p>
-                    <a class="text-uppercase text-dark big-on-hover" href="{% url 'categories' 'pastry' %}">{% trans "Read More" %}<i class="material-icons align-middle mx-1" style="font-size:18px;">chevron_left</i></a>
+                <div class="text-center text-white p-5" style="background:linear-gradient(135deg, var(--color-gold), var(--color-primary)); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg);">
+                    <div style="width:60px; height:60px; background:rgba(255,255,255,0.15); border-radius:var(--radius-md); display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                        <img src="{% static 'madval/img/pastry.png' %}" style="width:28px; height:28px;" alt="">
+                    </div>
+                    <h4 class="text-uppercase mb-3">{% trans "Pastries" %}</h4>
+                    <p dir='rtl' style="color:rgba(255,255,255,0.85);">در این قسمت انواع شیرینی های مختلف و جذاب را مشاهده میکنید. حتما از این قسمت دیدن فرمایید.</p>
+                    <a class="big-on-hover" style="color:#fff; font-weight:700; text-transform:uppercase;" href="{% url 'categories' 'pastry' %}">{% trans "Read More" %}<span class="material-icons-round align-middle mx-1" style="font-size:18px;">chevron_left</span></a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-12">
-                <div class="bg-primary border-inner text-center text-white p-5" style="border-radius: var(--md-radius);">
-                    <h4 class="text-uppercase mb-3"><img src="{% static 'madval/img/bread.png' %}" style="width: 28px; height: 28px; margin-right: 18px;" alt="">{% trans "Breads" %}</h4>
-                    <p dir='rtl'>انواع نان های مختلف از جمله نان های رژیمی را می توانید از این قسمت مشاهده کنید.</p>
-                    <a class="text-uppercase text-dark big-on-hover" href="{% url 'categories' 'bread' %}">{% trans "Read More" %}<i class="material-icons align-middle mx-1" style="font-size:18px;">chevron_left</i></a>
+                <div class="text-center text-white p-5" style="background:linear-gradient(135deg, var(--color-dark), var(--color-dark-soft)); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg);">
+                    <div style="width:60px; height:60px; background:rgba(255,255,255,0.1); border-radius:var(--radius-md); display:inline-flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                        <img src="{% static 'madval/img/bread.png' %}" style="width:28px; height:28px;" alt="">
+                    </div>
+                    <h4 class="text-uppercase mb-3">{% trans "Breads" %}</h4>
+                    <p dir='rtl' style="color:rgba(255,255,255,0.85);">انواع نان های مختلف از جمله نان های رژیمی را می توانید از این قسمت مشاهده کنید.</p>
+                    <a class="big-on-hover" style="color:var(--color-gold-light); font-weight:700; text-transform:uppercase;" href="{% url 'categories' 'bread' %}">{% trans "Read More" %}<span class="material-icons-round align-middle mx-1" style="font-size:18px;">chevron_left</span></a>
                 </div>
             </div>
-            <div class="col-lg-12 col-md-6 col-12 text-center">
-                <h1 dir='rtl' class="text-uppercase text-light mb-4">{% trans "30% Discount For This Summer" %}</h1>
-                <a href="{% url 'cart:cart_detail' %}" class="btn btn-primary border-inner py-3 px-5" style="border-radius: var(--md-radius-sm);"><i class="material-icons align-middle mx-1">shopping_cart</i> همین حالا سفارش خود را کامل کنید</a>
+            <div class="col-lg-12 col-12 text-center mt-4">
+                <h1 dir='rtl' class="text-white mb-4" style="font-size:clamp(1.5rem,3vw,2.2rem);">{% trans "30% Discount For This Summer" %}</h1>
+                <a href="{% url 'cart:cart_detail' %}" class="btn btn-primary" style="border-radius:var(--radius-full); padding:14px 40px; font-size:1rem;">
+                    <span class="material-icons-round align-middle mx-1">shopping_cart</span>
+                    همین حالا سفارش خود را کامل کنید
+                </a>
             </div>
         </div>
     </div>
 </div>
-<!-- Service End -->
 
-
-<!-- Team Start -->
+<!-- ========== TEAM ========== -->
 <div class="container-fluid py-5">
     <div class="container">
-        <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <a href="{% url 'chefs' %}"><h2 class="text-primary font-secondary {% if LANGUAGE_CODE == 'fa' %}d{% endif %}">{% trans "Team Members" %}</h2></a>
-            <a href="{% url 'chefs' %}"><h1 class="display-4 text-uppercase {% if LANGUAGE_CODE == 'fa' %}d{% endif %}">{% trans "Our Master Chefs" %}</h1></a>
+        <div class="section-title text-center mx-auto mb-5" style="max-width:600px;">
+            <a href="{% url 'chefs' %}"><h2 class="font-secondary {% if LANGUAGE_CODE == 'fa' %}d{% endif %}">{% trans "Team Members" %}</h2></a>
+            <a href="{% url 'chefs' %}"><h1 class="{% if LANGUAGE_CODE == 'fa' %}d{% endif %}">{% trans "Our Master Chefs" %}</h1></a>
         </div>
-        <div class="row g-5">
+        <div class="row g-4">
             {% for chef in chefs %}
             <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                 <div class="team-item">
-                    <div class="position-relative overflow-hidden" style="border-radius: var(--md-radius);">
+                    <div class="position-relative overflow-hidden" style="border-radius:var(--radius-xl); max-height:350px;">
                         {% if chef.image %}
-                            <img class="img-fluid w-100" src="{{ chef.image.url }}" alt="">
+                        <img class="img-fluid w-100" src="{{ chef.image.url }}" alt="" style="object-fit:cover; min-height:300px;">
                         {% endif %}
                         <div class="team-overlay w-100 h-100 position-absolute top-50 start-50 translate-middle d-flex align-items-center justify-content-center">
-                            <div class="d-flex align-items-center justify-content-start">
-                                {% if chef.email %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="mailto:{{ chef.email }}" target="_blank"><i class="material-icons">email</i></a>{% endif %}
-                                {% if chef.twitter %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.twitter }}" target="_blank"><i class="fab fa-twitter fw-normal"></i></a>{% endif %}
-                                {% if chef.facebook %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.facebook }}" target="_blank"><i class="fab fa-facebook-f fw-normal"></i></a>{% endif %}
-                                {% if chef.linkedin %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.linkedin }}" target="_blank"><i class="fab fa-linkedin-in fw-normal"></i></a>{% endif %}
-                                {% if chef.instagram %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.instagram }}" target="_blank"><i class="fab fa-instagram fw-normal"></i></a>{% endif %}
+                            <div class="d-flex align-items-center justify-content-start gap-2">
+                                {% if chef.email %}<a class="btn btn-primary btn-lg-square border-inner rounded-0" href="mailto:{{ chef.email }}" target="_blank"><span class="material-icons-round">email</span></a>{% endif %}
+                                {% if chef.twitter %}<a class="btn btn-primary btn-lg-square border-inner rounded-0" href="{{ chef.twitter }}" target="_blank"><i class="fab fa-twitter fw-normal"></i></a>{% endif %}
+                                {% if chef.facebook %}<a class="btn btn-primary btn-lg-square border-inner rounded-0" href="{{ chef.facebook }}" target="_blank"><i class="fab fa-facebook-f fw-normal"></i></a>{% endif %}
+                                {% if chef.linkedin %}<a class="btn btn-primary btn-lg-square border-inner rounded-0" href="{{ chef.linkedin }}" target="_blank"><i class="fab fa-linkedin-in fw-normal"></i></a>{% endif %}
+                                {% if chef.instagram %}<a class="btn btn-primary btn-lg-square border-inner rounded-0" href="{{ chef.instagram }}" target="_blank"><i class="fab fa-instagram fw-normal"></i></a>{% endif %}
                             </div>
                         </div>
                     </div>
-                    <div class="bg-dark border-inner text-center p-4" style="border-radius: 0 0 var(--md-radius) var(--md-radius);">
-                        <h4 class="text-uppercase text-primary d">{{ chef.name }}</h4>
-                        <p class="text-white m-0 d">تخصص: {{ chef.talent }}</p>
+                    <div class="text-center p-4" style="background:var(--color-dark); border-radius:0 0 var(--radius-xl) var(--radius-xl);">
+                        <h4 class="text-uppercase d" style="color:var(--color-gold);">{{ chef.name }}</h4>
+                        <p class="mb-0 d" style="color:rgba(255,255,255,0.7);">تخصص: {{ chef.talent }}</p>
                     </div>
                 </div>
             </div>
@@ -329,68 +330,56 @@
         </div>
     </div>
 </div>
-<!-- Team End -->
 
+<!-- ========== OFFER ========== -->
+<div class="container-fluid bg-offer" style="height:14cm;"></div>
 
-<!-- Offer Start -->
-<div class="container-fluid bg-offer" style="height: 15cm;">
-</div>
-<!-- Offer End -->
-
-
-<!-- Testimonial Start -->
+<!-- ========== TESTIMONIALS ========== -->
 <div class="container-fluid py-5">
     <div class="container">
-        <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>ارزیابی</h2>
-            <h1 class="display-4 text-uppercase" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>نظر مشتریان</h1>
+        <div class="section-title text-center mx-auto mb-5" style="max-width:600px;">
+            <h2 class="font-secondary" {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>ارزیابی</h2>
+            <h1 {% if LANGUAGE_CODE == 'fa' %}style="font-family: dastkhat;"{% endif %}>نظر مشتریان</h1>
         </div>
         <div class="owl-carousel testimonial-carousel">
             {% for comment in top_comments %}
-            <div dir="rtl" class="testimonial-item bg-dark text-white border-inner p-4" style="height: 200px; border-radius: var(--md-radius);">
+            <div dir="rtl" class="testimonial-item text-white p-4" style="height:220px; background:var(--color-dark); border-radius:var(--radius-xl); border:1px solid rgba(255,255,255,0.05);">
                 <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
-                    <img class="img-fluid flex-shrink-0" style="width: 60px; height: 60px; border-radius: 50%;"
-                    src=
-                    {% if comment.author.profile_picture %}
-                    "{{ comment.author.profile_picture.image.url }}"
-                    {% else %}
-                    "{% static 'madval/img/profile_not_set.png' %}"
-                    {% endif %}
+                    <img class="flex-shrink-0" style="width:52px; height:52px; border-radius:50%; border:2px solid rgba(255,255,255,0.1);"
+                    src="{% if comment.author.profile_picture %}{{ comment.author.profile_picture.image.url }}{% else %}{% static 'madval/img/profile_not_set.png' %}{% endif %}"
                     >
                     <div dir="ltr" class="w-75">
                         <a href="{{ comment.product.get_absolute_url }}">
                         {% if comment.product.main_image %}
-                            <img class="d-inline mx-1" src="{{ comment.product.main_image.url }}" style="width: 60px; height: 60px; border-radius: var(--md-radius-sm);" alt="">
+                            <img class="d-inline mx-1" src="{{ comment.product.main_image.url }}" style="width:52px; height:52px; border-radius:var(--radius-sm); object-fit:cover;" alt="">
                         {% else %}
-                            <span>{{ comment.product.title }}</span>
+                            <span style="font-size:0.85rem;">{{ comment.product.title }}</span>
                         {% endif %}
                         </a>
                     </div>
-                    <div class="ps-3 mx-1">
-                        <h4 class="text-primary text-uppercase mb-1 c">
+                    <div>
+                        <h5 style="font-size:0.9rem; color:var(--color-gold);">
                             {% if comment.author.first_name %}{{ comment.author.first_name }}{% else %}{{ comment.author }}{% endif %} گفته:
-                        </h4>
+                        </h5>
                     </div>
                 </div>
-                <p class="mb-0">{{ comment.text|truncatechars:100 }}
-                </p>
+                <p class="mb-0" style="color:rgba(255,255,255,0.75); line-height:1.7;">{{ comment.text|truncatechars:100 }}</p>
             </div>
             {% endfor %}
         </div>
     </div>
 </div>
+
 <script>
-    var video = document.getElementById("myVideoPlayer");
-    document.addEventListener('DOMContentLoaded', function () {
-        var videoModal = document.getElementById('videoModal');
-        videoModal.addEventListener('hidden.bs.modal', function () {
-            video.pause();
-        });
+var video = document.getElementById("myVideoPlayer");
+document.addEventListener('DOMContentLoaded', function () {
+    var videoModal = document.getElementById('videoModal');
+    videoModal.addEventListener('hidden.bs.modal', function () {
+        video.pause();
     });
+});
 </script>
 
-<!-- Testimonial End -->
 {% endblock content %}
-
 
 {% block active_home %}active{% endblock active_home %}

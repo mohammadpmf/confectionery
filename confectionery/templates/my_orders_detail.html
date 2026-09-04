@@ -21,16 +21,16 @@
 <div dir='rtl' class="container">
 <div class="row mt-5">
     <div class="col-lg-12 mb-md--50">
-        <div class="row no-gutters shadow p-5" style="border-radius: 32px;">
-            <h2 class='c'>سفارش با کد پیگیری {{ order.madval_tracking_code }}</h2>
+        <div style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-xl); box-shadow:var(--shadow-md); padding:2rem;">
+            <h2 style="color:var(--color-dark);">سفارش با کد پیگیری {{ order.madval_tracking_code }}</h2>
             <hr>
             <table class="em2">
                 <tr>
                     <th>وضعیت سفارش</th>
                     {% if order.is_paid == True %}
-                    <td class="money mt-2 d-block text-success">پرداخت شده</td>
+                    <td class="money mt-2 d-block" style="color:var(--color-success);">پرداخت شده</td>
                     {% else %}
-                    <td class="money mt-2 d-block text-danger">پرداخت نشده</td>
+                    <td class="money mt-2 d-block" style="color:var(--color-error);">پرداخت نشده</td>
                     {% endif %}
                 </tr>
                 <tr>
@@ -81,31 +81,31 @@
                 </tr>
                 {% endif %}
             </table>
-            <h2 class="my-3 mt-5 c">محصولات سفارش داده شده</h2>
+            <h2 style="color:var(--color-dark);">محصولات سفارش داده شده</h2>
             <hr>
             {% for item in order.items.all %}
                 <div class="row my-3">
                     <div class="col-lg-4 col-md-6 col-12">
                         <a href="{{ item.product.get_absolute_url }}">
                         {% if item.product.main_image %}
-                            <img src="{{ item.product.main_image.url }}" width="300" height="300" style="border-radius: var(--md-radius);" alt="">
+                            <img src="{{ item.product.main_image.url }}" width="300" height="300" style="border-radius: var(--radius-lg);" alt="">
                         {% else %}
-                            <img src="{% static 'madval/img/no_image.png' %}" width="300" height="300" style="border-radius: var(--md-radius);" alt="">
+                            <img src="{% static 'madval/img/no_image.png' %}" width="300" height="300" style="border-radius: var(--radius-lg);" alt="">
                         {% endif %}
                         </a>
                     </div>
                     <div class="col-lg-8 col-md-6 col-12">
-                        <h3 class='c'>
+                        <h3 style="color:var(--color-dark);">
                             <a href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a>
                         </h3>
-                        <h4 class='c'>تعداد سفارش داده شده: {{ item.quantity|pn }} عدد</h4>
-                        <h4 class='c'>قیمت در زمان سفارش: {{ item.price|cspn }} تومان</h4>
+                        <h4 style="color:var(--color-dark);">تعداد سفارش داده شده: {{ item.quantity|pn }} عدد</h4>
+                        <h4 style="color:var(--color-dark);">قیمت در زمان سفارش: {{ item.price|cspn }} تومان</h4>
                         {% widthratio item.quantity 1 item.price as total_item_price %}
-                        <h4 class='c'>قیمت کل این محصول در فاکتور شما: {{ total_item_price|cspn }} تومان</h4>
+                        <h4 style="color:var(--color-dark);">قیمت کل این محصول در فاکتور شما: {{ total_item_price|cspn }} تومان</h4>
                         <br>
-                        <h4 class='c'>قیمت فعلی محصول جهت سفارش مجدد: {{ item.product.price_toman|cspn }} تومان</h4>
+                        <h4 style="color:var(--color-dark);">قیمت فعلی محصول جهت سفارش مجدد: {{ item.product.price_toman|cspn }} تومان</h4>
                         {% if item.average_stars %}
-                        <h4 class="c">نظر خریداران در مورد این محصول {{ item.average_stars }} <span class="me-5"><i class="material-icons em1" style="color: orange; vertical-align: middle;">star</i> </span> <span class="em1-2 text-primary">{{ item.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7 text-muted"> (امتیاز {{ item.count_stars|cspn }} خریدار)</span></h4>
+                        <h4 style="color:var(--color-dark);">نظر خریداران در مورد این محصول {{ item.average_stars }} <span class="me-5"><span class="material-icons-round em1" style="color: orange; vertical-align: middle;">star</span> </span> <span style="color:var(--color-primary); font-size:1.2rem;">{{ item.average_stars|floatformat:1|cspn }} از ۵</span><span style="color:var(--color-text-muted); font-size:0.85rem;"> (امتیاز {{ item.count_stars|cspn }} خریدار)</span></h4>
                         {% endif %}
                     </div>
                 </div>

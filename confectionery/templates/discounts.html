@@ -17,11 +17,11 @@
 
 {% block content %}
 
-<div dir="rtl" class="c container shadow my-5 p-lg-5">
-    <p class="c primary em1-4 mb-4">
+<div dir="rtl" class="container" style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-xl); box-shadow:var(--shadow-md); margin:2rem auto; padding:2rem;">
+    <p style="color:var(--color-primary); font-size:1.1rem; font-weight:500;" class="mb-4">
         در این بخش می توانید کدهای تخفیف را مشاهده کنید.
     </p>
-    <p class="c primary em1-4 mb-4">
+    <p style="color:var(--color-primary); font-size:1.1rem; font-weight:500;" class="mb-4">
         توضیحات مربوط به کد تخفیف:
         <ul>
             <li>در صورتی که از زمان تاریخ مصرف کد گذشته باشد، قابل استفاده نیست.</li>
@@ -47,11 +47,11 @@
         از کدهای تخفیف زیر لذت ببرید 😊
     </p>
     {% if user.is_authenticated %}
-    <h1 class='c text-primary my-3 mt-5'>
+    <h1 style="color:var(--color-primary); font-family:var(--font-heading); font-size:1.5rem; font-weight:700;" class="my-3 mt-5">
         کدهای تخفیف اختصاصی مخصوص کاربران ویژه
     </h1>
-    <div class="scrollmenu table-responsive">
-        <table class="table table-sm table-hover table-dark">
+    <div class="scrollmenu table-responsive" style="border-radius:var(--radius-lg); overflow:hidden;">
+        <table class="table table-sm table-hover" style="background:var(--color-dark); color:var(--color-text);">
             <tr>
                 <th style="width: 4%">ردیف</th>
                 <th style="width: 12%">کد تخفیف</th>
@@ -65,9 +65,9 @@
             </tr>
             {% for discount in special_discounts %}
             {% if discount.0.is_expired or discount.0.same_user_limit == discount.1 %}
-            <tr class="table-danger">
+            <tr style="background:rgba(231,76,60,0.1);">
             {% else %}
-            <tr class="table-info">
+            <tr style="background:rgba(193,119,103,0.1);">
             {% endif %}
                 <td>{{ forloop.counter|pn }}</td>
                 <td>{{ discount.0.text }}</td>
@@ -114,11 +114,11 @@
     </div>
     <hr>
     {% endif %}
-    <h1 class='c text-primary my-3 mt-5'>
+    <h1 style="color:var(--color-primary); font-family:var(--font-heading); font-size:1.5rem; font-weight:700;" class="my-3 mt-5">
         کدهای تخفیف عمومی قابل استفاده برای تمام کاربران سایت
     </h1>
-    <div class="scrollmenu table-responsive">
-        <table class="table table-sm table-hover table-dark">
+    <div class="scrollmenu table-responsive" style="border-radius:var(--radius-lg); overflow:hidden;">
+        <table class="table table-sm table-hover" style="background:var(--color-dark); color:var(--color-text);">
             <tr>
                 <th style="width: 4%">ردیف</th>
                 <th style="width: 12%">کد تخفیف</th>
@@ -134,9 +134,9 @@
             </tr>
             {% for discount in unlimited_discounts %}
             {% if discount.0.is_expired or discount.0.same_user_limit == discount.1 %}
-            <tr class="table-danger">
+            <tr style="background:rgba(231,76,60,0.1);">
             {% else %}
-            <tr class="table-info">
+            <tr style="background:rgba(193,119,103,0.1);">
             {% endif %}
                 <td>{{ forloop.counter|pn }}</td>
                 <td>{{ discount.0.text }}</td>

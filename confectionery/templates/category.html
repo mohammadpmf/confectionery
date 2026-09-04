@@ -16,26 +16,24 @@
 {% endblock extra_css %}
 
 {% block content %}
-<div class="container card shadow-lg mt-5 px-2" style="padding-left: 2em; padding-right:0;">
-    <div dir='rtl' class="container p-5">
-        <p class="d-inline"><img src="{% static 'madval/img/sort.png' %}" alt="">مرتب سازی:</p>
-        <a href="?sort-by=recommendation&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn d {% if active_page == 'recommendation' or active_page == None %}text-primary{% endif %}">پیشنهاد خریداران</a>
-        <a href="?sort-by=newest&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn d {% if active_page == 'newest' %}text-primary{% endif %}">جدیدترین</a>
-        <a href="?sort-by=cheapest&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn d {% if active_page == 'cheapest' %}text-primary{% endif %}">ارزان ترین</a>
-        <a href="?sort-by=most_expensive&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn d {% if active_page == 'most_expensive' %}text-primary{% endif %}">گران ترین</a>
-        <a href="?sort-by=more_durable&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn d {% if active_page == 'more_durable' %}text-primary{% endif %}">ماندگاری بیشتر</a>
-        <a href="?sort-by=fastest&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn d {% if active_page == 'fastest' %}text-primary{% endif %}">مدت زمان آماده سازی کمتر</a>        
-        <hr>
+<div class="container mt-5 px-2" style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-xl); box-shadow:var(--shadow-md);">
+    <div class="scrollmenu" style="background:var(--color-dark); border-radius:var(--radius-lg); padding:8px 16px; margin: 24px 0;">
+        <a href="?sort-by=recommendation&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn" style="{% if active_page == 'recommendation' or active_page == None %}background:rgba(255,255,255,0.15); color:#fff; border-radius:var(--radius-full); padding:6px 16px;{% else %}color:rgba(255,255,255,0.6); font-size:0.85rem;{% endif %}"><span class="material-icons-round align-middle mx-1" style="font-size:16px;">sort</span>پیشنهاد خریداران</a>
+        <a href="?sort-by=newest&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn" style="{% if active_page == 'newest' %}background:rgba(255,255,255,0.15); color:#fff; border-radius:var(--radius-full); padding:6px 16px;{% else %}color:rgba(255,255,255,0.6); font-size:0.85rem;{% endif %}">جدیدترین</a>
+        <a href="?sort-by=cheapest&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn" style="{% if active_page == 'cheapest' %}background:rgba(255,255,255,0.15); color:#fff; border-radius:var(--radius-full); padding:6px 16px;{% else %}color:rgba(255,255,255,0.6); font-size:0.85rem;{% endif %}">ارزان ترین</a>
+        <a href="?sort-by=most_expensive&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn" style="{% if active_page == 'most_expensive' %}background:rgba(255,255,255,0.15); color:#fff; border-radius:var(--radius-full); padding:6px 16px;{% else %}color:rgba(255,255,255,0.6); font-size:0.85rem;{% endif %}">گران ترین</a>
+        <a href="?sort-by=more_durable&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn" style="{% if active_page == 'more_durable' %}background:rgba(255,255,255,0.15); color:#fff; border-radius:var(--radius-full); padding:6px 16px;{% else %}color:rgba(255,255,255,0.6); font-size:0.85rem;{% endif %}">ماندگاری بیشتر</a>
+        <a href="?sort-by=fastest&searched_text={{ searched_text }}&title={{ title }}&description={{ description }}&ingredients={{ ingredients }}&min_price={{ min_price }}&max_price={{ max_price }}" class="btn" style="{% if active_page == 'fastest' %}background:rgba(255,255,255,0.15); color:#fff; border-radius:var(--radius-full); padding:6px 16px;{% else %}color:rgba(255,255,255,0.6); font-size:0.85rem;{% endif %}">مدت زمان آماده سازی کمتر</a>
     </div>
     {% for product in page_obj %}
-    <div class="row gx-5 my-2 mb-4 d-flex justify-content-evenly" id="product-{{product.id}}">
+    <div class="row gx-5 my-2 mb-4 d-flex justify-content-evenly" id="product-{{product.id}}" style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-lg); margin:8px 0; overflow:hidden; transition:all 0.3s ease;">
         <div class="col-lg-5 col-12 mb-5 mb-lg-0" style="min-height: 400px; position: relative;">
-            <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; bottom: 8px; right: 32px; z-index: 2; background-color: white;">
-                <i class="material-icons em0-8" style="vertical-align: middle;">shopping_basket</i> {{ product|how_many_is_in_cart:cart|pn}}
+            <div class="px-2 py-1" style="position: absolute; bottom: 8px; right: 32px; z-index: 2; background:var(--color-dark); color:var(--color-gold); border-radius:var(--radius-full); padding:6px 14px; font-size:0.8rem; font-weight:600; backdrop-filter:blur(10px);">
+                <span class="material-icons-round align-middle" style="font-size:16px;">shopping_basket</span> {{ product|how_many_is_in_cart:cart|pn}}
             </div>
             {% if product.average_stars %}
-            <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; top: 8px; right: 32px; z-index: 2; background-color: white;">
-                <span>{{ product.average_stars|floatformat|cspn }}</span> <i class="material-icons em0-8" style="color: orange; vertical-align: middle;">star</i>
+            <div class="px-2 py-1" style="position: absolute; top: 8px; right: 32px; z-index: 2; background:var(--color-dark); color:var(--color-gold); border-radius:var(--radius-full); padding:6px 14px; font-size:0.8rem; font-weight:600; backdrop-filter:blur(10px);">
+                <span>{{ product.average_stars|floatformat|cspn }}</span> <span class="material-icons-round align-middle" style="font-size:16px; color: orange;">star</span>
             </div>
             {% endif %}
             <div class="position-relative h-100" style="position: absolute; left:0; top:0; bottom: 0; right: 0; z-index: 1;">
@@ -47,10 +45,10 @@
             </div>
         </div>
         <div class="col-lg-6 col-12 pb-5">
-            <h4 dir="rtl" class="mb-4">{{ product.title }}</h4>
-            <p dir="rtl" style="text-align: justify;" class="d em2"> قیمت: {{ product.price_toman|cspn }} تومان </p>
-            <p dir="rtl" style="text-align: justify;" class="d em1-6"> وزن: {{ product.weight }} کیلوگرم </p>
-            <p dir="rtl" style="text-align: justify;" class="mb-5"> {{ product.extra_information|truncatewords:100 }} </p>
+            <h4 dir="rtl" class="mb-4" style="color:var(--color-dark);">{{ product.title }}</h4>
+            <p dir="rtl" style="text-align: justify; font-size:2rem; color:var(--color-dark);"> قیمت: {{ product.price_toman|cspn }} تومان </p>
+            <p dir="rtl" style="text-align: justify; font-size:1.6rem; color:var(--color-dark);"> وزن: {{ product.weight }} کیلوگرم </p>
+            <p dir="rtl" style="text-align: justify; margin-bottom:3rem; color:var(--color-dark);"> {{ product.extra_information|truncatewords:100 }} </p>
             <p dir="ltr" class="pt-5">
                 <form style="display: inline;" action="{% url 'cart:cart_add' product.id %}" method="post">
                     {% csrf_token %}
@@ -58,14 +56,14 @@
                     <input type="hidden" name="next_page" value="product-{{product.id}}">
                     <label for="quantity"></label>
                     <input type="number" name="quantity" min="1" max="30" required class="text-center" placeholder="تعداد" value="1">
-                    <button type="submit" class="btn btn-outline-warning rounded-pill mx-3">افزودن به سبد خرید</button>
+                    <button type="submit" class="btn btn-primary mx-3" style="border-radius:var(--radius-full);">افزودن به سبد خرید</button>
                 </form>
-                <a href="{{ product.get_absolute_url }}" class="btn btn-outline-info rounded-pill px-4">اطلاعات بیشتر</a>
+                <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary px-4" style="border-radius:var(--radius-full);"><span class="material-icons-round align-middle mx-1" style="font-size:18px;">info</span>اطلاعات بیشتر</a>
             </p>
         </div>
     </div>
     {% if not forloop.last or page_obj.has_other_pages %}
-        <hr class="mx-5">
+        <hr class="mx-5" style="border-color:var(--color-border);">
     {% endif %}
     {% endfor %}
 
@@ -81,11 +79,11 @@
             {% for i in page_obj.paginator.page_range %}
                 {% if page_obj.number == i %}
                     {% if i == 1 %}
-                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-right"><span class="page-link bg-success text-white madval-rounded-right">{{ i }} <span class="sr-only"></span></span></li>
+                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-right"><span class="page-link" style="background:var(--color-primary); color:#fff; border-radius:var(--radius-full);">{{ i }} <span class="sr-only"></span></span></li>
                     {% elif i == page_obj.paginator.num_pages %}
-                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-left"><span class="page-link bg-success text-white madval-rounded-left">{{ i }} <span class="sr-only"></span></span></li>
+                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb madval-rounded-left"><span class="page-link" style="background:var(--color-primary); color:#fff; border-radius:var(--radius-full);">{{ i }} <span class="sr-only"></span></span></li>
                     {% else %}
-                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb"><span class="page-link bg-success text-white">{{ i }} <span class="sr-only"></span></span></li>
+                        <li style="transform: scale(1.08);" class="page-item shadow mx-2 mb"><span class="page-link" style="background:var(--color-primary); color:#fff; border-radius:var(--radius-full);">{{ i }} <span class="sr-only"></span></span></li>
                     {% endif %}
                 {% elif i > page_obj.number|add:'-4' and i < page_obj.number|add:'4' %}
                     {% if i == 1 %}

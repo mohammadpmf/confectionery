@@ -21,11 +21,11 @@
 {% endblock extra_css %}
 {% block content %}
 {% with number_of_comments=3 %}
-<div class="container card shadow py-3 mt-5" id="product-{{product.id}}">
+<div class="container py-3 mt-5" id="product-{{product.id}}" style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-xl); box-shadow:var(--shadow-md); padding:2rem;">
     <div class="row gx-5 my-5 d-flex justify-content-evenly">
         <div class="col-lg-5 col-md-6 col-12 mb-5 mb-lg-0" style="min-height: 400px; position: relative; border-radius: var(--md-radius); overflow: hidden;">
             <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; bottom: 8px; right: 32px; z-index: 2; background-color: white;">
-                <i class="material-icons em0-8" style="vertical-align: middle;">shopping_basket</i> {{product|how_many_is_in_cart:cart|pn}}
+                <span class="material-icons-round em0-8" style="vertical-align: middle;">shopping_basket</span> {{product|how_many_is_in_cart:cart|pn}}
             </div>
             <div class="position-relative h-100" style="position: absolute; left:0; top:0; bottom: 0; right: 0; z-index: 1;">
                 {% if product.main_image %}
@@ -37,21 +37,21 @@
         </div>
         <div class="col-lg-6 col-md-6 col-12 pb-5">
             {% if product.count_stars %}
-            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5"><i class="material-icons em1" style="color: orange; vertical-align: middle;">star</i> </span> <span class="em1-2 text-primary">{{ product.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7 text-muted"> (امتیاز {{ product.count_stars|cspn }} خریدار)</span><span class="em0-7 text-muted me-3 madval-std-dev1">(پراکندگی نظرات: {{ product.std_dev|floatformat:2|pn }})<span class="c madval-std-dev2">پراکندگی نظرات، نشان دهنده تفاوت نظر افراد مختلف است. به این معنی که هرچقدر این مقدار به صفر نزدیکتر باشد، یعنی افراد بیشتری هم عقیده هستند. هر چقدر این مقدار دور تر از صفر باشد، یعنی نظرات بیش از هم دور هستند و خیلی قابل اطمینان نیستند.</span></span></h4>
+            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5"><span class="material-icons-round em1" style="color:var(--color-gold); vertical-align: middle;">star</span> </span> <span class="em1-2" style="color:var(--color-primary);">{{ product.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7 text-muted"> (امتیاز {{ product.count_stars|cspn }} خریدار)</span><span class="em0-7 text-muted me-3 madval-std-dev1">(پراکندگی نظرات: {{ product.std_dev|floatformat:2|pn }})<span style="color:var(--color-dark);" class="madval-std-dev2">پراکندگی نظرات، نشان دهنده تفاوت نظر افراد مختلف است. به این معنی که هرچقدر این مقدار به صفر نزدیکتر باشد، یعنی افراد بیشتری هم عقیده هستند. هر چقدر این مقدار دور تر از صفر باشد، یعنی نظرات بیش از هم دور هستند و خیلی قابل اطمینان نیستند.</span></span></h4>
             {% else %}
-            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5"><i class="material-icons em1" style="color: orange; vertical-align: middle;">star</i> </span><span class="em0-7 c text-muted">هنوز کسی از کاربران سایت به این محصول نمره ای نداده</span></h4>
+            <h4 dir="rtl" class="mb-4">{{ product.title }} <span class="me-5"><span class="material-icons-round em1" style="color:var(--color-gold); vertical-align: middle;">star</span> </span><span class="em0-7 text-muted">هنوز کسی از کاربران سایت به این محصول نمره ای نداده</span></h4>
             {% endif %}
             <p dir="rtl" style="text-align: justify;" class="c em1-4">
-                <span> نوع آرد استفاده شده: </span><span class="text-success"> {{ product.get_flour_type_display }} </span>
+                <span> نوع آرد استفاده شده: </span><span style="color:var(--color-success);"> {{ product.get_flour_type_display }} </span>
                 <span class="me-5"> میزان قند: </span><span style="color: {{ product.sugar_rate|get_color }};"> {{ product.get_sugar_rate_display }} </span>
                 <span class="me-5"> میزان چربی: </span><span style="color: {{ product.fat_rate|get_color }};"> {{ product.get_fat_rate_display }} </span>
             </p>
-            <p dir="rtl" style="text-align: justify;" class="c em1-4">تحویل در: </span> <span class="text-success">{{ product.preparation_time|pn }} روز </span> </p>
-            <p dir="rtl" style="text-align: justify;" class="c em1-4">ماندگاری: <span class="text-success">{{ product.expiration_days|pn }} روز </span> </p>
-            <p dir="rtl" style="text-align: justify;" class="c em1-4"><span> وزن: </span> <span class="text-success"> {{ product.weight|pn }} کیلوگرم </span>
-            <p dir="rtl" style="text-align: justify;" class="c em1-8"> قیمت: <span class="text-success">{{ product.price_toman|cspn }} تومان </span> </p>
-            <p dir="rtl" style="text-align: justify;" class="c em1-4"> مواد تشکیل دهنده: <span class="text-success">{{ product.ingredients }} </span> </p>
-            <p dir="rtl" style="text-align: justify;" class="c em1">مورد علاقه <span class="em1-6 text-primary">{{ product.favorited_users.all.count|cspn }}</span> نفر از کاربران سایت 🧡</p>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4">تحویل در: </span> <span style="color:var(--color-success);">{{ product.preparation_time|pn }} روز </span> </p>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4">ماندگاری: <span style="color:var(--color-success);">{{ product.expiration_days|pn }} روز </span> </p>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4"><span> وزن: </span> <span style="color:var(--color-success);"> {{ product.weight|pn }} کیلوگرم </span>
+            <p dir="rtl" style="text-align: justify;" class="c em1-8"> قیمت: <span style="color:var(--color-success);">{{ product.price_toman|cspn }} تومان </span> </p>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4"> مواد تشکیل دهنده: <span style="color:var(--color-success);">{{ product.ingredients }} </span> </p>
+            <p dir="rtl" style="text-align: justify;" class="c em1">مورد علاقه <span class="em1-6" style="color:var(--color-primary);">{{ product.favorited_users.all.count|cspn }}</span> نفر از کاربران سایت 🧡</p>
             
             <p dir="ltr" class="pt-1 d-inline">
                 <form class="d-inline" action="{% url 'cart:cart_add' product.id %}" method="post">
@@ -60,7 +60,7 @@
                     <input type="hidden" name="current_page" value="{{ request.build_absolute_uri }}"> 
                     <input type="hidden" name="next_page" value="product-{{product.id}}">
                     <input type="number" name="quantity" min="1" max="30" required class="text-center" placeholder="تعداد" value="1">
-                    <button type="submit" class="btn btn-outline-warning rounded-pill mx-3">افزودن به سبد خرید</button>
+                    <button type="submit" class="btn btn-outline-warning rounded-pill mx-3" style="border-radius:var(--radius-full);">افزودن به سبد خرید</button>
                 </form>
                 {% if user.is_authenticated %}
                 <form class="d-inline" action="" method="post">
@@ -91,20 +91,20 @@
         {% endif %}
         {% if product.extra_information %}
         <div class="col-lg-12 pb-5 px-5">
-            <p dir="rtl" style="text-align: justify;" class="c em1-4 mb-5"> توضیحات بیشتر: <span class="text-success">{{ product.extra_information }} </span> </p>
+            <p dir="rtl" style="text-align: justify;" class="c em1-4 mb-5"> توضیحات بیشتر: <span style="color:var(--color-success);">{{ product.extra_information }} </span> </p>
         </div>
         {% endif %}
     </div>
-    <h1 dir='rtl' class="d em3 px-5 text-primary">نظر مشتریان</h1>
+    <h1 dir='rtl' class="d em3 px-5" style="color:var(--color-primary);">نظر مشتریان</h1>
     {% if comments or anonymous_comments %}
     <hr class='mb-4'>
     <div dir='rtl' class="row gx-5">
         {% if comments %}
         <div dir='rtl' class="col-lg-6 col-md-6 col-12 pb-5 c">
-            <h4 dir='rtl' class="d em2 pb-5 px-5 text-primary">
+            <h4 dir='rtl' class="d em2 pb-5 px-5" style="color:var(--color-primary);">
                 نظر کاربران سایت
             </h4>
-            <div class="shadow p-4" style="height: 11cm;">
+            <div style="background:var(--color-secondary); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:1.5rem; height: 11cm;">
             {% for comment in comments|get_n_first_objects:number_of_comments %}
                 <h5 style="display: flex; justify-content: space-between;">
                 {% if comment.dont_show_my_name %}
@@ -123,16 +123,16 @@
                 </p>
                 <hr>
             {% endfor %}
-            <a class="text-primary" style="cursor: pointer;" onclick="open_comments()">نمایش تمامی نظرات</a>
+            <a style="color:var(--color-primary); cursor: pointer;" onclick="open_comments()">نمایش تمامی نظرات</a>
             </div>
         </div>
         {% endif %}
         {% if anonymous_comments %}
         <div dir='rtl' class="col-lg-6 col-md-6 col-12 pb-5 c">
-            <h4 dir='rtl' class="d em2 pb-5 px-5 text-info">
+            <h4 dir='rtl' class="d em2 pb-5 px-5" style="color:var(--color-info);">
                 نظر کاربران مهمان
             </h4>
-            <div class="shadow p-4" style="height: 11cm;">
+            <div style="background:var(--color-secondary); border:1px solid var(--color-border); border-radius:var(--radius-lg); padding:1.5rem; height: 11cm;">
             {% for comment in anonymous_comments|get_n_first_objects:number_of_comments %}
                 <h5>
                 {{ comment.author }} گفته: 
@@ -142,7 +142,7 @@
                 </p>
                 <hr>
             {% endfor %}
-            <a class="text-info" style="cursor: pointer;" onclick="open_anonymous_comments()">نمایش تمامی نظرات</a>
+            <a style="color:var(--color-info); cursor: pointer;" onclick="open_anonymous_comments()">نمایش تمامی نظرات</a>
             </div>
         </div>
         {% endif %}
@@ -153,17 +153,17 @@
     <form dir='rtl' action="" method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-outline-primary rounded-pill mx-4 my-3 px-4">ارسال نظر</button>
+        <button type="submit" class="btn btn-outline-primary rounded-pill mx-4 my-3 px-4" style="border-radius:var(--radius-full);">ارسال نظر</button>
     </form>
 </div>
 {% endwith %}
 
 <div dir="rtl" id="all_comments" style="width:90vw; height:90vh; background-color: #000000f2; display: none; z-index: 10; position: fixed; top: 8vh; bottom: 2vh; left: 5vw; right: 5vw; color: white; overflow: scroll;">
-    <i class="material-icons" style="font-size: 3em; position: sticky; top: 1vh; right: 1vw; cursor: pointer;" onclick="close_comments()">close</i>
+    <span class="material-icons-round" style="font-size: 3em; position: sticky; top: 1vh; right: 1vw; cursor: pointer;" onclick="close_comments()">close</span>
     <div class="container-fluid" style="z-index: 11;">
         <div class="row">
             <div dir='rtl' class="col-lg-12 p-5 c">
-                <h4 dir='rtl' class="d em2 p-5 text-primary">
+                <h4 dir='rtl' class="d em2 p-5" style="color:var(--color-primary);">
                     نظر کاربران سایت
                 </h4>
                 {% for comment in comments %}
@@ -189,14 +189,14 @@
     </div>
 </div>
 <div dir="rtl" id="all_anonymous_comments" style="width:90vw; height:90vh; background-color: #000000f2; display: none; z-index: 10; position: fixed; top: 8vh; bottom: 2vh; left: 5vw; right: 5vw; color: white; overflow: scroll;">
-    <i class="material-icons" style="font-size: 3em; position: sticky; top: 1vh; right: 1vw; cursor: pointer;" onclick="close_anonymous_comments()">close</i>
+    <span class="material-icons-round" style="font-size: 3em; position: sticky; top: 1vh; right: 1vw; cursor: pointer;" onclick="close_anonymous_comments()">close</span>
     <div class="container-fluid" style="z-index: 11;">
         <div class="row">
             <div dir='rtl' class="col-lg-12 pb-5 c">
-                <h4 dir='rtl' class="d em2 pb-5 px-5 text-info">
+                <h4 dir='rtl' class="d em2 pb-5 px-5" style="color:var(--color-info);">
                     نظر کاربران مهمان
                 </h4>
-                <div class="shadow p-4">
+                <div style="box-shadow:var(--shadow-md); border-radius:var(--radius-lg); padding:1.5rem;">
                 {% for comment in anonymous_comments %}
                     <h4 style="display: flex; justify-content: space-between; color: white;">
                     {{ comment.author }} گفته: 

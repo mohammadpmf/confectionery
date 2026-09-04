@@ -2,10 +2,10 @@
 
 {% block content %}
     <!-- Page Header Start -->
-    <div class="container-fluid bg-dark bg-img p-5 mb-5">
+    <div class="container-fluid p-5 mb-5" style="background: linear-gradient(135deg, var(--color-dark), var(--color-dark-soft));">
         <div class="row">
             <div class="col-12 text-center">
-                <h1 class="display-4 text-uppercase text-white d">تماس با ما</h1>
+                <h1 class="display-4 text-uppercase text-white" style="color:var(--color-dark);">تماس با ما</h1>
             </div>
         </div>
     </div>
@@ -17,22 +17,22 @@
         <div class="container">
             <div class="row g-5 mb-5">
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="bg-primary border-inner text-center text-danger p-5 h-100" style="border-radius: var(--md-radius);">
-                        <i class="material-icons fs-1 text-white">location_on</i>
+                    <div class="text-center text-danger p-5 h-100" style="background:linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); border-radius:var(--radius-xl);">
+                        <span class="material-icons-round fs-1 text-white">location_on</span>
                         <h6 class="text-white em2 my-2">دفتر کار ما</h6>
                         <span class="em1-4">رشت - گلسار - خیابان ۹۸ - بعد از پمپ بنزین - شیرینی سرای معتمد</span>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="bg-primary border-inner text-center text-danger p-5 h-100" style="border-radius: var(--md-radius);">
-                        <i class="material-icons fs-1 text-white">email</i>
+                    <div class="text-center text-danger p-5 h-100" style="background:linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); border-radius:var(--radius-xl);">
+                        <span class="material-icons-round fs-1 text-white">email</span>
                         <h6 class="text-white em2 my-2">آدرس ایمیل</h6>
                         <span class="em1-4">mohammad.pfallah@gmail.com</span>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="bg-primary border-inner text-center text-danger p-5 h-100" style="border-radius: var(--md-radius);">
-                        <i class="material-icons fs-1 text-white">phone</i>
+                    <div class="text-center text-danger p-5 h-100" style="background:linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); border-radius:var(--radius-xl);">
+                        <span class="material-icons-round fs-1 text-white">phone</span>
                         <h6 class="text-white em2 my-2">شماره تماس</h6>
                         <span class="em2">+935 664 0204</span>
                     </div>
@@ -44,19 +44,19 @@
                         {% csrf_token %}
                         <div class="row g-3">
                             <div class="col-sm-6">
-                                <input name="name" type="text" class="form-control bg-light border-0 px-4" placeholder="نام" style="height: 55px;" {% if user.first_name %}value="{{ user.first_name }} {{ user.last_name }}"{% endif %}>
+                                <input name="name" type="text" class="form-control px-4" placeholder="نام" style="height: 55px; background:var(--color-secondary); border:1px solid var(--color-border); border-radius:var(--radius-md);" {% if user.first_name %}value="{{ user.first_name }} {{ user.last_name }}"{% endif %}>
                             </div>
                             <div class="col-sm-6">
-                                <input name="email" type="email" class="form-control bg-light border-0 px-4" placeholder="آدرس ایمیل" style="height: 55px;" {% if user.email %}value="{{ user.email }}"{% endif %}>
+                                <input name="email" type="email" class="form-control px-4" placeholder="آدرس ایمیل" style="height: 55px; background:var(--color-secondary); border:1px solid var(--color-border); border-radius:var(--radius-md);" {% if user.email %}value="{{ user.email }}"{% endif %}>
                             </div>
                             <div class="col-sm-12">
-                                <input name="subject" type="text" class="form-control bg-light border-0 px-4" placeholder="موضوع" style="height: 55px;">
+                                <input name="subject" type="text" class="form-control px-4" placeholder="موضوع" style="height: 55px; background:var(--color-secondary); border:1px solid var(--color-border); border-radius:var(--radius-md);">
                             </div>
                             <div class="col-sm-12">
-                                <textarea name="text" class="form-control bg-light border-0 px-4 py-3" rows="4" placeholder="متن پیام"></textarea>
+                                <textarea name="text" class="form-control px-4 py-3" rows="4" placeholder="متن پیام" style="background:var(--color-secondary); border:1px solid var(--color-border); border-radius:var(--radius-md);"></textarea>
                             </div>
                             <div class="col-sm-12 d-flex justify-content-center">
-                                <button class="btn d btn-primary border-inner w-25 py-3" type="submit">ارسال</button>
+                                <button class="btn btn-primary w-25 py-3" type="submit" style="border-radius:var(--radius-full);">ارسال</button>
                             </div>
                         </div>
                     </form>

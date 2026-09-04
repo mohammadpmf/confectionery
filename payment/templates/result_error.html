@@ -7,9 +7,9 @@
 {% endblock page_title %}
 
 {% block content %}
-<div dir="rtl" class="container shadow p-5 my-5" style="border-radius: var(--md-radius);">
-    <h1 class="c">
-        <i class="material-icons text-danger me-2" style="font-size: 2em; vertical-align: middle;">error</i>
+<div dir="rtl" class="container" style="background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-xl); box-shadow:var(--shadow-md); padding:2rem; margin:2rem auto; max-width:700px; text-align:center;">
+    <h1 style="color:var(--color-dark);">
+        <span class="material-icons-round me-2" style="color:var(--color-error); font-size:3rem;">error</span>
         {{ error }}
     </h1>
 </div>
