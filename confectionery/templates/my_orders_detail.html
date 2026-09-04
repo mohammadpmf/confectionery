@@ -85,16 +85,16 @@
             <hr>
             {% for item in order.items.all %}
                 <div class="row my-3">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-6 col-12">
                         <a href="{{ item.product.get_absolute_url }}">
                         {% if item.product.main_image %}
-                            <img src="{{ item.product.main_image.url }}" width="300" height="300" style="border-radius: 16px;" alt="">
+                            <img src="{{ item.product.main_image.url }}" width="300" height="300" style="border-radius: var(--md-radius);" alt="">
                         {% else %}
-                            <img src="{% static 'madval/img/no_image.png' %}" width="300" height="300" style="border-radius: 16px;" alt="">
+                            <img src="{% static 'madval/img/no_image.png' %}" width="300" height="300" style="border-radius: var(--md-radius);" alt="">
                         {% endif %}
                         </a>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-lg-8 col-md-6 col-12">
                         <h3 class='c'>
                             <a href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a>
                         </h3>
@@ -105,7 +105,7 @@
                         <br>
                         <h4 class='c'>قیمت فعلی محصول جهت سفارش مجدد: {{ item.product.price_toman|cspn }} تومان</h4>
                         {% if item.average_stars %}
-                        <h4 class="c">نظر خریداران در مورد این محصول {{ item.average_stars }} <span class="me-5"><i class="fa fa-star em1" style="color: orange;" aria-hidden="true"></i> </span> <span class="em1-2 text-primary">{{ item.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7 text-muted"> (امتیاز {{ item.count_stars|cspn }} خریدار)</span></h4>
+                        <h4 class="c">نظر خریداران در مورد این محصول {{ item.average_stars }} <span class="me-5"><i class="material-icons em1" style="color: orange; vertical-align: middle;">star</i> </span> <span class="em1-2 text-primary">{{ item.average_stars|floatformat:1|cspn }} از ۵</span><span class="em0-7 text-muted"> (امتیاز {{ item.count_stars|cspn }} خریدار)</span></h4>
                         {% endif %}
                     </div>
                 </div>

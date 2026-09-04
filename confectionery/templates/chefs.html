@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-12 col-lg-4 my-2">
                     {% if chef.image %}
-                        <img class="img-fluid w-100 rounded-circle" src="{{ chef.image.url }}" alt="">
+                        <img class="img-fluid w-100 rounded-circle" src="{{ chef.image.url }}" alt="" style="border-radius: var(--md-radius) !important;">
                     {% endif %}
                 </div>
                 <div class="col-12 col-lg-8 my-2 mt-4 pt-2">
@@ -29,11 +29,11 @@
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-start">
-                {% if chef.email %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="mailto:{{ chef.email }}" target="_blank"><i class="fa fa-envelope"></i></a>{% endif %}
-                {% if chef.twitter %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.twitter }}" target="_blank"><i class="fab fa-twitter fw-normal"></i></a>{% endif %}
-                {% if chef.facebook %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.facebook }}" target="_blank"><i class="fab fa-facebook-f fw-normal"></i></a>{% endif %}
-                {% if chef.linkedin %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.linkedin }}" target="_blank"><i class="fab fa-linkedin-in fw-normal"></i></a>{% endif %}
-                {% if chef.instagram %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.instagram }}" target="_blank"><i class="fab fa-instagram fw-normal"></i></a>{% endif %}
+                {% if chef.email %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="mailto:{{ chef.email }}" target="_blank"><i class="material-icons">email</i></a>{% endif %}
+                {% if chef.twitter %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.twitter }}" target="_blank"><i class="material-icons fw-normal">tag</i></a>{% endif %}
+                {% if chef.facebook %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.facebook }}" target="_blank"><i class="material-icons fw-normal">thumb_up</i></a>{% endif %}
+                {% if chef.linkedin %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.linkedin }}" target="_blank"><i class="material-icons fw-normal">work</i></a>{% endif %}
+                {% if chef.instagram %}<a class="btn btn-lg btn-primary btn-lg-square border-inner rounded-0 mx-1" href="{{ chef.instagram }}" target="_blank"><i class="material-icons fw-normal">photo_camera</i></a>{% endif %}
             </div>
             {% if not forloop.last %}
                 <hr class="mx-2">

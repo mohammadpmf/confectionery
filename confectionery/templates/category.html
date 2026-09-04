@@ -29,13 +29,13 @@
     </div>
     {% for product in page_obj %}
     <div class="row gx-5 my-2 mb-4 d-flex justify-content-evenly" id="product-{{product.id}}">
-        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px; position: relative;">
+        <div class="col-lg-5 col-12 mb-5 mb-lg-0" style="min-height: 400px; position: relative;">
             <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; bottom: 8px; right: 32px; z-index: 2; background-color: white;">
-                <i class="fa fa-shopping-basket em0-8" aria-hidden="true"></i> {{ product|how_many_is_in_cart:cart|pn}}
+                <i class="material-icons em0-8" style="vertical-align: middle;">shopping_basket</i> {{ product|how_many_is_in_cart:cart|pn}}
             </div>
             {% if product.average_stars %}
             <div class="em1-4 rounded-pill px-2 py-1" style="position: absolute; top: 8px; right: 32px; z-index: 2; background-color: white;">
-                <span>{{ product.average_stars|floatformat|cspn }}</span> <i class="fa fa-star em0-8" style="color: orange;" aria-hidden="true"></i>
+                <span>{{ product.average_stars|floatformat|cspn }}</span> <i class="material-icons em0-8" style="color: orange; vertical-align: middle;">star</i>
             </div>
             {% endif %}
             <div class="position-relative h-100" style="position: absolute; left:0; top:0; bottom: 0; right: 0; z-index: 1;">
@@ -46,7 +46,7 @@
                 {% endif %}
             </div>
         </div>
-        <div class="col-lg-6 pb-5">
+        <div class="col-lg-6 col-12 pb-5">
             <h4 dir="rtl" class="mb-4">{{ product.title }}</h4>
             <p dir="rtl" style="text-align: justify;" class="d em2"> قیمت: {{ product.price_toman|cspn }} تومان </p>
             <p dir="rtl" style="text-align: justify;" class="d em1-6"> وزن: {{ product.weight }} کیلوگرم </p>

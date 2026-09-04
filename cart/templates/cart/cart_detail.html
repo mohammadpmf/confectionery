@@ -38,7 +38,7 @@
                             <tbody>
                                 {% for item in cart %}
                                 <tr>
-                                    <td class="product-remove text-left"><form action="{% url 'cart:cart_remove' item.product_obj.id %}" method="post">{% csrf_token %}<button class="btn small" type="submit"><i class="fa fa-window-close mx-2" aria-hidden="true"></i></button></form></td>
+                                    <td class="product-remove text-left"><form action="{% url 'cart:cart_remove' item.product_obj.id %}" method="post">{% csrf_token %}<button class="btn small" type="submit"><i class="material-icons mx-2" aria-hidden="true">close</i></button></form></td>
                                     <td class="product-thumbnail text-left">
                                         {% if item.product_obj.main_image %}
                                             <a href="{{ item.product_obj.get_absolute_url }}"><img src="{{ item.product_obj.main_image.url }}" width="48" height="48" alt=""></a>
@@ -68,7 +68,7 @@
                                                 <input type="number" class="quantity-input d-block text-center mt-2" name="quantity" id="qty-1" value="{{ item.quantity }}" min="1" max="30">
                                             </div>
                                             {{ item.product_update_quantity_form.inplace }}
-                                            <button class="btn btn-sm mt-1" type="submit" ><i class="fa fa-refresh"></i></button>
+                                            <button class="btn btn-sm mt-1" type="submit" ><i class="material-icons">refresh</i></button>
                                             {% comment %} <input type="submit" value="{% trans 'Update' %}"> {% endcomment %}
                                         </form>
                                     </td>

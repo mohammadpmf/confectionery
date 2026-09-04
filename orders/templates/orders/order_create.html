@@ -16,7 +16,7 @@
 {% endblock page_title %}
 
 {% block content %}
-<div dir="rtl" class="container shadow p-5 mt-5">
+<div dir="rtl" class="container shadow p-5 mt-5" style="border-radius: var(--md-radius);">
     <h2 class="my-5 c text-info">اطلاعات سفارش</h2>
     <div class="scrollmenu">
         {% for item in cart %}
@@ -48,7 +48,7 @@
     {% else %}
        <h2 class='c em2 my-3 text-info'>مجموع: {{ cart.get_total_price|cspn }} {% trans "$" %}</h2>
     {% endif %}
-    <a class="text-danger me-1" href="{% url 'cart:cart_detail' %}">بازگشت به سبد خرید <i class="fas fa-shopping-cart"></i></a>
+    <a class="text-danger me-1" href="{% url 'cart:cart_detail' %}">بازگشت به سبد خرید <i class="material-icons" style="vertical-align: middle;">shopping_cart</i></a>
     <hr>
     <div class="checkout-title mt--10">
         <h2 class="mt-5 mb-2 c text-primary">اطلاعات تحویل گیرنده</h2>
